@@ -1,0 +1,14 @@
+<resources>
+    <array name="iconArray">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_order</item>
+        <item>@drawable/ic_follow</item>
+        <item>@drawable/ic_user</item>
+    </array>
+    <array name="labelArray">
+        <item>Trang chủ</item>
+        <item>Đơn hàng</item>
+        <item>Theo dõi</item>
+        <item>Tài khoản</item>
+    </array>
+</resources>
