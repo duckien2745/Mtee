@@ -17,19 +17,20 @@ import kienpd.com.mtee.ui.adapter.HighLightAdapter;
 import kienpd.com.mtee.ui.base.BaseViewHolder;
 
 import static android.widget.GridLayout.HORIZONTAL;
-import static android.widget.GridLayout.VERTICAL;
 
-public class HighLightHolder extends BaseViewHolder {
+public class HighLightHolder extends BaseViewHolder implements HighLightAdapter.HighLightAdapterCallback {
 
     @BindView(R.id.recycler_highlight)
     RecyclerView mRecyclerHighLight;
 
     private Context mContext;
+    private HighLightHolderCallback mCallback;
 
-    public HighLightHolder(Context context, View itemView) {
+    public HighLightHolder(Context context, View itemView, HighLightHolderCallback callback) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         mContext = context;
+        mCallback = callback;
     }
 
     @Override
@@ -42,12 +43,21 @@ public class HighLightHolder extends BaseViewHolder {
         DividerItemDecoration itemDecor = new DividerItemDecoration(mContext, HORIZONTAL);
         itemDecor.setDrawable(mContext.getResources().getDrawable(R.drawable.divider));
 
-        HighLightAdapter adapter = new HighLightAdapter(mContext, arrayList);
+        HighLightAdapter adapter = new HighLightAdapter(mContext, arrayList, this);
         LinearLayoutManager layoutManager = new GridLayoutManager(mContext, 2, GridLayoutManager.HORIZONTAL, false);
         mRecyclerHighLight.setLayoutManager(layoutManager);
         if (mRecyclerHighLight.getItemDecorationCount() == 0) {
             mRecyclerHighLight.addItemDecoration(itemDecor);
         }
         mRecyclerHighLight.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClickHighLightListener(int position) {
+        mCallback.onClickHighLightHolderListener(position);
+    }
+
+    public interface HighLightHolderCallback {
+        void onClickHighLightHolderListener(int position);
     }
 }

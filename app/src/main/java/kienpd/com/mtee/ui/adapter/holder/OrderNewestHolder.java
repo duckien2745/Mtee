@@ -1,10 +1,9 @@
 package kienpd.com.mtee.ui.adapter.holder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,13 +33,19 @@ public class OrderNewestHolder extends BaseViewHolder {
     @BindView(R.id.image_newest_product)
     ImageView mImageProduct;
 
+    @BindView(R.id.layout_order)
+    RelativeLayout mLayoutOrder;
+
     private Context mContext;
+    private OrderNewestHolderCallback mCallback;
 
 
-    public OrderNewestHolder(Context context, View itemView) {
+    public OrderNewestHolder(Context context, View itemView, OrderNewestHolderCallback callback) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         mContext = context;
+        mCallback = callback;
+
     }
 
     @Override
@@ -49,7 +54,7 @@ public class OrderNewestHolder extends BaseViewHolder {
     }
 
     @Override
-    public void onBind(int position) {
+    public void onBind(final int position) {
         super.onBind(position);
         int drawableResourceId = mContext.getResources().getIdentifier("bg_test", "drawable", mContext.getPackageName());
         RequestOptions requestOptions = new RequestOptions();
@@ -58,7 +63,15 @@ public class OrderNewestHolder extends BaseViewHolder {
                 .load(drawableResourceId)
                 .apply(requestOptions)
                 .into(mImageProduct);
+        mLayoutOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onClickOrderNewestHolderListener(position);
+            }
+        });
+    }
 
-
+    public interface OrderNewestHolderCallback {
+        void onClickOrderNewestHolderListener(int position);
     }
 }
