@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -108,7 +109,7 @@ public class HighLightAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     .apply(requestOptions)
                     .into(mImageProduct);
 
-            mLinearLayout.setOnClickListener(new View.OnClickListener() {
+            mImageProduct.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mCallback.onClickHighLightListener(position);

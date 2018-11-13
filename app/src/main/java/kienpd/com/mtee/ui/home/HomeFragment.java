@@ -3,8 +3,10 @@ package kienpd.com.mtee.ui.home;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.ui.adapter.HomeAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
+import kienpd.com.mtee.ui.home.detail.DetailFragment;
 
 public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapter.HomeAdapterCallBack {
 
@@ -56,6 +59,11 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
             case 0:
                 break;
             case 1:
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                DetailFragment fragment = new DetailFragment();
+                transaction.replace(R.id.main_container, fragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
             case 2:
                 break;
