@@ -13,7 +13,7 @@ import kienpd.com.mtee.utils.CommonUtils;
 
 public abstract class BaseFragment extends Fragment implements MvpView {
 
-    public BaseActivity mActivity;
+    private BaseActivity mActivity;
     private Unbinder mUnBinder;
     private ProgressDialog mProgressDialog;
 

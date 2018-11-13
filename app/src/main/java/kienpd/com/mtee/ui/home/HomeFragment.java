@@ -39,8 +39,8 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
 
     @Override
     protected void setUp(View view) {
-        GridLayoutManager manager = new GridLayoutManager(mActivity, 2);
-        final HomeAdapter adapter = new HomeAdapter(mActivity, this);
+        GridLayoutManager manager = new GridLayoutManager(getBaseActivity(), 2);
+        final HomeAdapter adapter = new HomeAdapter(getBaseActivity(), this);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -59,15 +59,13 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
             case 0:
                 break;
             case 1:
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                DetailFragment fragment = new DetailFragment();
-                transaction.replace(R.id.main_container, fragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                mPresenter.showDetailDialog();
                 break;
             case 2:
+                mPresenter.showDetailDialog();
                 break;
             case 3:
+                mPresenter.showDetailDialog();
                 break;
             default:
                 break;
@@ -78,5 +76,12 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     @Override
     public void onClickCategoryListener(int category) {
 
+    }
+
+
+    @Override
+    public void showDetailDialog() {
+        DetailFragment fragment = new DetailFragment();
+        fragment.show(getFragmentManager(), "DETAIL_FRAGMENT");
     }
 }

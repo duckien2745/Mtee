@@ -1,35 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include
-        layout="@layout/toolbar_detail"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="180dp">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager_detail"
+        <include
+            layout="@layout/toolbar_detail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#111111" />
+            android:layout_height="48dp" />
 
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/indicator"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="70dp"
-            app:tabBackground="@drawable/indicator_selector"
-            app:tabGravity="center"
-            app:tabIndicatorHeight="0dp" />
-    </RelativeLayout>
-</LinearLayout>
+            android:layout_height="180dp">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#111111" />
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="70dp"
+                app:tabBackground="@drawable/indicator_selector"
+                app:tabGravity="center"
+                app:tabIndicatorHeight="0dp" />
+        </RelativeLayout>
+
+        <include
+            layout="@layout/layout_info_voucher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="10dp"
+            android:background="#ccdcdbdb" />
+
+        <include
+            layout="@layout/layout_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+</ScrollView>

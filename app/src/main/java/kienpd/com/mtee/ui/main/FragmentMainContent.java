@@ -57,7 +57,7 @@ public class FragmentMainContent extends BaseFragment {
     }
 
     private void setUpViewPager() {
-        MainAdapter adapter = new MainAdapter(mActivity.getSupportFragmentManager());
+        MainAdapter adapter = new MainAdapter(getBaseActivity().getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
 
         mTabBottom.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -96,7 +96,7 @@ public class FragmentMainContent extends BaseFragment {
 
     private void setupTabIcons() {
         for (int i = 0; i < mTabBottom.getTabCount(); i++) {
-            LinearLayout tab = (LinearLayout) LayoutInflater.from(mActivity).inflate(R.layout.item_tab, null);
+            LinearLayout tab = (LinearLayout) LayoutInflater.from(getBaseActivity()).inflate(R.layout.item_tab, null);
 
             ImageView imageIcon = tab.findViewById(R.id.image_icon_pager);
             TextView textTitle = tab.findViewById(R.id.text_title_pager);

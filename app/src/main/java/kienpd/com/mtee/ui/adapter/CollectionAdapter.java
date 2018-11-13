@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -78,12 +79,15 @@ public class CollectionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         ImageView mImageProduct;
 
         @BindView(R.id.layout_item_home)
-        public LinearLayout mLinearLayout;
+        LinearLayout mLinearLayout;
+
+        @BindView(R.id.layout_content_item)
+        RelativeLayout mLayoutContent;
 
         private Context mContext;
 
 
-        public OrderHolder(Context context, View itemView) {
+        OrderHolder(Context context, View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = context;
@@ -106,7 +110,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                     .apply(requestOptions)
                     .into(mImageProduct);
 
-            mLinearLayout.setOnClickListener(new View.OnClickListener() {
+            mLayoutContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mCallback.onClickCollectionListener(position);

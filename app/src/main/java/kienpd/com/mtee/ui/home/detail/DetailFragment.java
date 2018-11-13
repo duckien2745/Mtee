@@ -17,9 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
+import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.base.BaseFragment;
 
-public class DetailFragment extends BaseFragment implements DetailMvpView {
+public class DetailFragment extends BaseDialog implements DetailMvpView {
 
     DetailMvpPresenter<DetailMvpView> mPresenter;
 
@@ -29,6 +30,7 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     TabLayout mTabIndicator;
 
     private ArrayList<String> mUrl;
+    private Boolean mIsRunSlider;
 
 
     @Override
@@ -57,9 +59,10 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
         mUrl.add("192.168.16.103:8080/picture/mtee_diagram.png");
 
 
-        mViewPagerDetail.setAdapter(new SliderDetailAdapter(mActivity, mUrl));
+        mViewPagerDetail.setAdapter(new SliderDetailAdapter(getBaseActivity(), mUrl));
         mTabIndicator.setupWithViewPager(mViewPagerDetail, true);
 
+        mIsRunSlider = true;
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new SliderTimer(), 3000, 6000);
     }
@@ -67,17 +70,24 @@ public class DetailFragment extends BaseFragment implements DetailMvpView {
     private class SliderTimer extends TimerTask {
         @Override
         public void run() {
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mViewPagerDetail.getCurrentItem() < mUrl.size() - 1) {
-                        mViewPagerDetail.setCurrentItem(mViewPagerDetail.getCurrentItem() + 1);
-                    } else {
-                        mViewPagerDetail.setCurrentItem(0);
+            if (mIsRunSlider && getBaseActivity() != null) {
+                getBaseActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mViewPagerDetail.getCurrentItem() < mUrl.size() - 1) {
+                            mViewPagerDetail.setCurrentItem(mViewPagerDetail.getCurrentItem() + 1);
+                        } else {
+                            mViewPagerDetail.setCurrentItem(0);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mIsRunSlider = false;
+    }
 }
