@@ -12,6 +12,7 @@ import kienpd.com.mtee.utils.Const;
 
 public class CategoryHolder extends BaseViewHolder implements View.OnClickListener {
 
+    //commit
     private CategoryHolderCallback mCallback;
 
     @BindView(R.id.image_food)
