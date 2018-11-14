@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="5dp">
+    android:paddingTop="8dp">
 
     <RelativeLayout
         android:id="@+id/layout_content_item"
@@ -28,8 +28,8 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/bg_category_food"
             android:gravity="center"
             android:text="50%"
@@ -40,12 +40,13 @@
             android:id="@+id/layout_count_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/bg_round_like"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="2dp">
+            android:paddingRight="2dp"
+            android:paddingLeft="2dp">
 
             <TextView
                 android:id="@+id/text_count_like"
@@ -67,7 +68,7 @@
         android:id="@+id/text_store"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="3dp"
         android:text="LEETEA"
         android:textColor="#111111"
         android:textSize="12sp"
@@ -77,6 +78,7 @@
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="2"

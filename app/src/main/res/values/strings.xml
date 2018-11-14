@@ -1,3 +1,39 @@
 <resources>
     <string name="app_name">Mtee</string>
+
+    <string name="text_deception">
+        <![CDATA[
+       <div class=\"deal-detail__body\" style=\"margin-top: 5px; font-size: 0.8rem;\">
+	   <p>
+		<strong>Thời gian áp dụng&nbsp;</strong>
+	</p>
+	<ul>
+		<li>10:00 - 13:00</li>
+		<li>18:00 - 21:00&nbsp;</li>
+	</ul>
+	<p>
+		<strong>Nội dung: </strong>ĐỒNG GIÁ 45k cho 1 trong 2 combo sau (giá gốc 74k):&nbsp;
+	</p>
+	<ul>
+		<li>Cơm niêu thịt sốt BBQ 1 mặt cháy + nước ép ổi dâu&nbsp;</li>
+		<li>Cơm niêu gà sốt nấm 1 mặt cháy + nước ép ổi dâu</li>
+	</ul>
+	<p>
+		<strong>Lưu ý</strong>
+	</p>
+	<ul>
+		<li>Mỗi mã có giá trị sử dụng tương đương số combo khách chọn.</li>
+		<li>Xuất trình mã trước khi gọi món. Không áp dụng hình chụp màn hình.</li>
+		<li>Khách hàng phải đến trong khoảng thời gian hẹn đến.</li>
+		<li>Không áp dụng đồng thời các chương trình khuyến mãi khác.</li>
+		<li>Chỉ áp dụng tại quán. Không áp dụng mang đi và giao hàng.</li>
+		<li>Mỗi mã chỉ được sử dụng 1 lần</li>
+		<li>Một bạn chỉ được sử dụng 1 thiết bị chứa 1 mã trong 1 lần sử dụng.</li>
+		<li>Một bạn có thể sử dụng không giới hạn.</li>
+		<li>Giá trên chưa bao gồm VAT.</li>
+	</ul>
+    </div>
+    ]]>
+    </string>
+
 </resources>

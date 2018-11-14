@@ -9,6 +9,8 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.Settings;
+import android.view.View;
+import android.view.animation.AnimationUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,5 +84,19 @@ public final class CommonUtils {
 
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static void SlideDownFromBottom(View view, Context context) {
+        view.startAnimation(AnimationUtils.loadAnimation(context,
+                R.anim.slide_down_from_bottom));
+        view.setVisibility(View.GONE);
+    }
+
+    public static void SlideUPfromBottom(View view, Context context) {
+
+        view.startAnimation(AnimationUtils.loadAnimation(context,
+                R.anim.slide_up_from_bottom));
+        view.setVisibility(View.VISIBLE);
+
     }
 }

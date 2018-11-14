@@ -3,7 +3,7 @@
     android:shape="rectangle">
 
     <size
-        android:width="5dp"
+        android:width="@dimen/padding_item_home"
         android:height="1dp" />
     <solid android:color="#ffffff" />
 
