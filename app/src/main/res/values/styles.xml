@@ -4,4 +4,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/color_status_bar</item>
     </style>
+
+    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">-->
+        <!--<item name="android:textColorPrimary">TITLE_COLOR_GOES_HERE</item>-->
+        <!--<item name="android:textColorSecondary">SUBTITLE_COLOR_GOES_HERE</item>-->
+    <!--</style>-->
+
 </resources>

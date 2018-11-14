@@ -43,4 +43,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'me.zhanghai.android.materialratingbar:library:1.0.2'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    compile 'com.google.zxing:core:3.2.1'
+
 }

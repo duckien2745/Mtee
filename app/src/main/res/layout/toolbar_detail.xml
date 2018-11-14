@@ -22,7 +22,8 @@
         android:text="CHA-JIANG"
         android:textColor="#5c5c5c"
         android:textSize="22sp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/text_title_center"
