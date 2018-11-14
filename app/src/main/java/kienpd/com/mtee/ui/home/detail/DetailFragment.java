@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
@@ -30,6 +31,7 @@ import kienpd.com.mtee.R;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
+import kienpd.com.mtee.ui.home.voucher.VoucherFragment;
 import kienpd.com.mtee.ui.view.ScrollViewExt;
 import kienpd.com.mtee.utils.CommonUtils;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -109,6 +111,9 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
 
     @BindView(R.id.layout_bottom)
     LinearLayout mLayoutBottom;
+
+    @BindView(R.id.layout_get_code)
+    RelativeLayout mLayoutGetCode;
 
     @BindView(R.id.scroll_view_detail)
     ScrollViewExt mScrollviewReaderContent;
@@ -211,6 +216,15 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         mRecyclerPrice.setAdapter(adapter);
 
         mScrollviewReaderContent.setScrollViewListener(this);
+        mLayoutGetCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VoucherFragment fragment = new VoucherFragment();
+                fragment.show(getFragmentManager(), "VOUCHER_FRAGMENT");
+            }
+        });
+
+
     }
 
     @Override
