@@ -106,7 +106,7 @@ public final class CommonUtils {
 
     }
 
-    private Bitmap TextToImageEncode(Context context, String Value, int qrCodeWidth) throws WriterException {
+    public static Bitmap TextToImageEncode(Context context, String Value, int qrCodeWidth) throws WriterException {
         BitMatrix bitMatrix;
         try {
             bitMatrix = new MultiFormatWriter().encode(

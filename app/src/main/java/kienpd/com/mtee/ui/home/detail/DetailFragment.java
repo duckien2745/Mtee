@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,7 @@ import kienpd.com.mtee.R;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
-import kienpd.com.mtee.ui.home.voucher.VoucherFragment;
+import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.ui.view.ScrollViewExt;
 import kienpd.com.mtee.utils.CommonUtils;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
@@ -179,11 +177,13 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
 
         //Test HTML
         String s = getResources().getString(R.string.text_deception);
+        mTextCondition.setLineSpacing(16f, 1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mTextCondition.setText(Html.fromHtml(s, Html.FROM_HTML_MODE_COMPACT));
         } else {
             mTextCondition.setText(Html.fromHtml(s));
         }
+
 
         mTextSeeMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,8 +219,8 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         mLayoutGetCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VoucherFragment fragment = new VoucherFragment();
-                fragment.show(getFragmentManager(), "VOUCHER_FRAGMENT");
+                RulesFragment fragment = new RulesFragment();
+                fragment.show(getFragmentManager(), "RULES_FRAGMENT");
             }
         });
 

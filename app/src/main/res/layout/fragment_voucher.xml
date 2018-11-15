@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/layout_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -18,46 +19,46 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#282828" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Điều kiện áp dụng"
-            android:textColor="#313131"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/text_deception"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#4b4b4b"
-            android:textSize="15sp" />
-
-        <LinearLayout
-            android:id="@+id/layout_accept"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:background="@drawable/bg_accept"
-            android:gravity="center"
-            android:padding="11dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đồng ý và lấy mã "
-                android:textColor="#ffffff"
-                android:textSize="16sp" />
-        </LinearLayout>
+            android:layout_height="5dp"
+            android:background="@drawable/toolbar_dropshadow" />
     </LinearLayout>
 
-</ScrollView>
+    <kienpd.com.mtee.ui.view.ScrollViewExt
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_tool_bar"
+        android:background="#f7f6f6">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp">
+
+            <include
+                layout="@layout/layout_taken_voucher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </kienpd.com.mtee.ui.view.ScrollViewExt>
+
+    <TextView
+        android:id="@+id/text_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_active"
+        android:gravity="center"
+        android:paddingBottom="13dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingTop="13dp"
+        android:text="Kích hoạt mã"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
+</RelativeLayout>

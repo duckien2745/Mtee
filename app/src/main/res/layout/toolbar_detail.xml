@@ -35,5 +35,6 @@
         android:gravity="center"
         android:text="CHA-JIANG"
         android:textColor="#ce0707"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"/>
 </RelativeLayout>
