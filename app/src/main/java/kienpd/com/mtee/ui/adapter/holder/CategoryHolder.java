@@ -1,18 +1,18 @@
 package kienpd.com.mtee.ui.adapter.holder;
 
+import android.content.Context;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.Switch;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.ui.base.BaseViewHolder;
 import kienpd.com.mtee.utils.Const;
 
-public class CategoryHolder extends BaseViewHolder implements View.OnClickListener {
+public class CategoryHolder extends HomeViewHolder implements View.OnClickListener {
 
-    //commit
     private CategoryHolderCallback mCallback;
 
     @BindView(R.id.image_food)
@@ -24,10 +24,17 @@ public class CategoryHolder extends BaseViewHolder implements View.OnClickListen
     @BindView(R.id.image_fashion)
     ImageView mImageFashion;
 
-    public CategoryHolder(View itemView, CategoryHolderCallback callback) {
+    private int mCategoryIdSelected = Const.Category.CATEGORY_ALL;
+    private Animation anim;
+    private Context mContext;
+
+
+    public CategoryHolder(Context context, View itemView, CategoryHolderCallback callback) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         mCallback = callback;
+        mContext = context;
+        anim = AnimationUtils.loadAnimation(mContext, R.anim.buttom_check);
     }
 
     @Override
@@ -47,13 +54,31 @@ public class CategoryHolder extends BaseViewHolder implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.image_food:
-                mCallback.onClickCategoryHolderListener(Const.Category.CATEGORY_FOOD);
+                mImageFood.startAnimation(anim);
+                if (mCategoryIdSelected == Const.Category.CATEGORY_FOOD) {
+                    mCategoryIdSelected = Const.Category.CATEGORY_ALL;
+                } else {
+                    mCategoryIdSelected = Const.Category.CATEGORY_FOOD;
+                }
+                mCallback.onClickCategoryHolderListener(mCategoryIdSelected);
                 break;
             case R.id.image_beauty:
-                mCallback.onClickCategoryHolderListener(Const.Category.CATEGORY_BEAUTY);
+                mImageBeauty.startAnimation(anim);
+                if (mCategoryIdSelected == Const.Category.CATEGORY_BEAUTY) {
+                    mCategoryIdSelected = Const.Category.CATEGORY_ALL;
+                } else {
+                    mCategoryIdSelected = Const.Category.CATEGORY_BEAUTY;
+                }
+                mCallback.onClickCategoryHolderListener(mCategoryIdSelected);
                 break;
             case R.id.image_fashion:
-                mCallback.onClickCategoryHolderListener(Const.Category.CATEGORY_FASHION);
+                mImageFashion.startAnimation(anim);
+                if (mCategoryIdSelected == Const.Category.CATEGORY_FASHION) {
+                    mCategoryIdSelected = Const.Category.CATEGORY_ALL;
+                } else {
+                    mCategoryIdSelected = Const.Category.CATEGORY_FASHION;
+                }
+                mCallback.onClickCategoryHolderListener(mCategoryIdSelected);
                 break;
             default:
                 break;

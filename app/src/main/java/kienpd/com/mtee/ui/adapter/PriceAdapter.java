@@ -1,17 +1,12 @@
 package kienpd.com.mtee.ui.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
@@ -23,10 +18,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.modelTest;
-import kienpd.com.mtee.ui.base.BaseViewHolder;
+import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
 
-public class PriceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class PriceAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
     private ArrayList<String> mListUrl;
     private PriceAdapterCallback mCallback;
@@ -40,13 +34,13 @@ public class PriceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new OrderHolder(mContext,
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_price, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         holder.onBind(position);
     }
 
@@ -57,7 +51,7 @@ public class PriceAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
 
-    class OrderHolder extends BaseViewHolder {
+    class OrderHolder extends HomeViewHolder {
 
         @BindView(R.id.image_price)
         ImageView mImagePrice;

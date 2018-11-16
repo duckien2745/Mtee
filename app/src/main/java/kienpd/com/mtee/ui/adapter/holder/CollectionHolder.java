@@ -7,18 +7,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.modelTest;
+import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.ui.adapter.CollectionAdapter;
-import kienpd.com.mtee.ui.base.BaseViewHolder;
 
 import static android.widget.GridLayout.HORIZONTAL;
 
-public class CollectionHolder extends BaseViewHolder implements CollectionAdapter.CollectionAdapterCallback {
+public class CollectionHolder extends HomeViewHolder implements CollectionAdapter.CollectionAdapterCallback {
 
     @BindView(R.id.recycler_collection)
     RecyclerView mRecyclerCollection;
@@ -39,7 +38,7 @@ public class CollectionHolder extends BaseViewHolder implements CollectionAdapte
     }
 
     @Override
-    public void onBind(ArrayList<modelTest> arrayList) {
+    public void onBind(List<Collection> arrayList) {
         DividerItemDecoration itemDecor = new DividerItemDecoration(mContext, HORIZONTAL);
         itemDecor.setDrawable(mContext.getResources().getDrawable(R.drawable.divider));
 

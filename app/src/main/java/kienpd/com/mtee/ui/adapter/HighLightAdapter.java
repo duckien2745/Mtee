@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +22,16 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.modelTest;
-import kienpd.com.mtee.ui.base.BaseViewHolder;
+import kienpd.com.mtee.data.model.Voucher;
+import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
 
-public class HighLightAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class HighLightAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
-    private ArrayList<modelTest> mList;
+    private ArrayList<Voucher> mList;
     private Context mContext;
     private HighLightAdapterCallback mCallback;
 
-    public HighLightAdapter(Context context, ArrayList<modelTest> list, HighLightAdapterCallback callback) {
+    public HighLightAdapter(Context context, ArrayList<Voucher> list, HighLightAdapterCallback callback) {
         mContext = context;
         mList = list;
         mCallback = callback;
@@ -40,7 +39,7 @@ public class HighLightAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @NonNull
     @Override
-    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         OrderHolder holder = new OrderHolder(mContext,
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false));
 
@@ -53,7 +52,7 @@ public class HighLightAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
         holder.onBind(position);
     }
 
@@ -64,7 +63,7 @@ public class HighLightAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
 
-    class OrderHolder extends BaseViewHolder {
+    class OrderHolder extends HomeViewHolder {
 
         @BindView(R.id.text_store)
         TextView mTextStore;

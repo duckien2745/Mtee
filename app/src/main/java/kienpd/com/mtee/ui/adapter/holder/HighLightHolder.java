@@ -5,7 +5,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -13,13 +12,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.modelTest;
+import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.HighLightAdapter;
-import kienpd.com.mtee.ui.base.BaseViewHolder;
 
 import static android.widget.GridLayout.HORIZONTAL;
 
-public class HighLightHolder extends BaseViewHolder implements HighLightAdapter.HighLightAdapterCallback {
+public class HighLightHolder extends HomeViewHolder implements HighLightAdapter.HighLightAdapterCallback {
 
     @BindView(R.id.recycler_highlight)
     RecyclerView mRecyclerHighLight;
@@ -40,7 +38,7 @@ public class HighLightHolder extends BaseViewHolder implements HighLightAdapter.
     }
 
     @Override
-    public void onBind(ArrayList<modelTest> arrayList) {
+    public void onBind(ArrayList<Voucher> arrayList) {
         DividerItemDecoration itemDecor = new DividerItemDecoration(mContext, HORIZONTAL);
         itemDecor.setDrawable(mContext.getResources().getDrawable(R.drawable.divider));
 

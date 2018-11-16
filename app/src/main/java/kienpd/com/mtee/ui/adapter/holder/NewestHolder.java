@@ -2,9 +2,7 @@ package kienpd.com.mtee.ui.adapter.holder;
 
 import android.view.View;
 
-import kienpd.com.mtee.ui.base.BaseViewHolder;
-
-public class NewestHolder extends BaseViewHolder {
+public class NewestHolder extends HomeViewHolder {
 
     public NewestHolder(View itemView) {
         super(itemView);
