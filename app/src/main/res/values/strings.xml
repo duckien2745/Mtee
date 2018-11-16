@@ -36,4 +36,9 @@
     ]]>
     </string>
 
+    <string name="title_loading_more">Đang tải thêm</string>
+    <string name="title_load_more">Tải thêm</string>
+    <string name="title_last_article">Tin cuối</string>
+    <string name="title_no_data">Chưa có tin nào</string>
+
 </resources>

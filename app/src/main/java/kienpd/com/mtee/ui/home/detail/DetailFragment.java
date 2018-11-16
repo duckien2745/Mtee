@@ -30,7 +30,7 @@ import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.home.rules.RulesFragment;
-import kienpd.com.mtee.ui.view.ScrollViewExt;
+import kienpd.com.mtee.ui.custom.ScrollViewExt;
 import kienpd.com.mtee.utils.CommonUtils;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 

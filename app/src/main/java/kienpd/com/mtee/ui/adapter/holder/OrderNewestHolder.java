@@ -14,9 +14,8 @@ import com.bumptech.glide.request.RequestOptions;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.ui.base.BaseViewHolder;
 
-public class OrderNewestHolder extends BaseViewHolder {
+public class OrderNewestHolder extends HomeViewHolder {
 
     @BindView(R.id.text_store)
     TextView mTextStore;

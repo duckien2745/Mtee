@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp" />
 
-    <kienpd.com.mtee.ui.view.ScrollViewExt
+    <kienpd.com.mtee.ui.custom.ScrollViewExt
         android:id="@+id/scroll_view_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    </kienpd.com.mtee.ui.view.ScrollViewExt>
+    </kienpd.com.mtee.ui.custom.ScrollViewExt>
 
     <LinearLayout
         android:id="@+id/layout_bottom"

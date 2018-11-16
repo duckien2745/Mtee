@@ -3,9 +3,10 @@ package kienpd.com.mtee.utils;
 public class Const {
 
     public static class Category {
-        public static final Integer CATEGORY_FOOD = 0;
-        public static final Integer CATEGORY_BEAUTY = 1;
-        public static final Integer CATEGORY_FASHION = 2;
+        public static final Integer CATEGORY_ALL = 0;
+        public static final Integer CATEGORY_FOOD = 1;
+        public static final Integer CATEGORY_BEAUTY = 2;
+        public static final Integer CATEGORY_FASHION = 3;
     }
 
     public static class Type {

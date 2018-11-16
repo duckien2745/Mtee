@@ -23,7 +23,7 @@
             android:background="@drawable/toolbar_dropshadow" />
     </LinearLayout>
 
-    <kienpd.com.mtee.ui.view.ScrollViewExt
+    <kienpd.com.mtee.ui.custom.ScrollViewExt
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layout_tool_bar"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-    </kienpd.com.mtee.ui.view.ScrollViewExt>
+    </kienpd.com.mtee.ui.custom.ScrollViewExt>
 
     <TextView
         android:id="@+id/text_active"

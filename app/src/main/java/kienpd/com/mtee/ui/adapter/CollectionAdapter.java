@@ -16,28 +16,28 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.modelTest;
-import kienpd.com.mtee.ui.base.BaseViewHolder;
+import kienpd.com.mtee.data.model.Collection;
+import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
 
-public class CollectionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class CollectionAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
-    private ArrayList<modelTest> mList;
+    private List<Collection> mList;
     private Context mContext;
     private CollectionAdapterCallback mCallback;
 
-    public CollectionAdapter(Context context, ArrayList<modelTest> list, CollectionAdapterCallback callback) {
+    public CollectionAdapter(Context context, List<Collection> list, CollectionAdapterCallback callback) {
         mContext = context;
         mList = list;
         mCallback = callback;
     }
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         OrderHolder holder = new OrderHolder(mContext,
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home, parent, false));
 
@@ -51,7 +51,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(HomeViewHolder holder, int position) {
         holder.onBind(position);
     }
 
@@ -61,7 +61,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
         return 12;
     }
 
-    class OrderHolder extends BaseViewHolder {
+    class OrderHolder extends HomeViewHolder {
 
         @BindView(R.id.text_store)
         TextView mTextStore;
