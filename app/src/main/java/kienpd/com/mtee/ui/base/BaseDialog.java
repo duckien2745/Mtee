@@ -18,6 +18,7 @@ import android.view.Window;
 import android.widget.RelativeLayout;
 
 import butterknife.Unbinder;
+import kienpd.com.mtee.R;
 
 public abstract class BaseDialog extends DialogFragment implements DialogMvpView {
 
@@ -114,6 +115,11 @@ public abstract class BaseDialog extends DialogFragment implements DialogMvpView
 
     protected abstract void setUp(View view);
 
+    @Override
+    public int getTheme() {
+        return R.style.MyCustomTheme;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -126,6 +132,7 @@ public abstract class BaseDialog extends DialogFragment implements DialogMvpView
         // creating the fullscreen dialog
         final Dialog dialog = new Dialog(getContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.MyCustomTheme;
         dialog.setContentView(root);
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
