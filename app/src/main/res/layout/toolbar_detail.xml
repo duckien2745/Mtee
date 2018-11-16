@@ -8,6 +8,7 @@
         android:id="@+id/image_back"
         android:layout_width="48dp"
         android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground"
         android:padding="15dp"
         android:src="@drawable/ic_back_red" />
 
@@ -22,8 +23,8 @@
         android:text="CHA-JIANG"
         android:textColor="#5c5c5c"
         android:textSize="22sp"
-        android:visibility="gone"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/text_title_center"
@@ -36,5 +37,5 @@
         android:text="CHA-JIANG"
         android:textColor="#ce0707"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 </RelativeLayout>

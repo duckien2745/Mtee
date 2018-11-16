@@ -19,10 +19,12 @@ public class SliderDetailAdapter extends PagerAdapter {
 
     private Context mContext;
     private ArrayList<String> mUrlImages;
+    private SliderDetailAdapterCallback mSliderDetailAdapterCallback;
 
-    public SliderDetailAdapter(Context context, ArrayList<String> urlImages) {
+    public SliderDetailAdapter(Context context, ArrayList<String> urlImages, SliderDetailAdapterCallback sliderDetailAdapterCallback) {
         this.mContext = context;
         this.mUrlImages = urlImages;
+        this.mSliderDetailAdapterCallback = sliderDetailAdapterCallback;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class SliderDetailAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_slider_detail, null);
 
@@ -46,6 +48,13 @@ public class SliderDetailAdapter extends PagerAdapter {
         Glide.with(mContext)
                 .load(drawableResourceId)
                 .into(imageVoucher);
+
+        imageVoucher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSliderDetailAdapterCallback.onClickSliderImageListener(position);
+            }
+        });
 
         ViewPager viewPager = (ViewPager) container;
         viewPager.addView(view, 0);
@@ -59,5 +68,9 @@ public class SliderDetailAdapter extends PagerAdapter {
         ViewPager viewPager = (ViewPager) container;
         View view = (View) object;
         viewPager.removeView(view);
+    }
+
+    public interface SliderDetailAdapterCallback {
+        void onClickSliderImageListener(int position);
     }
 }

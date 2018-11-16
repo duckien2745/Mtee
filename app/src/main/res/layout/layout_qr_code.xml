@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="Xuất trình mã này trước khi gọi món"
         android:textColor="#20ab45"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
     <ImageView
         android:id="@+id/image_qr_code"
@@ -34,6 +34,7 @@
         android:id="@+id/image_copy"
         android:layout_width="25dp"
         android:layout_height="25dp"
+        android:background="?attr/selectableItemBackground"
         android:padding="2dp"
         android:src="@drawable/ic_copy" />
 
@@ -42,8 +43,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="Hotline nếu không được áp dụng"
-        android:textSize="15sp"
-        android:textColor="#db3e3d3d" />
+        android:textColor="#db3e3d3d"
+        android:textSize="15sp" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -97,7 +97,7 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     @Override
     public void showDetailDialog() {
         DetailFragment fragment = new DetailFragment();
-        fragment.show(getFragmentManager(), "DETAIL_FRAGMENT");
+        fragment.show(getFragmentManager(), DetailFragment.TAG);
     }
 
     @Override
