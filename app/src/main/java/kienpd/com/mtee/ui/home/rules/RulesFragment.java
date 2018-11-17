@@ -14,12 +14,14 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.home.voucher.VoucherFragment;
 
 public class RulesFragment extends BaseDialog implements RulesMvpView {
 
     RulesMvpPresenter<RulesMvpView> mPresenter;
+    public static final String TAG = "RULES_FRAGMENT";
 
     @BindView(R.id.text_deception)
     TextView mTextDeception;
@@ -56,7 +58,7 @@ public class RulesFragment extends BaseDialog implements RulesMvpView {
             @Override
             public void onClick(View v) {
                 VoucherFragment fragment = new VoucherFragment();
-                fragment.show(getFragmentManager(), "VOUCHER_FRAGMENT");
+                fragment.show(getFragmentManager(), VoucherFragment.TAG);
             }
         });
     }

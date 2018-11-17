@@ -22,9 +22,11 @@ import kienpd.com.mtee.R;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.utils.CommonUtils;
 
-public class VoucherFragment extends BaseDialog implements VoucherMvpView {
+public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.OnClickListener {
 
     VoucherMvpPresenter<VoucherMvpView> mPresenter;
+
+    public static final String TAG = "VOUCHER_FRAGMENT";
 
     @BindView(R.id.image_back)
     ImageView mImageBack;
@@ -115,6 +117,88 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView {
             e.printStackTrace();
         }
 
+        //Onclick
+        mImageBack.setOnClickListener(this);
+        mTextShareCode.setOnClickListener(this);
+        mTextViewDescription.setOnClickListener(this);
+        mTextViewVoucher.setOnClickListener(this);
+        mImageCopy.setOnClickListener(this);
+        mTextActive.setOnClickListener(this);
 
+
+    }
+
+    @Override
+    public void displayView(String title, String urlVoucher, int countLike, int code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser) {
+        mTextTitle.setText(title);
+
+        //Image
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(40));
+        Glide.with(getBaseActivity())
+                .load(urlVoucher)
+                .thumbnail(1f)
+                .apply(requestOptions)
+                .into(mImageVoucher);
+        //todo count like
+
+        //Code
+        mTextCode.setText(String.valueOf(code));
+
+        //QR Code
+        try {
+            Bitmap bitmap = CommonUtils.TextToImageEncode(getBaseActivity(), "7337412341", 500);
+            Glide.with(getBaseActivity())
+                    .asBitmap()
+                    .load(bitmap)
+                    .thumbnail(1f)
+                    .apply(requestOptions)
+                    .into(mImageQRCode);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+        //Store
+        mTextStore.setText(nameStore);
+        mTextAddress.setText(addressStore);
+
+        //Date
+        mTextDate.setText(dateVoucher);
+
+        //User
+        mTextName.setText(nameUser);
+        mTextPhone.setText(String.valueOf(phoneUser));
+        mTextMail.setText(emailUser);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.image_back:
+                dismissDialog(TAG);
+                break;
+            case R.id.text_share_code:
+                //todo
+                mPresenter.shareVoucher(getBaseActivity(), "title", "content");
+                break;
+            case R.id.text_view_description:
+                //todo
+                mPresenter.showDescriptionVoucher(1);
+                break;
+            case R.id.text_view_voucher:
+                //todo
+                mPresenter.showDetailVoucher(1);
+                break;
+            case R.id.image_copy:
+                //todo
+                mPresenter.copyCode(1);
+                break;
+            case R.id.text_active:
+                //todo
+                break;
+            default:
+                break;
+
+        }
     }
 }
