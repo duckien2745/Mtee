@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.ui.base.BaseDialog;
+import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 
 public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.OnClickListener {
@@ -27,6 +28,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
     VoucherMvpPresenter<VoucherMvpView> mPresenter;
 
     public static final String TAG = "VOUCHER_FRAGMENT";
+    public static final String EXTRAS_DETAIL_ID = "extras_detail_id";
 
     @BindView(R.id.image_back)
     ImageView mImageBack;
@@ -79,6 +81,17 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
     @BindView(R.id.text_active)
     TextView mTextActive;
 
+    private Integer mDetailId;
+
+    public static VoucherFragment newInstance(int detailId) {
+
+        VoucherFragment f = new VoucherFragment();
+        Bundle args = new Bundle();
+        args.putInt(EXTRAS_DETAIL_ID, detailId);
+        f.setArguments(args);
+
+        return f;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -94,6 +107,10 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
 
     @Override
     protected void setUp(View view) {
+
+        mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
+        loadData(mDetailId, 1);
+
         int drawableResourceId = getBaseActivity().getResources().getIdentifier("bg_test", "drawable", getBaseActivity().getPackageName());
         RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(40));
@@ -200,5 +217,9 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
                 break;
 
         }
+    }
+
+    private void loadData(int detailId, Integer userId) {
+        mPresenter.getInfoVoucherUser(detailId, userId);
     }
 }

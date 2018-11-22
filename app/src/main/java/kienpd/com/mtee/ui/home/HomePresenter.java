@@ -12,8 +12,8 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
         implements HomeMvpPresenter<V> {
 
     @Override
-    public void showDetailDialog() {
-        getMvpView().showDetailDialog();
+    public void showDetailDialog(int detailId) {
+        getMvpView().showDetailDialog(detailId);
     }
 
     @Override

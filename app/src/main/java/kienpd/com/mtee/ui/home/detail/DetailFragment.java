@@ -42,6 +42,7 @@ import static android.view.View.VISIBLE;
 public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollViewExt.ScrollViewListener, PriceAdapter.PriceAdapterCallback, SliderDetailAdapter.SliderDetailAdapterCallback, View.OnClickListener {
 
     public static final String TAG = "DETAIL_FRAGMENT";
+    public static final String EXTRAS_DETAIL_ID = "extras_detail_id";
     private DetailMvpPresenter<DetailMvpView> mPresenter;
 
     @BindView(R.id.pager_detail)
@@ -133,6 +134,18 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
     private ArrayList<String> mImageVouchers;
     private ArrayList<String> mImagePrices;
     private Boolean mIsRunSlider;
+    private String mDescription;
+    private Integer mDetailId;
+
+    public static DetailFragment newInstance(int detailId) {
+        DetailFragment f = new DetailFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(EXTRAS_DETAIL_ID, detailId);
+        f.setArguments(args);
+
+        return f;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -148,6 +161,10 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
 
     @Override
     protected void setUp(View view) {
+
+        //Load Data
+        mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
+        loadData(mDetailId);
 
         //Test Rate
         mProcess5Star.setMax(100);
@@ -263,6 +280,7 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         mPriceAdapter.notifyDataSetChanged();
 
         //Description
+        mDescription = description;
         mTextCondition.setLineSpacing(16f, 1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mTextCondition.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT));
@@ -380,7 +398,7 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
                 mPresenter.saveDetail(1, 1);
                 break;
             case R.id.layout_get_code:
-                RulesFragment fragment = new RulesFragment();
+                RulesFragment fragment = RulesFragment.newInstance(mDescription, mDetailId);
                 fragment.show(getFragmentManager(), RulesFragment.TAG);
                 break;
             default:
@@ -404,6 +422,10 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
                 });
             }
         }
+    }
+
+    private void loadData(int detailId) {
+        mPresenter.loadDetailData(detailId);
     }
 
 }

@@ -16,18 +16,35 @@ import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BaseDialog;
+import kienpd.com.mtee.ui.home.detail.DetailFragment;
 import kienpd.com.mtee.ui.home.voucher.VoucherFragment;
 
 public class RulesFragment extends BaseDialog implements RulesMvpView {
 
     RulesMvpPresenter<RulesMvpView> mPresenter;
     public static final String TAG = "RULES_FRAGMENT";
+    public static final String EXTRAS_DETAIL_ID = "extras_detail_id";
+    public static final String EXTRAS_DETAIL_DESCRIPTION = "extras_detail_description";
 
     @BindView(R.id.text_deception)
     TextView mTextDeception;
 
     @BindView(R.id.layout_accept)
     LinearLayout mLayoutAccept;
+
+    private Integer mDetailId;
+    private String mDescription;
+
+    public static RulesFragment newInstance(String description, int detailId) {
+
+        RulesFragment f = new RulesFragment();
+        Bundle args = new Bundle();
+        args.putInt(EXTRAS_DETAIL_ID, detailId);
+        args.putString(EXTRAS_DETAIL_DESCRIPTION, description);
+        f.setArguments(args);
+
+        return f;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -44,6 +61,12 @@ public class RulesFragment extends BaseDialog implements RulesMvpView {
     @Override
     protected void setUp(View view) {
 
+        mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
+        mDescription = getArguments().getString(EXTRAS_DETAIL_DESCRIPTION);
+
+        //String s = mDescription;
+
+
         String s = getResources().getString(R.string.text_deception);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mTextDeception.setText(Html.fromHtml(s, Html.FROM_HTML_MODE_COMPACT));
@@ -57,7 +80,7 @@ public class RulesFragment extends BaseDialog implements RulesMvpView {
         mLayoutAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VoucherFragment fragment = new VoucherFragment();
+                VoucherFragment fragment = VoucherFragment.newInstance(mDetailId);
                 fragment.show(getFragmentManager(), VoucherFragment.TAG);
             }
         });
