@@ -1,9 +1,10 @@
+
 package kienpd.com.mtee.data.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Collection {
+public class Store {
 
     @SerializedName("id")
     @Expose
@@ -11,9 +12,9 @@ public class Collection {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("picture")
+    @SerializedName("address")
     @Expose
-    private String picture;
+    private Address address;
 
     public Integer getId() {
         return id;
@@ -31,11 +32,12 @@ public class Collection {
         this.name = name;
     }
 
-    public String getPicture() {
-        return picture;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public void setAddress(Address address) {
+        this.address = address;
     }
+
 }

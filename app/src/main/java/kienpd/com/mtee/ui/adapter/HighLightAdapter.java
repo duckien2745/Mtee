@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
 
@@ -59,7 +61,7 @@ public class HighLightAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 18;
+        return mList.size();
     }
 
 
@@ -104,13 +106,30 @@ public class HighLightAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         public void onBind(final int position) {
             super.onBind(position);
 
-            int drawableResourceId = mContext.getResources().getIdentifier("bg_test", "drawable", mContext.getPackageName());
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
-            Glide.with(mContext)
-                    .load(drawableResourceId)
-                    .apply(requestOptions)
-                    .into(mImageProduct);
+            Voucher voucher = mList.get(position);
+            if (voucher != null) {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
+
+                Glide.with(mContext)
+                        .load(API.HOST_DEV + voucher.getPictures().get(0).getUrl())
+                        .apply(requestOptions)
+                        .into(mImageProduct);
+
+                mTextStore.setText(voucher.getStore().getName());
+                mTextTitle.setText(voucher.getTitle());
+//                mTextDiscount.setText(voucher.getPercentDiscount() + "%");
+//                mTextCountLike.setText(voucher.getLikeCount());
+            }
+
+
+//            int drawableResourceId = mContext.getResources().getIdentifier("bg_test", "drawable", mContext.getPackageName());
+//            RequestOptions requestOptions = new RequestOptions();
+//            requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
+//            Glide.with(mContext)
+//                    .load(drawableResourceId)
+//                    .apply(requestOptions)
+//                    .into(mImageProduct);
 
             mLayoutContent.setOnClickListener(new View.OnClickListener() {
                 @Override

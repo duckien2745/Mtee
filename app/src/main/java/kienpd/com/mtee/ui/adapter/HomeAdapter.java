@@ -170,7 +170,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> implements
 
     public void addItemHighLight(List<Voucher> repoList) {
         mListHighLight.addAll(repoList);
-//        notifyDataSetChanged();
+        notifyDataSetChanged();
     }
 
     public void addItemCollection(List<Collection> repoList) {
