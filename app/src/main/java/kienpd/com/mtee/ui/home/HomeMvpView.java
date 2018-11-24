@@ -8,7 +8,7 @@ import kienpd.com.mtee.ui.base.MvpView;
 
 public interface HomeMvpView extends MvpView {
 
-    void showDetailDialog();
+    void showDetailDialog(int detailId);
 
     void updateRepoHighLight(List<Voucher> repoList);
 

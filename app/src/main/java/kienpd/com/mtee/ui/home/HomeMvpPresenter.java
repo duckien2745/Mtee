@@ -4,7 +4,7 @@ import kienpd.com.mtee.ui.base.MvpPresenter;
 
 public interface HomeMvpPresenter<V extends HomeMvpView> extends MvpPresenter<V> {
 
-    void showDetailDialog();
+    void showDetailDialog(int detailId);
 
     void loadHighLightData(int categoryId);
 

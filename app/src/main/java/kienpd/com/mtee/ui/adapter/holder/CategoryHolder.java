@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,6 +25,25 @@ public class CategoryHolder extends HomeViewHolder implements View.OnClickListen
 
     @BindView(R.id.image_fashion)
     ImageView mImageFashion;
+
+    @BindView(R.id.layout_food)
+    LinearLayout mLayoutFood;
+
+    @BindView(R.id.layout_beauty)
+    LinearLayout mLayoutBeauty;
+
+    @BindView(R.id.layout_fashion)
+    LinearLayout mLayoutFashion;
+
+    @BindView(R.id.text_food)
+    TextView mTextFood;
+
+    @BindView(R.id.text_beauty)
+    TextView mTextBeauty;
+
+    @BindView(R.id.text_fashion)
+    TextView mTextFashion;
+
 
     private int mCategoryIdSelected = Const.Category.CATEGORY_ALL;
     private Animation anim;
@@ -60,6 +81,7 @@ public class CategoryHolder extends HomeViewHolder implements View.OnClickListen
                 } else {
                     mCategoryIdSelected = Const.Category.CATEGORY_FOOD;
                 }
+                setColorLayout();
                 mCallback.onClickCategoryHolderListener(mCategoryIdSelected);
                 break;
             case R.id.image_beauty:
@@ -69,6 +91,7 @@ public class CategoryHolder extends HomeViewHolder implements View.OnClickListen
                 } else {
                     mCategoryIdSelected = Const.Category.CATEGORY_BEAUTY;
                 }
+                setColorLayout();
                 mCallback.onClickCategoryHolderListener(mCategoryIdSelected);
                 break;
             case R.id.image_fashion:
@@ -78,6 +101,7 @@ public class CategoryHolder extends HomeViewHolder implements View.OnClickListen
                 } else {
                     mCategoryIdSelected = Const.Category.CATEGORY_FASHION;
                 }
+                setColorLayout();
                 mCallback.onClickCategoryHolderListener(mCategoryIdSelected);
                 break;
             default:
@@ -87,5 +111,14 @@ public class CategoryHolder extends HomeViewHolder implements View.OnClickListen
 
     public interface CategoryHolderCallback {
         void onClickCategoryHolderListener(int category);
+    }
+
+    private void setColorLayout() {
+        mLayoutFood.setBackground(mCategoryIdSelected == Const.Category.CATEGORY_FOOD ? mContext.getResources().getDrawable(R.drawable.bg_category_red) : mContext.getResources().getDrawable(R.drawable.bg_category_gray));
+        mTextFood.setTextColor(mCategoryIdSelected == Const.Category.CATEGORY_FOOD ? mContext.getResources().getColor(R.color.color_item_select) : mContext.getResources().getColor(R.color.color_gray));
+        mLayoutBeauty.setBackground(mCategoryIdSelected == Const.Category.CATEGORY_BEAUTY ? mContext.getResources().getDrawable(R.drawable.bg_category_red) : mContext.getResources().getDrawable(R.drawable.bg_category_gray));
+        mTextBeauty.setTextColor(mCategoryIdSelected == Const.Category.CATEGORY_BEAUTY ? mContext.getResources().getColor(R.color.color_item_select) : mContext.getResources().getColor(R.color.color_gray));
+        mLayoutFashion.setBackground(mCategoryIdSelected == Const.Category.CATEGORY_FASHION ? mContext.getResources().getDrawable(R.drawable.bg_category_red) : mContext.getResources().getDrawable(R.drawable.bg_category_gray));
+        mTextFashion.setTextColor(mCategoryIdSelected == Const.Category.CATEGORY_FASHION ? mContext.getResources().getColor(R.color.color_item_select) : mContext.getResources().getColor(R.color.color_gray));
     }
 }

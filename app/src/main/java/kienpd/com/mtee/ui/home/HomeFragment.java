@@ -68,13 +68,13 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
             case 0:
                 break;
             case 1:
-                mPresenter.showDetailDialog();
+                mPresenter.showDetailDialog(1);
                 break;
             case 2:
-                mPresenter.showDetailDialog();
+                mPresenter.showDetailDialog(1);
                 break;
             case 3:
-                mPresenter.showDetailDialog();
+                mPresenter.showDetailDialog(1);
                 break;
             default:
                 break;
@@ -95,8 +95,8 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
 
 
     @Override
-    public void showDetailDialog() {
-        DetailFragment fragment = new DetailFragment();
+    public void showDetailDialog(int detailId) {
+        DetailFragment fragment = DetailFragment.newInstance(detailId);
         fragment.show(getFragmentManager(), DetailFragment.TAG);
     }
 

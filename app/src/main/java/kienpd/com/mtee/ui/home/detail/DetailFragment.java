@@ -42,6 +42,7 @@ import static android.view.View.VISIBLE;
 public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollViewExt.ScrollViewListener, PriceAdapter.PriceAdapterCallback, SliderDetailAdapter.SliderDetailAdapterCallback, View.OnClickListener {
 
     public static final String TAG = "DETAIL_FRAGMENT";
+    public static final String EXTRAS_DETAIL_ID = "extras_detail_id";
     private DetailMvpPresenter<DetailMvpView> mPresenter;
 
     @BindView(R.id.pager_detail)
@@ -133,6 +134,18 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
     private ArrayList<String> mImageVouchers;
     private ArrayList<String> mImagePrices;
     private Boolean mIsRunSlider;
+    private String mDescription;
+    private Integer mDetailId;
+
+    public static DetailFragment newInstance(int detailId) {
+        DetailFragment f = new DetailFragment();
+
+        Bundle args = new Bundle();
+        args.putInt(EXTRAS_DETAIL_ID, detailId);
+        f.setArguments(args);
+
+        return f;
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -148,6 +161,10 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
 
     @Override
     protected void setUp(View view) {
+
+        //Load Data
+        mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
+        loadData(mDetailId);
 
         //Test Rate
         mProcess5Star.setMax(100);
@@ -241,33 +258,43 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
 
     @Override
     public void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description, float star, int countRating, RatingTotal ratingTotal) {
-        //store
+        //Store
         mTextTitleCenter.setText(store);
+
         // todo count like
-        //image voucher
+
+        //Image voucher
         mImageVouchers.clear();
         mImageVouchers.addAll(urlImageVouchers);
         mSliderDetailAdapter.notifyDataSetChanged();
-        //title
+
+        //Title
         mTextTitle.setText(title);
-        //address
+
+        //Address
         mTextAddress.setText(address);
-        //image price
+
+        //Image price
         mImagePrices.clear();
         mImagePrices.addAll(urlImagePrices);
         mPriceAdapter.notifyDataSetChanged();
-        //description
+
+        //Description
+        mDescription = description;
         mTextCondition.setLineSpacing(16f, 1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mTextCondition.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT));
         } else {
             mTextCondition.setText(Html.fromHtml(description));
         }
-        //star rating
+
+        //Star rating
         mTextRate.setText(String.valueOf(star));
-        //count rating
+
+        //Count rating
         mTextTotalRate.setText(String.valueOf(countRating));
-        //rating statistics
+
+        //Rating statistics
         mProcess5Star.setMax(countRating);
         mProcess5Star.setProgress(ratingTotal.getCount5Star());
         mProcess4Star.setMax(countRating);
@@ -278,6 +305,7 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         mProcess2Star.setProgress(ratingTotal.getCount2Star());
         mProcess1Star.setMax(countRating);
         mProcess1Star.setProgress(ratingTotal.getCount1Star());
+
         //todo
         mRatingBar.setRating(4.5f);
 
@@ -370,8 +398,8 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
                 mPresenter.saveDetail(1, 1);
                 break;
             case R.id.layout_get_code:
-                RulesFragment fragment = new RulesFragment();
-                fragment.show(getFragmentManager(), "RULES_FRAGMENT");
+                RulesFragment fragment = RulesFragment.newInstance(mDescription, mDetailId);
+                fragment.show(getFragmentManager(), RulesFragment.TAG);
                 break;
             default:
                 break;
@@ -394,6 +422,10 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
                 });
             }
         }
+    }
+
+    private void loadData(int detailId) {
+        mPresenter.loadDetailData(detailId);
     }
 
 }
