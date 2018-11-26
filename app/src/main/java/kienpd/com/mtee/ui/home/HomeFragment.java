@@ -1,6 +1,7 @@
 package kienpd.com.mtee.ui.home;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,6 +33,9 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     private HomeAdapter mAdapter;
     private int mCategoryId = Const.Category.CATEGORY_ALL;
 
+    private Handler mHandler;
+    private Runnable mRunnable;
+    private Boolean mUpdateData;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -59,22 +63,22 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
         mRecyclerViewHome.setLayoutManager(manager);
         mRecyclerViewHome.setAdapter(mAdapter);
 
-        loadData(mCategoryId);
+        loadData(mCategoryId, true);
     }
 
     @Override
-    public void onClickListener(int type, int position) {
+    public void onClickListener(int type, int id) {
         switch (type) {
             case 0:
                 break;
             case 1:
-                mPresenter.showDetailDialog(1);
+                mPresenter.showDetailDialog(id);
                 break;
             case 2:
-                mPresenter.showDetailDialog(1);
+//                mPresenter.showDetailDialog(1);
                 break;
             case 3:
-                mPresenter.showDetailDialog(1);
+                mPresenter.showDetailDialog(id);
                 break;
             default:
                 break;
@@ -85,12 +89,12 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     @Override
     public void onClickCategoryListener(int categoryId) {
         mCategoryId = categoryId;
-        loadData(categoryId);
+        loadData(categoryId, true);
     }
 
     @Override
     public void onClickLoadMore() {
-        mPresenter.loadNewestData(mCategoryId);
+        mPresenter.loadNewestData(mCategoryId, false);
     }
 
 
@@ -101,24 +105,39 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     }
 
     @Override
-    public void updateRepoHighLight(List<Voucher> repoList) {
-        mAdapter.addItemHighLight(repoList);
+    public void updateRepoHighLight(List<Voucher> repoList, Boolean isClearData) {
+        mAdapter.addItemHighLight(repoList, isClearData);
     }
 
     @Override
-    public void updateRepoNewest(List<Voucher> repoList) {
-        mAdapter.addItemNewest(repoList);
+    public void updateRepoNewest(List<Voucher> repoList, Boolean isClearData) {
+        mAdapter.addItemNewest(repoList, isClearData);
     }
 
     @Override
-    public void updateRepoCollection(List<Collection> repoList) {
-        mAdapter.addItemCollection(repoList);
+    public void updateRepoCollection(List<Collection> repoList, Boolean isClearData) {
+        mAdapter.addItemCollection(repoList, isClearData);
     }
 
-    public void loadData(int categoryId) {
-        mPresenter.loadNewestData(categoryId);
-        mPresenter.loadHighLightData(categoryId);
-        mPresenter.loadCollectionData(categoryId);
-    }
+    public void loadData(int categoryId, Boolean isClearData) {
+        mPresenter.loadHighLightData(categoryId, isClearData);
+        mPresenter.loadCollectionData(categoryId, isClearData);
+        mPresenter.loadNewestData(categoryId, isClearData);
 
+        mUpdateData = true;
+        mHandler = new Handler();
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mUpdateData && !mRecyclerViewHome.isComputingLayout()) {
+                    mAdapter.notifyDataSetChanged();
+                    mHandler.removeCallbacks(mRunnable);
+                    mUpdateData = false;
+                }
+            }
+        };
+        mHandler.postDelayed(mRunnable, 0);
+    }
 }
+
+

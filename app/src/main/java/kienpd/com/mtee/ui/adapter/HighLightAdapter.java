@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,7 @@ import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
+import kienpd.com.mtee.utils.TextUtil;
 
 public class HighLightAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
@@ -112,35 +112,31 @@ public class HighLightAdapter extends RecyclerView.Adapter<HomeViewHolder> {
                 requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
 
                 Glide.with(mContext)
-                        .load(API.HOST_DEV + voucher.getPictures().get(0).getUrl())
+                        .load(API.HOST_DEV + "thumb/" + voucher.getCoverPicture())
                         .apply(requestOptions)
                         .into(mImageProduct);
 
                 mTextStore.setText(voucher.getStore().getName());
                 mTextTitle.setText(voucher.getTitle());
-//                mTextDiscount.setText(voucher.getPercentDiscount() + "%");
-//                mTextCountLike.setText(voucher.getLikeCount());
+                if (voucher.getPercentDiscount() != 0) {
+                    mTextDiscount.setVisibility(View.VISIBLE);
+                    mTextDiscount.setText(String.valueOf(voucher.getPercentDiscount()) + TextUtil.CHARACTER_PERCENT);
+                } else {
+                    mTextDiscount.setVisibility(View.GONE);
+                }
+                mTextCountLike.setText(String.valueOf(voucher.getLikeCount()));
             }
-
-
-//            int drawableResourceId = mContext.getResources().getIdentifier("bg_test", "drawable", mContext.getPackageName());
-//            RequestOptions requestOptions = new RequestOptions();
-//            requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
-//            Glide.with(mContext)
-//                    .load(drawableResourceId)
-//                    .apply(requestOptions)
-//                    .into(mImageProduct);
 
             mLayoutContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallback.onClickHighLightListener(position);
+                    mCallback.onClickHighLightListener(mList.get(position).getId());
                 }
             });
         }
     }
 
     public interface HighLightAdapterCallback {
-        void onClickHighLightListener(int position);
+        void onClickHighLightListener(int id);
     }
 }

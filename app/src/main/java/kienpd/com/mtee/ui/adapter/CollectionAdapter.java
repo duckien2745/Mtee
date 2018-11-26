@@ -21,8 +21,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.model.Collection;
+import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
+import kienpd.com.mtee.utils.TextUtil;
 
 public class CollectionAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
@@ -58,7 +61,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 12;
+        return mList.size();
     }
 
     class OrderHolder extends HomeViewHolder {
@@ -102,13 +105,22 @@ public class CollectionAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         public void onBind(final int position) {
             super.onBind(position);
 
-            int drawableResourceId = mContext.getResources().getIdentifier("bg_test", "drawable", mContext.getPackageName());
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
-            Glide.with(mContext)
-                    .load(drawableResourceId)
-                    .apply(requestOptions)
-                    .into(mImageProduct);
+            Collection collection = mList.get(position);
+            if (collection != null) {
+                RequestOptions requestOptions = new RequestOptions();
+                requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
+
+                Glide.with(mContext)
+                        .load(API.HOST_DEV + "thumb/" + collection.getPicture())
+                        .apply(requestOptions)
+                        .into(mImageProduct);
+
+                mTextStore.setVisibility(View.GONE);
+                mTextDiscount.setVisibility(View.GONE);
+                mTextCountLike.setVisibility(View.GONE);
+                mTextTitle.setText(collection.getName());
+            }
+
 
             mLayoutContent.setOnClickListener(new View.OnClickListener() {
                 @Override

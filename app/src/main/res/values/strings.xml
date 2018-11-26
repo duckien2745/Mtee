@@ -40,5 +40,5 @@
     <string name="title_load_more">Tải thêm</string>
     <string name="title_last_article">Tin cuối</string>
     <string name="title_no_data">Chưa có tin nào</string>
-
+    <string name="discount_percent">%2$d %</string>
 </resources>

@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.RatingTotal;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
@@ -137,6 +139,8 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
     private String mDescription;
     private Integer mDetailId;
 
+    private Integer userId = 37281321;
+
     public static DetailFragment newInstance(int detailId) {
         DetailFragment f = new DetailFragment();
 
@@ -166,37 +170,13 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
         loadData(mDetailId);
 
-        //Test Rate
-        mProcess5Star.setMax(100);
-        mProcess5Star.setProgress(35);
-        mProcess4Star.setMax(100);
-        mProcess4Star.setProgress(50);
-        mProcess3Star.setMax(100);
-        mProcess3Star.setProgress(75);
-        mProcess2Star.setMax(100);
-        mProcess2Star.setProgress(55);
-        mProcess1Star.setMax(100);
-        mProcess1Star.setProgress(15);
-        mRatingBar.setRating(4.5f);
-
         //Set color bottom
         mImageLike.setColorFilter(getResources().getColor(R.color.color_item_select));
         mImageShare.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageSave.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageUser.setColorFilter(getResources().getColor(R.color.color_item_un_select));
 
-        //Test Slide
         mImageVouchers = new ArrayList<>();
-        mImageVouchers.add("192.168.16.103:8080/picture/bg_test.png");
-        mImageVouchers.add("192.168.16.103:8080/picture/diagram_mtee.png");
-        mImageVouchers.add("192.168.16.103:8080/picture/mtee_diagram.png");
-        mImageVouchers.add("192.168.16.103:8080/picture/bg_test.png");
-        mImageVouchers.add("192.168.16.103:8080/picture/diagram_mtee.png");
-        mImageVouchers.add("192.168.16.103:8080/picture/mtee_diagram.png");
-        mImageVouchers.add("192.168.16.103:8080/picture/bg_test.png");
-        mImageVouchers.add("192.168.16.103:8080/picture/diagram_mtee.png");
-        mImageVouchers.add("192.168.16.103:8080/picture/mtee_diagram.png");
-
         mSliderDetailAdapter = new SliderDetailAdapter(getBaseActivity(), mImageVouchers, this);
         mViewPagerDetail.setAdapter(mSliderDetailAdapter);
         mTabIndicator.setupWithViewPager(mViewPagerDetail, true);
@@ -205,20 +185,7 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new SliderTimer(), 3000, 6000);
 
-        //Test HTML
-        String s = getResources().getString(R.string.text_deception);
-        mTextCondition.setLineSpacing(16f, 1);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mTextCondition.setText(Html.fromHtml(s, Html.FROM_HTML_MODE_COMPACT));
-        } else {
-            mTextCondition.setText(Html.fromHtml(s));
-        }
-
-        //Test price picture
         mImagePrices = new ArrayList<>();
-        mImagePrices.add("1");
-        mImagePrices.add("2");
-        mImagePrices.add("3");
         mPriceAdapter = new PriceAdapter(getBaseActivity(), mImagePrices, this);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(getBaseActivity(), LinearLayoutManager.HORIZONTAL, false);
@@ -226,8 +193,7 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         mRecyclerPrice.setAdapter(mPriceAdapter);
 
         //todo
-        mPresenter.getStatusDaveDetail(1, 1);
-        mPresenter.getStatusLikeDetail(1, 1);
+        mPresenter.getStatusLikeSaveRateDetail(userId, mDetailId);
 
         //onClick
         mScrollviewReaderContent.setScrollViewListener(this);
@@ -257,7 +223,7 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
     }
 
     @Override
-    public void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description, float star, int countRating, RatingTotal ratingTotal) {
+    public void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description, float star, int countRating, RatingResponse ratting) {
         //Store
         mTextTitleCenter.setText(store);
 
@@ -296,23 +262,23 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
 
         //Rating statistics
         mProcess5Star.setMax(countRating);
-        mProcess5Star.setProgress(ratingTotal.getCount5Star());
+        mProcess5Star.setProgress(ratting.getRating5star());
         mProcess4Star.setMax(countRating);
-        mProcess4Star.setProgress(ratingTotal.getCount4Star());
+        mProcess4Star.setProgress(ratting.getRating4star());
         mProcess3Star.setMax(countRating);
-        mProcess3Star.setProgress(ratingTotal.getCount3Star());
+        mProcess3Star.setProgress(ratting.getRating3star());
         mProcess2Star.setMax(countRating);
-        mProcess2Star.setProgress(ratingTotal.getCount2Star());
+        mProcess2Star.setProgress(ratting.getRating2star());
         mProcess1Star.setMax(countRating);
-        mProcess1Star.setProgress(ratingTotal.getCount1Star());
+        mProcess1Star.setProgress(ratting.getRating1star());
 
         //todo
-        mRatingBar.setRating(4.5f);
+        mRatingBar.setRating(star);
 
     }
 
     @Override
-    public void displayMyRating(float star) {
+    public void displayMyRating(int star) {
         //todo
     }
 
@@ -387,15 +353,15 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
                 break;
             case R.id.layout_like:
                 //todo
-                mPresenter.likeDetail(1, 1);
+                mPresenter.likeDetail(userId, mDetailId);
                 break;
             case R.id.layout_share:
                 //todo
-                mPresenter.shareDetail("title", "content");
+                mPresenter.shareDetail(mTextTitle.toString(), "content");
                 break;
             case R.id.layout_save:
                 //todo
-                mPresenter.saveDetail(1, 1);
+                mPresenter.saveDetail(userId, mDetailId);
                 break;
             case R.id.layout_get_code:
                 RulesFragment fragment = RulesFragment.newInstance(mDescription, mDetailId);
@@ -424,8 +390,8 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         }
     }
 
-    private void loadData(int detailId) {
-        mPresenter.loadDetailData(detailId);
+    private void loadData(int voucherId) {
+        mPresenter.loadDetailData(voucherId);
     }
 
 }

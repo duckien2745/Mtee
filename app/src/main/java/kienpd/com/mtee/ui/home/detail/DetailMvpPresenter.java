@@ -4,7 +4,7 @@ import kienpd.com.mtee.ui.base.MvpPresenter;
 
 public interface DetailMvpPresenter<V extends DetailMvpView> extends MvpPresenter<V> {
 
-    void loadDetailData(int detailId);
+    void loadDetailData(int voucherId);
 
     void likeDetail(int userId, int detailId);
 
@@ -16,9 +16,7 @@ public interface DetailMvpPresenter<V extends DetailMvpView> extends MvpPresente
 
     void direct(String location);
 
-    void getStatusLikeDetail(int userId, int detailId);
-
-    void getStatusDaveDetail(int userId, int detailId);
+    void getStatusLikeSaveRateDetail(int userId, int detailId);
 
     void showTextMore();
 }

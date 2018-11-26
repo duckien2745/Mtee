@@ -2,6 +2,7 @@
 package kienpd.com.mtee.data.model;
 
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,9 +14,9 @@ public class Voucher {
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("pricePicture")
+    @SerializedName("pricePictures")
     @Expose
-    private String pricePicture;
+    private List<String> pricePictures;
     @SerializedName("percentDiscount")
     @Expose
     private Integer percentDiscount;
@@ -24,10 +25,10 @@ public class Voucher {
     private String description;
     @SerializedName("timeEnd")
     @Expose
-    private Integer timeEnd;
+    private Long timeEnd;
     @SerializedName("timeStart")
     @Expose
-    private Integer timeStart;
+    private Long timeStart;
     @SerializedName("store")
     @Expose
     private Store store;
@@ -36,13 +37,23 @@ public class Voucher {
     private Category category;
     @SerializedName("pictures")
     @Expose
-    private List<Picture> pictures = null;
+    private List<String> pictures = null;
     @SerializedName("point")
     @Expose
     private Integer point;
     @SerializedName("likeCount")
     @Expose
     private Integer likeCount;
+    @SerializedName("ratingResponse")
+    @Expose
+    private RatingResponse ratingResponse;
+    @SerializedName("remainingCode")
+    @Expose
+    private Integer remainingCode;
+
+    @SerializedName("coverPicture")
+    @Expose
+    private String coverPicture;
 
     public Integer getId() {
         return id;
@@ -60,12 +71,12 @@ public class Voucher {
         this.title = title;
     }
 
-    public String getPricePicture() {
-        return pricePicture;
+    public List<String> getPricePictures() {
+        return pricePictures;
     }
 
-    public void setPricePicture(String pricePicture) {
-        this.pricePicture = pricePicture;
+    public void setPricePictures(List<String> pricePictures) {
+        this.pricePictures = pricePictures;
     }
 
     public Integer getPercentDiscount() {
@@ -84,19 +95,19 @@ public class Voucher {
         this.description = description;
     }
 
-    public Integer getTimeEnd() {
+    public Long getTimeEnd() {
         return timeEnd;
     }
 
-    public void setTimeEnd(Integer timeEnd) {
+    public void setTimeEnd(Long timeEnd) {
         this.timeEnd = timeEnd;
     }
 
-    public Integer getTimeStart() {
+    public Long getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(Integer timeStart) {
+    public void setTimeStart(Long timeStart) {
         this.timeStart = timeStart;
     }
 
@@ -116,11 +127,11 @@ public class Voucher {
         this.category = category;
     }
 
-    public List<Picture> getPictures() {
+    public List<String> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<Picture> pictures) {
+    public void setPictures(List<String> pictures) {
         this.pictures = pictures;
     }
 
@@ -140,4 +151,27 @@ public class Voucher {
         this.likeCount = likeCount;
     }
 
+    public RatingResponse getRatingResponse() {
+        return ratingResponse;
+    }
+
+    public void setRatingResponse(RatingResponse ratingResponse) {
+        this.ratingResponse = ratingResponse;
+    }
+
+    public Integer getRemainingCode() {
+        return remainingCode;
+    }
+
+    public void setRemainingCode(Integer remainingCode) {
+        this.remainingCode = remainingCode;
+    }
+
+    public String getCoverPicture() {
+        return coverPicture;
+    }
+
+    public void setCoverPicture(String coverPicture) {
+        this.coverPicture = coverPicture;
+    }
 }

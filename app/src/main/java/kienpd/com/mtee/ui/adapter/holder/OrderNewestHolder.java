@@ -36,16 +36,20 @@ public class OrderNewestHolder extends HomeViewHolder {
     RelativeLayout mLayoutOrder;
 
     private Context mContext;
-    private OrderNewestHolderCallback mCallback;
 
-
-    public OrderNewestHolder(Context context, View itemView, OrderNewestHolderCallback callback) {
+    public OrderNewestHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
-        mContext = context;
-        mCallback = callback;
-
     }
+//    private OrderNewestHolderCallback mCallback;
+
+
+//    public OrderNewestHolder(Context context, View itemView, OrderNewestHolderCallback callback) {
+//        super(itemView);
+//        ButterKnife.bind(this, itemView);
+//        mContext = context;
+//        mCallback = callback;
+//
+//    }
 
     @Override
     protected void clear() {
@@ -65,12 +69,12 @@ public class OrderNewestHolder extends HomeViewHolder {
         mLayoutOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onClickOrderNewestHolderListener(position);
+//                mCallback.onClickOrderNewestHolderListener(position);
             }
         });
     }
 
-    public interface OrderNewestHolderCallback {
-        void onClickOrderNewestHolderListener(int position);
-    }
+//    public interface OrderNewestHolderCallback {
+//        void onClickOrderNewestHolderListener(int position);
+//    }
 }

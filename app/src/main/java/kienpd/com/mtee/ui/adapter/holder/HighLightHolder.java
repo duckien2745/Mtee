@@ -52,11 +52,11 @@ public class HighLightHolder extends HomeViewHolder implements HighLightAdapter.
     }
 
     @Override
-    public void onClickHighLightListener(int position) {
-        mCallback.onClickHighLightHolderListener(position);
+    public void onClickHighLightListener(int id) {
+        mCallback.onClickHighLightHolderListener(id);
     }
 
     public interface HighLightHolderCallback {
-        void onClickHighLightHolderListener(int position);
+        void onClickHighLightHolderListener(int id);
     }
 }

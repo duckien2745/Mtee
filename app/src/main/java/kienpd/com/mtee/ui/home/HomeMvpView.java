@@ -10,11 +10,11 @@ public interface HomeMvpView extends MvpView {
 
     void showDetailDialog(int detailId);
 
-    void updateRepoHighLight(List<Voucher> repoList);
+    void updateRepoHighLight(List<Voucher> repoList,Boolean isClearData);
 
-    void updateRepoNewest(List<Voucher> repoList);
+    void updateRepoNewest(List<Voucher> repoList,Boolean isClearData);
 
-    void updateRepoCollection(List<Collection> repoList);
+    void updateRepoCollection(List<Collection> repoList,Boolean isClearData);
 
 
 }

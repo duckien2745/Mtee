@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.API;
 
 public class SliderDetailAdapter extends PagerAdapter {
 
@@ -43,10 +45,9 @@ public class SliderDetailAdapter extends PagerAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_slider_detail, null);
 
-        int drawableResourceId = mContext.getResources().getIdentifier("bg_test", "drawable", mContext.getPackageName());
         ImageView imageVoucher = view.findViewById(R.id.image_voucher);
         Glide.with(mContext)
-                .load(drawableResourceId)
+                .load(API.HOST_DEV + mUrlImages.get(position))
                 .into(imageVoucher);
 
         imageVoucher.setOnClickListener(new View.OnClickListener() {

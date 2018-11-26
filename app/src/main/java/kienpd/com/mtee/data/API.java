@@ -4,6 +4,9 @@ import org.json.JSONException;
 
 import java.util.List;
 
+import kienpd.com.mtee.data.model.Collection;
+import kienpd.com.mtee.data.model.Message;
+import kienpd.com.mtee.data.model.StatusLikeSaveRating;
 import kienpd.com.mtee.data.model.Voucher;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -44,8 +47,28 @@ public abstract class API {
         client.PostListVoucherNewest(param).enqueue(new RetrofitCallback<>(callback));
     }
 
-    public static void getListVoucherhighLight(ApiRequest.ApiRequestVoucher param, APICallback<List<Voucher>> callback) {
+    public static void getListVoucherHighLight(ApiRequest.ApiRequestVoucher param, APICallback<List<Voucher>> callback) {
         client.PostListVoucherHighLight(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getListCollection(ApiRequest.ApiRequestCollection param, APICallback<List<Collection>> callback) {
+        client.PostListCollection(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getVoucherById(ApiRequest.ApiRequestVoucherById param, APICallback<Voucher> callback) {
+        client.PostVoucherById(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getStatus(ApiRequest.ApiRequestStatus param, APICallback<StatusLikeSaveRating> callback) {
+        client.GetStatus(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void updateLike(ApiRequest.ApiRequestStatus param, APICallback<Message> callback) {
+        client.UpdateLike(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void updateSave(ApiRequest.ApiRequestStatus param, APICallback<Message> callback) {
+        client.UpdateSave(param).enqueue(new RetrofitCallback<>(callback));
     }
 
 

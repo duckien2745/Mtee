@@ -14,13 +14,9 @@ public class APIDefinition {
 
     public static class GetListCollection {
         public static final String TAG = "Get List Collection";
-        public static final String PATH = "collections/get_list_all";
+        public static final String PATH = "collections/get_collection";
     }
 
-    public static class GetListCollectionById {
-        public static final String TAG = "Get List Collection By Id";
-        public static final String PATH = "collections/get_collection_by_category_id";
-    }
 
     public static class GetVoucherByCollectionId {
         public static final String TAG = "Get Voucher By Collection Id";
@@ -30,5 +26,20 @@ public class APIDefinition {
     public static class GetVoucherById {
         public static final String TAG = "Get Voucher By Id";
         public static final String PATH = "/voucher/id";
+    }
+
+    public static class GetStatusLikeSaveRating {
+        public static final String TAG = "Get Status";
+        public static final String PATH = "like_rating_status/get_status_by_id";
+    }
+
+    public static class UpdateLike {
+        public static final String TAG = "Update Like";
+        public static final String PATH = "like/update_like";
+    }
+
+    public static class UpdateSave {
+        public static final String TAG = "Update Like";
+        public static final String PATH = "storage_voucher/set_storage_voucher";
     }
 }

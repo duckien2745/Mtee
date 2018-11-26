@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
 
 public class PriceAdapter extends RecyclerView.Adapter<HomeViewHolder> {
@@ -71,11 +72,10 @@ public class PriceAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         @Override
         public void onBind(final int position) {
             super.onBind(position);
-            int drawableResourceId = mContext.getResources().getIdentifier("bg_test", "drawable", mContext.getPackageName());
             RequestOptions requestOptions = new RequestOptions();
             requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
             Glide.with(mContext)
-                    .load(drawableResourceId)
+                    .load(API.HOST_DEV + "thumb/" + mListUrl.get(position))
                     .apply(requestOptions)
                     .into(mImagePrice);
 

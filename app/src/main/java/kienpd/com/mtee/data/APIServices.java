@@ -4,6 +4,8 @@ package kienpd.com.mtee.data;
 import java.util.List;
 
 import kienpd.com.mtee.data.model.Collection;
+import kienpd.com.mtee.data.model.Message;
+import kienpd.com.mtee.data.model.StatusLikeSaveRating;
 import kienpd.com.mtee.data.model.Voucher;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,8 +24,20 @@ public class APIServices {
         Call<List<Voucher>> PostListVoucherHighLight(
                 @Body ApiRequest.ApiRequestVoucher param);
 
-        @GET(APIDefinition.GetListCollection.PATH)
-        Call<List<Collection>> GetListCollection();
+        @POST(APIDefinition.GetListCollection.PATH)
+        Call<List<Collection>> PostListCollection(@Body ApiRequest.ApiRequestCollection param);
+
+        @POST(APIDefinition.GetVoucherById.PATH)
+        Call<Voucher> PostVoucherById(@Body ApiRequest.ApiRequestVoucherById param);
+
+        @POST(APIDefinition.GetStatusLikeSaveRating.PATH)
+        Call<StatusLikeSaveRating> GetStatus(@Body ApiRequest.ApiRequestStatus param);
+
+        @POST(APIDefinition.UpdateLike.PATH)
+        Call<Message> UpdateLike(@Body ApiRequest.ApiRequestStatus param);
+
+        @POST(APIDefinition.UpdateSave.PATH)
+        Call<Message> UpdateSave(@Body ApiRequest.ApiRequestStatus param);
 
 //        @POST(SFiveAPIDefinition.GetLikeCount.PATH)
 //        Call<SFiveLikeCount> PostLikeCount(
