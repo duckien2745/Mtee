@@ -41,22 +41,14 @@ public class ApiRequest {
 
     public static class ApiRequestVoucherById {
 
-        int id;
+        int voucherId;
 
         public ApiRequestVoucherById(int id) {
-            this.id = id;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
+            this.voucherId = id;
         }
     }
 
-    public static class ApiRequestStatus{
+    public static class ApiRequestStatus {
         private Integer user_id;
         private Integer voucher_id;
 
@@ -65,19 +57,49 @@ public class ApiRequest {
             this.voucher_id = voucher_id;
         }
 
-        public Integer getUser_id() {
-            return user_id;
+    }
+
+
+    public static class ApiRequestUser {
+
+        private Integer userId;
+
+        public ApiRequestUser(Integer userId) {
+            this.userId = userId;
         }
 
-        public void setUser_id(Integer user_id) {
+    }
+
+    public static class ApiRequestRating {
+
+        private int userId;
+        private int voucherId;
+        private int star;
+
+        public ApiRequestRating(int userId, int voucherId, int star) {
+            this.userId = userId;
+            this.voucherId = voucherId;
+            this.star = star;
+        }
+
+    }
+
+    public static class ApiRequestTotalRatting {
+
+        private Integer voucherId;
+
+        public ApiRequestTotalRatting(Integer voucherId) {
+            this.voucherId = voucherId;
+        }
+    }
+
+    public static class ApiRequestGetCode {
+
+        public int user_id;
+        public int voucher_id;
+
+        public ApiRequestGetCode(int user_id, int voucher_id) {
             this.user_id = user_id;
-        }
-
-        public Integer getVoucher_id() {
-            return voucher_id;
-        }
-
-        public void setVoucher_id(Integer voucher_id) {
             this.voucher_id = voucher_id;
         }
     }

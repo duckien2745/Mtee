@@ -8,13 +8,19 @@ import kienpd.com.mtee.ui.base.MvpView;
 
 public interface DetailMvpView extends MvpView {
 
-    void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description, float star, int countRating, RatingResponse ratingResponse);
+    void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description);
 
     void displayMyRating(int star);
+
+    void changeMyRatting(boolean isChange);
+
+    void displayInfoUser(String name, String avatarUrl);
 
     void updateLike(Boolean isLike);
 
     void updateSave(Boolean isSave);
 
     void showTextDescription(Boolean isShow);
+
+    void displayTotalRatting(RatingResponse totalRatting);
 }

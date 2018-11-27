@@ -12,9 +12,6 @@ public class User {
     @SerializedName("userName")
     @Expose
     private String userName;
-    @SerializedName("userPassword")
-    @Expose
-    private String userPassword;
     @SerializedName("email")
     @Expose
     private String email;
@@ -42,14 +39,6 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
     }
 
     public String getEmail() {

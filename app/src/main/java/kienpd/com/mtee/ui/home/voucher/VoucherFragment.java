@@ -19,7 +19,9 @@ import com.google.zxing.WriterException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.ui.base.BaseDialog;
+import kienpd.com.mtee.ui.home.detail.DetailFragment;
 import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 
@@ -82,6 +84,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
     TextView mTextActive;
 
     private Integer mDetailId;
+    private Integer mUserId = 37281321;
 
     public static VoucherFragment newInstance(int detailId) {
 
@@ -109,30 +112,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
     protected void setUp(View view) {
 
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
-        loadData(mDetailId, 1);
-
-        int drawableResourceId = getBaseActivity().getResources().getIdentifier("bg_test", "drawable", getBaseActivity().getPackageName());
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(40));
-        Glide.with(getBaseActivity())
-                .load(drawableResourceId)
-                .thumbnail(1f)
-                .apply(requestOptions)
-                .into(mImageVoucher);
-
-
-        //QR Code
-        try {
-            Bitmap bitmap = CommonUtils.TextToImageEncode(getBaseActivity(), "7337412341", 500);
-            Glide.with(getBaseActivity())
-                    .asBitmap()
-                    .load(bitmap)
-                    .thumbnail(1f)
-                    .apply(requestOptions)
-                    .into(mImageQRCode);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
+        loadData(mDetailId, mUserId);
 
         //Onclick
         mImageBack.setOnClickListener(this);
@@ -146,25 +126,25 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
     }
 
     @Override
-    public void displayView(String title, String urlVoucher, int countLike, int code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser) {
+    public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser) {
         mTextTitle.setText(title);
 
         //Image
         RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(40));
         Glide.with(getBaseActivity())
-                .load(urlVoucher)
+                .load(API.HOST_DEV+ urlVoucher)
                 .thumbnail(1f)
                 .apply(requestOptions)
                 .into(mImageVoucher);
         //todo count like
 
         //Code
-        mTextCode.setText(String.valueOf(code));
+        mTextCode.setText(code);
 
         //QR Code
         try {
-            Bitmap bitmap = CommonUtils.TextToImageEncode(getBaseActivity(), "7337412341", 500);
+            Bitmap bitmap = CommonUtils.TextToImageEncode(getBaseActivity(), code, 500);
             Glide.with(getBaseActivity())
                     .asBitmap()
                     .load(bitmap)
@@ -200,15 +180,15 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
                 break;
             case R.id.text_view_description:
                 //todo
-                mPresenter.showDescriptionVoucher(1);
+                mPresenter.showDescriptionVoucher(mDetailId);
                 break;
             case R.id.text_view_voucher:
-                //todo
-                mPresenter.showDetailVoucher(1);
+                DetailFragment fragment = DetailFragment.newInstance(mDetailId);
+                fragment.show(getFragmentManager(), DetailFragment.TAG);
                 break;
             case R.id.image_copy:
                 //todo
-                mPresenter.copyCode(1);
+                mPresenter.copyCode(mTextCode.getText().toString());
                 break;
             case R.id.text_active:
                 //todo

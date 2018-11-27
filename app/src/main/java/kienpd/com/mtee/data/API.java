@@ -6,7 +6,10 @@ import java.util.List;
 
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Message;
+import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.StatusLikeSaveRating;
+import kienpd.com.mtee.data.model.User;
+import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -71,13 +74,20 @@ public abstract class API {
         client.UpdateSave(param).enqueue(new RetrofitCallback<>(callback));
     }
 
+    public static void getInfoUser(ApiRequest.ApiRequestUser param, APICallback<User> callback) {
+        client.GetInfoUser(param).enqueue(new RetrofitCallback<>(callback));
+    }
 
-//    public static void getSuggestSiteByCategoryId(String categoryId, String size, APICallback<List<SfiveSuggestSite>> callback) {
-//        client.GetSuggestSiteByCategoryId(categoryId, size).enqueue(new SfiveRetrofitCallback<>(callback));
-//    }
-//
-//    public static void getSuggestSite(String input, String size, APICallback<List<SfiveSuggestSite>> callback) {
-//        client.GetSuggestSite(input, size).enqueue(new SfiveRetrofitCallback<>(callback));
-//    }
+    public static void rateVoucher(ApiRequest.ApiRequestRating param, APICallback<Message> callback) {
+        client.RateVoucher(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getTotalRatting(ApiRequest.ApiRequestTotalRatting param, APICallback<RatingResponse> callback) {
+        client.GetTotalRatting(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getCode(ApiRequest.ApiRequestGetCode param, APICallback<UserCode> callback) {
+        client.GetCode(param).enqueue(new RetrofitCallback<>(callback));
+    }
 
 }

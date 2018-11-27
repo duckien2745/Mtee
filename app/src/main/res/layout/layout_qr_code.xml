@@ -18,14 +18,12 @@
         android:id="@+id/image_qr_code"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:adjustViewBounds="true"
-        android:src="@drawable/image_qr_code" />
+        android:adjustViewBounds="true" />
 
     <TextView
         android:id="@+id/text_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12362351121"
         android:textColor="#fa3e3d3d"
         android:textSize="18sp"
         android:textStyle="bold" />

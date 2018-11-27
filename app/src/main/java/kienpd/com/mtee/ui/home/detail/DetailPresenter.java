@@ -1,7 +1,5 @@
 package kienpd.com.mtee.ui.home.detail;
 
-import android.util.Log;
-
 import org.json.JSONException;
 
 import java.util.List;
@@ -13,14 +11,35 @@ import kienpd.com.mtee.data.model.Message;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.StatusLikeSaveRating;
 import kienpd.com.mtee.data.model.Store;
+import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BasePresenter;
+import kienpd.com.mtee.utils.TextUtil;
 
 public class DetailPresenter<V extends DetailMvpView> extends BasePresenter<V>
         implements DetailMvpPresenter<V> {
 
     private Boolean mIsShow = false;
 
+    @Override
+    public void loadInfoUser(final int userId) {
+        ApiRequest.ApiRequestUser requestUser = new ApiRequest.ApiRequestUser(userId);
+        API.getInfoUser(requestUser, new API.APICallback<User>() {
+            @Override
+            public void onResponse(User response) throws JSONException {
+                if (response != null) {
+                    if (!TextUtil.isEmpty(response.getName()) && !TextUtil.isEmpty(response.getPicture())) {
+                        getMvpView().displayInfoUser(response.getName(), response.getPicture());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
+    }
 
     @Override
     public void loadDetailData(int voucherId) {
@@ -43,13 +62,9 @@ public class DetailPresenter<V extends DetailMvpView> extends BasePresenter<V>
                     List<String> listPricePicture = response.getPricePictures();
                     String description = response.getDescription();
 
-                    RatingResponse rating = response.getRatingResponse();
-                    int totalRate = rating.getRating1star() + rating.getRating2star() + rating.getRating3star() + rating.getRating4star() + rating.getRating5star();
-
-                    //todo tinh trung binh,lam tron star
-                    float star = 4;
-
-                    getMvpView().displayDetailView(store.getName(), likeCount, listPicture, title, sAddress, listPricePicture, description, star, totalRate, rating);
+                    RatingResponse totalRatting = response.getRatingResponse();
+                    getMvpView().displayTotalRatting(totalRatting);
+                    getMvpView().displayDetailView(store.getName(), likeCount, listPicture, title, sAddress, listPricePicture, description);
 
                 }
             }
@@ -97,8 +112,23 @@ public class DetailPresenter<V extends DetailMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void rattingDetail(int userId, int detailId, int rating) {
-        //todo
+    public void rattingDetail(int userId, final int detailId, float rating) {
+        int star = Math.round(rating);
+        ApiRequest.ApiRequestRating requestRating = new ApiRequest.ApiRequestRating(userId, detailId, star);
+        API.rateVoucher(requestRating, new API.APICallback<Message>() {
+            @Override
+            public void onResponse(Message response) throws JSONException {
+                if (response != null) {
+                    getMvpView().changeMyRatting(response.getStatus() == 1);
+                    getTotalRatting(detailId);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
     }
 
     @Override
@@ -135,5 +165,22 @@ public class DetailPresenter<V extends DetailMvpView> extends BasePresenter<V>
     public void showTextMore() {
         mIsShow = !mIsShow;
         getMvpView().showTextDescription(mIsShow);
+    }
+
+    private void getTotalRatting(int voucherId) {
+        ApiRequest.ApiRequestTotalRatting paramTotalRatting = new ApiRequest.ApiRequestTotalRatting(voucherId);
+        API.getTotalRatting(paramTotalRatting, new API.APICallback<RatingResponse>() {
+            @Override
+            public void onResponse(RatingResponse response) throws JSONException {
+                if (response != null) {
+                    getMvpView().displayTotalRatting(response);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
     }
 }

@@ -39,7 +39,27 @@ public class APIDefinition {
     }
 
     public static class UpdateSave {
-        public static final String TAG = "Update Like";
+        public static final String TAG = "Update Save";
         public static final String PATH = "storage_voucher/set_storage_voucher";
+    }
+
+    public static class GetInfoUser {
+        public static final String TAG = "Get Information";
+        public static final String PATH = "users/get_info_by_id";
+    }
+
+    public static class RateVoucher {
+        public static final String TAG = "Rate Voucher";
+        public static final String PATH = "rating/set_rating";
+    }
+
+    public static class GetTotalRatting {
+        public static final String TAG = "Total Ratting";
+        public static final String PATH = "rating/get_ratting_by_voucher_id";
+    }
+
+    public static class GetCode {
+        public static final String TAG = "Get Code";
+        public static final String PATH = "code/get_code";
     }
 }

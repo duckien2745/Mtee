@@ -4,13 +4,15 @@ import kienpd.com.mtee.ui.base.MvpPresenter;
 
 public interface DetailMvpPresenter<V extends DetailMvpView> extends MvpPresenter<V> {
 
+    void loadInfoUser(int userId);
+
     void loadDetailData(int voucherId);
 
     void likeDetail(int userId, int detailId);
 
     void saveDetail(int userId, int detailId);
 
-    void rattingDetail(int userId, int detailId, int rating);
+    void rattingDetail(int userId, int detailId, float rating);
 
     void shareDetail(String title, String content);
 

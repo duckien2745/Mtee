@@ -14,7 +14,8 @@
         android:id="@+id/scroll_view_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar_detail">
+        android:layout_below="@id/toolbar_detail"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,9 +49,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <LinearLayout
+                android:id="@+id/layout_my_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:background="#9edcdbdb" />
+
+                <include
+                    layout="@layout/layout_my_rate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:layout_height="14dp"
+                android:layout_height="15dp"
                 android:background="#9edcdbdb" />
 
             <include

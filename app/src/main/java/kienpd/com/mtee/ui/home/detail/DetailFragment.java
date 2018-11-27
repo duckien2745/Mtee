@@ -19,6 +19,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.RatingTotal;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
@@ -36,6 +41,7 @@ import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.ui.custom.ScrollViewExt;
 import kienpd.com.mtee.utils.CommonUtils;
+import kienpd.com.mtee.utils.TextUtil;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 import static android.view.View.GONE;
@@ -92,6 +98,27 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
     @BindView(R.id.image_save)
     ImageView mImageSave;
 
+    @BindView(R.id.text_rate_voucher)
+    TextView mTextRateVoucher;
+
+    @BindView(R.id.text_name_user)
+    TextView mTextNameUser;
+
+    @BindView(R.id.text_submit)
+    TextView mTextSubmit;
+
+    @BindView(R.id.my_rating_bar)
+    MaterialRatingBar mMyRatingBar;
+
+    @BindView(R.id.image_avatar)
+    ImageView mImageAvatar;
+
+    @BindView(R.id.image_edit)
+    ImageView mImageEdit;
+
+    @BindView(R.id.layout_my_rate)
+    LinearLayout mLayoutMyRate;
+
     @BindView(R.id.image_user)
     ImageView mImageUser;
 
@@ -138,7 +165,6 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
     private Boolean mIsRunSlider;
     private String mDescription;
     private Integer mDetailId;
-
     private Integer userId = 37281321;
 
     public static DetailFragment newInstance(int detailId) {
@@ -169,12 +195,14 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         //Load Data
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
         loadData(mDetailId);
+        loadInfoUser();
 
         //Set color bottom
         mImageLike.setColorFilter(getResources().getColor(R.color.color_item_select));
         mImageShare.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageSave.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageUser.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        mImageEdit.setColorFilter(getResources().getColor(R.color.color_item_un_select));
 
         mImageVouchers = new ArrayList<>();
         mSliderDetailAdapter = new SliderDetailAdapter(getBaseActivity(), mImageVouchers, this);
@@ -193,9 +221,9 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         mRecyclerPrice.setAdapter(mPriceAdapter);
 
         //todo
-        mPresenter.getStatusLikeSaveRateDetail(userId, mDetailId);
+        mLayoutMyRate.setVisibility(GONE);
 
-        //onClick
+        //NnClick
         mScrollviewReaderContent.setScrollViewListener(this);
         mImageBack.setOnClickListener(this);
         mLayoutDirect.setOnClickListener(this);
@@ -204,6 +232,9 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         mLayoutShare.setOnClickListener(this);
         mLayoutSave.setOnClickListener(this);
         mLayoutGetCode.setOnClickListener(this);
+        mLayoutGetCode.setOnClickListener(this);
+        mImageEdit.setOnClickListener(this);
+        mTextSubmit.setOnClickListener(this);
     }
 
     @Override
@@ -223,7 +254,7 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
     }
 
     @Override
-    public void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description, float star, int countRating, RatingResponse ratting) {
+    public void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description) {
         //Store
         mTextTitleCenter.setText(store);
 
@@ -254,32 +285,50 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
             mTextCondition.setText(Html.fromHtml(description));
         }
 
-        //Star rating
-        mTextRate.setText(String.valueOf(star));
-
-        //Count rating
-        mTextTotalRate.setText(String.valueOf(countRating));
-
-        //Rating statistics
-        mProcess5Star.setMax(countRating);
-        mProcess5Star.setProgress(ratting.getRating5star());
-        mProcess4Star.setMax(countRating);
-        mProcess4Star.setProgress(ratting.getRating4star());
-        mProcess3Star.setMax(countRating);
-        mProcess3Star.setProgress(ratting.getRating3star());
-        mProcess2Star.setMax(countRating);
-        mProcess2Star.setProgress(ratting.getRating2star());
-        mProcess1Star.setMax(countRating);
-        mProcess1Star.setProgress(ratting.getRating1star());
-
-        //todo
-        mRatingBar.setRating(star);
-
     }
 
     @Override
     public void displayMyRating(int star) {
-        //todo
+        if (star != 0) {
+            editRating(false);
+        } else {
+            editRating(true);
+        }
+
+        mMyRatingBar.setMax(5);
+        mMyRatingBar.setRating(star);
+
+    }
+
+    @Override
+    public void changeMyRatting(boolean isChange) {
+        if (isChange) {
+            editRating(false);
+        } else {
+            editRating(true);
+        }
+    }
+
+    @Override
+    public void displayInfoUser(String name, String avatarUrl) {
+        if (!TextUtil.isEmpty(name) && !TextUtil.isEmpty(avatarUrl)) {
+            mPresenter.getStatusLikeSaveRateDetail(userId, mDetailId);
+
+            mLayoutMyRate.setVisibility(VISIBLE);
+            mTextNameUser.setVisibility(VISIBLE);
+
+            mTextSubmit.setVisibility(GONE);
+            mTextRateVoucher.setVisibility(GONE);
+            mMyRatingBar.setVisibility(GONE);
+            mTextNameUser.setText(name);
+
+            Glide.with(getBaseActivity())
+                    .load(avatarUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(mImageAvatar);
+        } else {
+            mLayoutMyRate.setVisibility(GONE);
+        }
     }
 
     @Override
@@ -313,6 +362,37 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
             mTextCondition.setLayoutParams(params);
             mTextSeeMore.setText("Thu nhỏ");
         }
+    }
+
+    @Override
+    public void displayTotalRatting(RatingResponse totalRatting) {
+
+        int totalRate = totalRatting.getRating1star() + totalRatting.getRating2star() + totalRatting.getRating3star() + totalRatting.getRating4star() + totalRatting.getRating5star();
+        int totalStar = totalRatting.getRating1star() + totalRatting.getRating2star() * 2 + totalRatting.getRating3star() * 3 + totalRatting.getRating4star() * 4 + totalRatting.getRating5star() * 5;
+        float avg = (float) totalStar / totalRate;
+        //nearest one-half value
+        float star = (Math.round(avg * 2) / 2.0f);
+
+        //Star rating
+        mTextRate.setText(String.valueOf(star));
+
+        //Count rating
+        mTextTotalRate.setText(totalRate + " đánh giá");
+
+        //Rating statistics
+        mProcess5Star.setMax(totalRate);
+        mProcess5Star.setProgress(totalRatting.getRating5star());
+        mProcess4Star.setMax(totalRate);
+        mProcess4Star.setProgress(totalRatting.getRating4star());
+        mProcess3Star.setMax(totalRate);
+        mProcess3Star.setProgress(totalRatting.getRating3star());
+        mProcess2Star.setMax(totalRate);
+        mProcess2Star.setProgress(totalRatting.getRating2star());
+        mProcess1Star.setMax(totalRate);
+        mProcess1Star.setProgress(totalRatting.getRating1star());
+
+        //todo
+        mRatingBar.setRating(star);
     }
 
     @Override
@@ -363,6 +443,12 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
                 //todo
                 mPresenter.saveDetail(userId, mDetailId);
                 break;
+            case R.id.image_edit:
+                editRating(true);
+                break;
+            case R.id.text_submit:
+                mPresenter.rattingDetail(userId, mDetailId, mMyRatingBar.getRating());
+                break;
             case R.id.layout_get_code:
                 RulesFragment fragment = RulesFragment.newInstance(mDescription, mDetailId);
                 fragment.show(getFragmentManager(), RulesFragment.TAG);
@@ -392,6 +478,27 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
 
     private void loadData(int voucherId) {
         mPresenter.loadDetailData(voucherId);
+    }
+
+    private void loadInfoUser() {
+        mPresenter.loadInfoUser(userId);
+    }
+
+    private void editRating(boolean isEdit) {
+        mMyRatingBar.setVisibility(VISIBLE);
+        if (isEdit) {
+            mMyRatingBar.setIsIndicator(false);
+            mTextSubmit.setVisibility(VISIBLE);
+            mTextRateVoucher.setVisibility(VISIBLE);
+            mTextNameUser.setVisibility(GONE);
+            mImageEdit.setVisibility(GONE);
+        } else {
+            mMyRatingBar.setIsIndicator(true);
+            mTextSubmit.setVisibility(GONE);
+            mTextRateVoucher.setVisibility(GONE);
+            mTextNameUser.setVisibility(VISIBLE);
+            mImageEdit.setVisibility(VISIBLE);
+        }
     }
 
 }

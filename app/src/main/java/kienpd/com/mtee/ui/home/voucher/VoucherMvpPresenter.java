@@ -15,7 +15,7 @@ public interface VoucherMvpPresenter<V extends VoucherMvpView> extends MvpPresen
 
     void showDetailVoucher(int detailId);
 
-    void copyCode(int code);
+    void copyCode(String code);
 
     void activeVoucher();
 

@@ -4,9 +4,9 @@
         <shape android:shape="oval">
             <gradient
                 android:angle="180"
-                android:centerColor="#f70dc8"
-                android:endColor="#f9b90462"
-                android:startColor="#faf7b116"
+                android:centerColor="#ffdc3580"
+                android:endColor="#b13a94"
+                android:startColor="#fcb854"
                 android:type="linear" />
             <size
                 android:width="100dp"
@@ -15,10 +15,10 @@
     </item>
 
     <item
-        android:bottom="1dp"
-        android:left="1dp"
-        android:right="1dp"
-        android:top="1dp">
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp">
         <shape android:shape="oval">
             <solid android:color="#ffffff" />
         </shape>
