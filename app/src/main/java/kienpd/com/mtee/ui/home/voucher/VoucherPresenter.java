@@ -1,8 +1,9 @@
 package kienpd.com.mtee.ui.home.voucher;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import org.json.JSONException;
 
@@ -15,8 +16,8 @@ import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BasePresenter;
-import kienpd.com.mtee.ui.home.rules.RulesMvpPresenter;
-import kienpd.com.mtee.ui.home.rules.RulesMvpView;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
         implements VoucherMvpPresenter<V> {
@@ -35,7 +36,6 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
                         Voucher voucher = code.getVoucher();
 
                         String title = voucher.getTitle();
-                        Log.d("uednued",title);
                         String pictureCover = voucher.getCoverPicture();
                         int countLike = voucher.getLikeCount();
 
@@ -55,7 +55,9 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
                         String nameUser = user.getName();
                         String email = user.getEmail();
 
-                        getMvpView().displayView(title,pictureCover,countLike,sCode,nameStore,sAddress,dateVoucher,nameUser,phone,email);
+                        String description = voucher.getDescription();
+
+                        getMvpView().displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email,description);
 
                     }
                 }
@@ -77,19 +79,12 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
         context.startActivity(Intent.createChooser(sendIntent, title));
     }
 
-    @Override
-    public void showDescriptionVoucher(int detailId) {
-        //todo
-    }
 
     @Override
-    public void showDetailVoucher(int detailId) {
-        //todo
-    }
-
-    @Override
-    public void copyCode(String code) {
-        //todo
+    public void copyCode(Context context, String code) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("voucher code", code);
+        clipboard.setPrimaryClip(clip);
     }
 
     @Override

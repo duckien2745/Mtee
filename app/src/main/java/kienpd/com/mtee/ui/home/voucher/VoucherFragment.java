@@ -1,13 +1,16 @@
 package kienpd.com.mtee.ui.home.voucher;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,7 +25,6 @@ import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.home.detail.DetailFragment;
-import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 
 public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.OnClickListener {
@@ -83,6 +85,15 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
     @BindView(R.id.text_active)
     TextView mTextActive;
 
+    @BindView(R.id.text_description_voucher)
+    TextView mTextDescription;
+
+    @BindView(R.id.text_close)
+    TextView mTextClose;
+
+    @BindView(R.id.layout_description)
+    LinearLayout mLayoutDescription;
+
     private Integer mDetailId;
     private Integer mUserId = 37281321;
 
@@ -121,19 +132,19 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
         mTextViewVoucher.setOnClickListener(this);
         mImageCopy.setOnClickListener(this);
         mTextActive.setOnClickListener(this);
-
+        mTextClose.setOnClickListener(this);
 
     }
 
     @Override
-    public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser) {
+    public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser, String description) {
         mTextTitle.setText(title);
 
         //Image
         RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(40));
         Glide.with(getBaseActivity())
-                .load(API.HOST_DEV+ urlVoucher)
+                .load(API.HOST_DEV + urlVoucher)
                 .thumbnail(1f)
                 .apply(requestOptions)
                 .into(mImageVoucher);
@@ -156,6 +167,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
         }
 
         //Store
+        mTextTitleToolbar.setText(nameStore);
         mTextStore.setText(nameStore);
         mTextAddress.setText(addressStore);
 
@@ -166,6 +178,14 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
         mTextName.setText(nameUser);
         mTextPhone.setText(String.valueOf(phoneUser));
         mTextMail.setText(emailUser);
+
+        //Description
+        mTextDescription.setLineSpacing(16f, 1);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mTextDescription.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            mTextDescription.setText(Html.fromHtml(description));
+        }
     }
 
     @Override
@@ -179,19 +199,20 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
                 mPresenter.shareVoucher(getBaseActivity(), "title", "content");
                 break;
             case R.id.text_view_description:
-                //todo
-                mPresenter.showDescriptionVoucher(mDetailId);
+                showDescription(true);
                 break;
             case R.id.text_view_voucher:
                 DetailFragment fragment = DetailFragment.newInstance(mDetailId);
                 fragment.show(getFragmentManager(), DetailFragment.TAG);
                 break;
             case R.id.image_copy:
-                //todo
-                mPresenter.copyCode(mTextCode.getText().toString());
+                mPresenter.copyCode(getBaseActivity(), mTextCode.getText().toString());
                 break;
             case R.id.text_active:
                 //todo
+                break;
+            case R.id.text_close:
+                showDescription(false);
                 break;
             default:
                 break;
@@ -201,5 +222,15 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
 
     private void loadData(int detailId, Integer userId) {
         mPresenter.getInfoVoucherUser(detailId, userId);
+    }
+
+    private void showDescription(Boolean isShow) {
+        if (isShow) {
+            mLayoutDescription.setVisibility(View.VISIBLE);
+            mTextActive.setVisibility(View.GONE);
+        } else {
+            mLayoutDescription.setVisibility(View.GONE);
+            mTextActive.setVisibility(View.VISIBLE);
+        }
     }
 }

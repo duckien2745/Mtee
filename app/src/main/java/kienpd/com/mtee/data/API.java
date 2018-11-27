@@ -90,4 +90,8 @@ public abstract class API {
         client.GetCode(param).enqueue(new RetrofitCallback<>(callback));
     }
 
+    public static void getVoucherByCollectionId(ApiRequest.ApiRequestDetailCollection param, APICallback<List<Voucher>> callback) {
+        client.GetVoucherByCollectionId(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
 }

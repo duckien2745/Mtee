@@ -6,6 +6,8 @@ public interface HomeMvpPresenter<V extends HomeMvpView> extends MvpPresenter<V>
 
     void showDetailDialog(int detailId);
 
+    void showCollectionDialog(int collectionId,int categoryId);
+
     void loadHighLightData(int categoryId,Boolean isClearData);
 
     void loadCollectionData(int categoryId,Boolean isClearData);

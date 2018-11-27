@@ -45,6 +45,54 @@
 
     </kienpd.com.mtee.ui.custom.ScrollViewExt>
 
+    <LinearLayout
+        android:id="@+id/layout_description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_tool_bar"
+        android:background="#804e4b4b"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <kienpd.com.mtee.ui.custom.ScrollViewExt
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_description"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/text_description_voucher"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/text_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_close"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="40dp"
+                    android:paddingRight="40dp"
+                    android:paddingTop="8dp"
+                    android:text="Đóng"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </kienpd.com.mtee.ui.custom.ScrollViewExt>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/text_active"
         android:layout_width="wrap_content"

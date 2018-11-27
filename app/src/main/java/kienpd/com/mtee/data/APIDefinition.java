@@ -62,4 +62,9 @@ public class APIDefinition {
         public static final String TAG = "Get Code";
         public static final String PATH = "code/get_code";
     }
+
+    public static class GetDetailCollection {
+        public static final String TAG = "Get Voucher in Collection";
+        public static final String PATH = "collections/get_voucher_by_collection_id";
+    }
 }

@@ -11,11 +11,7 @@ public interface VoucherMvpPresenter<V extends VoucherMvpView> extends MvpPresen
 
     void shareVoucher(Context context, String title, String content);
 
-    void showDescriptionVoucher(int detailId);
-
-    void showDetailVoucher(int detailId);
-
-    void copyCode(String code);
+    void copyCode(Context context,String code);
 
     void activeVoucher();
 

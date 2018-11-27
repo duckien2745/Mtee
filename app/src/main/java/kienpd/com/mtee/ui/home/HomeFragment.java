@@ -20,6 +20,7 @@ import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.HomeAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
+import kienpd.com.mtee.ui.home.collection.CollectionFragment;
 import kienpd.com.mtee.ui.home.detail.DetailFragment;
 import kienpd.com.mtee.utils.Const;
 
@@ -75,7 +76,8 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
                 mPresenter.showDetailDialog(id);
                 break;
             case 2:
-//                mPresenter.showDetailDialog(1);
+                //todo categoryId
+                mPresenter.showCollectionDialog(id, 0);
                 break;
             case 3:
                 mPresenter.showDetailDialog(id);
@@ -102,6 +104,12 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     public void showDetailDialog(int detailId) {
         DetailFragment fragment = DetailFragment.newInstance(detailId);
         fragment.show(getFragmentManager(), DetailFragment.TAG);
+    }
+
+    @Override
+    public void showCollectionDialog(int collectionId, int categoryID) {
+        CollectionFragment fragment = CollectionFragment.newInstance(collectionId, categoryID);
+        fragment.show(getFragmentManager(), CollectionFragment.TAG);
     }
 
     @Override

@@ -12,7 +12,6 @@ import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public class APIServices {
@@ -53,6 +52,9 @@ public class APIServices {
 
         @POST(APIDefinition.GetCode.PATH)
         Call<UserCode> GetCode(@Body ApiRequest.ApiRequestGetCode param);
+
+        @POST(APIDefinition.GetDetailCollection.PATH)
+        Call<List<Voucher>> GetVoucherByCollectionId(@Body ApiRequest.ApiRequestDetailCollection param);
 
     }
 }

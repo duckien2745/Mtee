@@ -1,7 +1,5 @@
 package kienpd.com.mtee.ui.home;
 
-import android.util.Log;
-
 import org.json.JSONException;
 
 import java.util.List;
@@ -11,6 +9,8 @@ import kienpd.com.mtee.data.ApiRequest;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BasePresenter;
+import kienpd.com.mtee.ui.home.collection.CollectionFragment;
+import kienpd.com.mtee.ui.home.detail.DetailFragment;
 import kienpd.com.mtee.utils.Const;
 
 public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
@@ -19,6 +19,11 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     @Override
     public void showDetailDialog(int detailId) {
         getMvpView().showDetailDialog(detailId);
+    }
+
+    @Override
+    public void showCollectionDialog(int collectionId, int categoryId) {
+        getMvpView().showCollectionDialog(collectionId, categoryId);
     }
 
     @Override
@@ -34,7 +39,9 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
         API.getListVoucherHighLight(param, new API.APICallback<List<Voucher>>() {
             @Override
             public void onResponse(List<Voucher> response) throws JSONException {
-                getMvpView().updateRepoHighLight(response, isClearData);
+                if (response != null && response.size() > 0) {
+                    getMvpView().updateRepoHighLight(response, isClearData);
+                }
             }
 
             @Override
@@ -59,7 +66,9 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
         API.getListCollection(param, new API.APICallback<List<Collection>>() {
             @Override
             public void onResponse(List<Collection> response) throws JSONException {
-                getMvpView().updateRepoCollection(response, isClearData);
+                if (response != null && response.size() > 0) {
+                    getMvpView().updateRepoCollection(response, isClearData);
+                }
             }
 
             @Override
@@ -81,7 +90,9 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
         API.getListVoucherNewest(param, new API.APICallback<List<Voucher>>() {
             @Override
             public void onResponse(List<Voucher> response) throws JSONException {
-                getMvpView().updateRepoNewest(response, isClearData);
+                if (response != null && response.size() > 0) {
+                    getMvpView().updateRepoNewest(response, isClearData);
+                }
             }
 
             @Override

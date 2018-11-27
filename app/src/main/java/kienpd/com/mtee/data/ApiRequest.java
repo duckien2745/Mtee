@@ -103,4 +103,17 @@ public class ApiRequest {
             this.voucher_id = voucher_id;
         }
     }
+
+    public static class ApiRequestDetailCollection {
+
+        private Integer categoryId;
+
+        private Integer collectionId;
+
+
+        public ApiRequestDetailCollection(Integer categoryId, Integer collectionId) {
+            this.categoryId = categoryId;
+            this.collectionId = collectionId;
+        }
+    }
 }
