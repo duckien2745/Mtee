@@ -6,7 +6,7 @@ import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.RatingTotal;
 import kienpd.com.mtee.ui.base.MvpView;
 
-public interface DetailMvpView extends MvpView {
+public interface VoucherMvpView extends MvpView {
 
     void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description);
 

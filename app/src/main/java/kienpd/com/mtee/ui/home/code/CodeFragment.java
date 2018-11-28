@@ -1,4 +1,4 @@
-package kienpd.com.mtee.ui.home.voucher;
+package kienpd.com.mtee.ui.home.code;
 
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,12 +23,13 @@ import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.ui.base.BaseDialog;
-import kienpd.com.mtee.ui.home.detail.DetailFragment;
+import kienpd.com.mtee.ui.custom.ScrollViewExt;
+import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 
-public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.OnClickListener {
+public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClickListener {
 
-    VoucherMvpPresenter<VoucherMvpView> mPresenter;
+    CodeMvpPresenter<CodeMvpView> mPresenter;
 
     public static final String TAG = "VOUCHER_FRAGMENT";
     public static final String EXTRAS_DETAIL_ID = "extras_detail_id";
@@ -85,21 +85,24 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
     @BindView(R.id.text_active)
     TextView mTextActive;
 
+    @BindView(R.id.view_drop_shadow)
+    View mViewDropShadow;
+
     @BindView(R.id.text_description_voucher)
     TextView mTextDescription;
 
     @BindView(R.id.text_close)
     TextView mTextClose;
 
-    @BindView(R.id.layout_description)
-    LinearLayout mLayoutDescription;
+    @BindView(R.id.scroll_description)
+    ScrollViewExt mScrollDescription;
 
     private Integer mDetailId;
     private Integer mUserId = 37281321;
 
-    public static VoucherFragment newInstance(int detailId) {
+    public static CodeFragment newInstance(int detailId) {
 
-        VoucherFragment f = new VoucherFragment();
+        CodeFragment f = new CodeFragment();
         Bundle args = new Bundle();
         args.putInt(EXTRAS_DETAIL_ID, detailId);
         f.setArguments(args);
@@ -113,7 +116,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
         View view = inflater.inflate(R.layout.fragment_voucher, container, false);
 
         setUnBinder(ButterKnife.bind(this, view));
-        mPresenter = new VoucherPresenter<>();
+        mPresenter = new CodePresenter<>();
         mPresenter.onAttach(this);
 
         return view;
@@ -202,8 +205,8 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
                 showDescription(true);
                 break;
             case R.id.text_view_voucher:
-                DetailFragment fragment = DetailFragment.newInstance(mDetailId);
-                fragment.show(getFragmentManager(), DetailFragment.TAG);
+                VoucherFragment fragment = VoucherFragment.newInstance(mDetailId);
+                fragment.show(getFragmentManager(), VoucherFragment.TAG);
                 break;
             case R.id.image_copy:
                 mPresenter.copyCode(getBaseActivity(), mTextCode.getText().toString());
@@ -226,11 +229,13 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, View.
 
     private void showDescription(Boolean isShow) {
         if (isShow) {
-            mLayoutDescription.setVisibility(View.VISIBLE);
+            mScrollDescription.setVisibility(View.VISIBLE);
             mTextActive.setVisibility(View.GONE);
+            mViewDropShadow.setVisibility(View.GONE);
         } else {
-            mLayoutDescription.setVisibility(View.GONE);
+            mScrollDescription.setVisibility(View.GONE);
             mTextActive.setVisibility(View.VISIBLE);
+            mViewDropShadow.setVisibility(View.VISIBLE);
         }
     }
 }

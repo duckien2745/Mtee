@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,6 @@ import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
@@ -32,9 +29,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.model.RatingResponse;
-import kienpd.com.mtee.data.model.RatingTotal;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
@@ -47,11 +42,11 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollViewExt.ScrollViewListener, PriceAdapter.PriceAdapterCallback, SliderDetailAdapter.SliderDetailAdapterCallback, View.OnClickListener {
+public class VoucherFragment extends BaseDialog implements VoucherMvpView, ScrollViewExt.ScrollViewListener, PriceAdapter.PriceAdapterCallback, SliderDetailAdapter.SliderDetailAdapterCallback, View.OnClickListener {
 
     public static final String TAG = "DETAIL_FRAGMENT";
     public static final String EXTRAS_DETAIL_ID = "extras_detail_id";
-    private DetailMvpPresenter<DetailMvpView> mPresenter;
+    private VoucherMvpPresenter<VoucherMvpView> mPresenter;
 
     @BindView(R.id.pager_detail)
     ViewPager mViewPagerDetail;
@@ -167,8 +162,8 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
     private Integer mDetailId;
     private Integer userId = 37281321;
 
-    public static DetailFragment newInstance(int detailId) {
-        DetailFragment f = new DetailFragment();
+    public static VoucherFragment newInstance(int detailId) {
+        VoucherFragment f = new VoucherFragment();
 
         Bundle args = new Bundle();
         args.putInt(EXTRAS_DETAIL_ID, detailId);
@@ -183,7 +178,7 @@ public class DetailFragment extends BaseDialog implements DetailMvpView, ScrollV
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
 
         setUnBinder(ButterKnife.bind(this, view));
-        mPresenter = new DetailPresenter<>();
+        mPresenter = new VoucherPresenter<>();
         mPresenter.onAttach(this);
 
         return view;

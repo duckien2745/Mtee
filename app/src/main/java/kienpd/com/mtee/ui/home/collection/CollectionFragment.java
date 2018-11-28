@@ -3,7 +3,6 @@ package kienpd.com.mtee.ui.home.collection;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,9 +19,9 @@ import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.DetailCollectionAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
-import kienpd.com.mtee.ui.home.detail.DetailFragment;
-
-import static android.widget.GridLayout.VERTICAL;
+import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
+import kienpd.com.mtee.ui.home.detail.VoucherFragment;
+import kienpd.com.mtee.utils.CommonUtils;
 
 public class CollectionFragment extends BaseDialog implements CollectionMvpView, DetailCollectionAdapter.DetailCollectionAdapterCallback {
 
@@ -64,15 +63,13 @@ public class CollectionFragment extends BaseDialog implements CollectionMvpView,
 
     @Override
     protected void setUp(View view) {
-        DividerItemDecoration itemDecor = new DividerItemDecoration(getBaseActivity(), VERTICAL);
-        itemDecor.setDrawable(getBaseActivity().getResources().getDrawable(R.drawable.divider));
+        int px = CommonUtils.dpToPx(8);
+        GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 2);
+        LinearLayoutManager layoutManager = new GridLayoutManager(getBaseActivity(), 2, GridLayoutManager.VERTICAL, false);
 
         mAdapter = new DetailCollectionAdapter(getBaseActivity(), new ArrayList<Voucher>(), this);
-        LinearLayoutManager layoutManager = new GridLayoutManager(getBaseActivity(), 2, GridLayoutManager.VERTICAL, false);
         mRecyclerDetailCollection.setLayoutManager(layoutManager);
-        if (mRecyclerDetailCollection.getItemDecorationCount() == 0) {
-            mRecyclerDetailCollection.addItemDecoration(itemDecor);
-        }
+        mRecyclerDetailCollection.addItemDecoration(itemDecoration);
         mRecyclerDetailCollection.setAdapter(mAdapter);
 
         //Load Data
@@ -84,8 +81,8 @@ public class CollectionFragment extends BaseDialog implements CollectionMvpView,
 
     @Override
     public void onClickDetailCollectionListener(int id) {
-        DetailFragment fragment = DetailFragment.newInstance(id);
-        fragment.show(getFragmentManager(), DetailFragment.TAG);
+        VoucherFragment fragment = VoucherFragment.newInstance(id);
+        fragment.show(getFragmentManager(), VoucherFragment.TAG);
     }
 
     @Override

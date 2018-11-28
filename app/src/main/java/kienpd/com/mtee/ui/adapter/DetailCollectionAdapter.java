@@ -45,8 +45,16 @@ public class DetailCollectionAdapter extends RecyclerView.Adapter<HomeViewHolder
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new VoucherCollectionHolder(mContext,
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_newest, parent, false));
+        VoucherCollectionHolder holder = new VoucherCollectionHolder(mContext,
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_voucher_collection, parent, false));
+
+        int pxPadding = mContext.getResources().getDimensionPixelSize(R.dimen.divider_size);
+        int w = (Resources.getSystem().getDisplayMetrics().widthPixels - pxPadding * 3) / 2;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(w, ViewGroup.LayoutParams.WRAP_CONTENT);
+        holder.mLayoutVoucher.setLayoutParams(layoutParams);
+
+        return holder;
+
     }
 
     @Override
@@ -70,7 +78,6 @@ public class DetailCollectionAdapter extends RecyclerView.Adapter<HomeViewHolder
         }
     }
 
-
     class VoucherCollectionHolder extends HomeViewHolder {
 
         @BindView(R.id.text_store)
@@ -91,6 +98,9 @@ public class DetailCollectionAdapter extends RecyclerView.Adapter<HomeViewHolder
         @BindView(R.id.layout_order)
         RelativeLayout mLayoutOrder;
 
+        @BindView(R.id.layout_voucher_collection)
+        LinearLayout mLayoutVoucher;
+
         private Context mContext;
 
         VoucherCollectionHolder(Context context, View itemView) {
@@ -101,7 +111,6 @@ public class DetailCollectionAdapter extends RecyclerView.Adapter<HomeViewHolder
 
         @Override
         protected void clear() {
-
         }
 
         @Override

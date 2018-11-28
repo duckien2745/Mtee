@@ -14,10 +14,8 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BaseDialog;
-import kienpd.com.mtee.ui.home.detail.DetailFragment;
-import kienpd.com.mtee.ui.home.voucher.VoucherFragment;
+import kienpd.com.mtee.ui.home.code.CodeFragment;
 
 public class RulesFragment extends BaseDialog implements RulesMvpView {
 
@@ -80,8 +78,8 @@ public class RulesFragment extends BaseDialog implements RulesMvpView {
         mLayoutAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VoucherFragment fragment = VoucherFragment.newInstance(mDetailId);
-                fragment.show(getFragmentManager(), VoucherFragment.TAG);
+                CodeFragment fragment = CodeFragment.newInstance(mDetailId);
+                fragment.show(getFragmentManager(), CodeFragment.TAG);
             }
         });
     }

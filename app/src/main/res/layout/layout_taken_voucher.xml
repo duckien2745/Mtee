@@ -14,8 +14,7 @@
             android:id="@+id/image_voucher"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            />
+            android:scaleType="centerCrop" />
 
         <View
             android:layout_width="match_parent"
@@ -25,6 +24,7 @@
             android:visibility="visible" />
 
         <TextView
+            android:gravity="center"
             android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
