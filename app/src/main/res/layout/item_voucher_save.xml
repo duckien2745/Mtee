@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/bg_voucher_collection_corner"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:padding="15dp"
+    android:id="@+id/layout_voucher_save">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/layout_shop"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/bg_avatar"
             android:padding="4dp">
 
             <ImageView
-                android:id="@+id/image_avatar"
+                android:id="@+id/image_store"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/image_follow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:background="#111111"
+            android:src="@drawable/ic_star" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:layout_toLeftOf="@+id/image_follow"
+            android:layout_toRightOf="@id/layout_shop"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text_store"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TocoToco"
@@ -38,27 +52,30 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/text_address"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="12 Lê Thanh Nghị,Hai Bà Trưng,Hà Nội" />
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="12 Lê Thanh Nghị,Hai Bà Trưng,Hà Nội"
+                android:textSize="14sp" />
         </LinearLayout>
-
-    </LinearLayout>
-
+    </RelativeLayout>
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/image_cover_voucher"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
             android:src="@drawable/bg_test" />
 
         <TextView
+            android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -67,6 +84,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/text_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
