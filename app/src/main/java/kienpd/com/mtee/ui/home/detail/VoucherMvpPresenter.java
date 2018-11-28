@@ -2,7 +2,7 @@ package kienpd.com.mtee.ui.home.detail;
 
 import kienpd.com.mtee.ui.base.MvpPresenter;
 
-public interface DetailMvpPresenter<V extends DetailMvpView> extends MvpPresenter<V> {
+public interface VoucherMvpPresenter<V extends VoucherMvpView> extends MvpPresenter<V> {
 
     void loadInfoUser(int userId);
 

@@ -125,7 +125,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<HomeViewHolder> {
             mLayoutContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCallback.onClickCollectionListener(position);
+                    mCallback.onClickCollectionListener(mList.get(position).getId());
                 }
             });
 

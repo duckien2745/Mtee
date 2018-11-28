@@ -2,4 +2,5 @@
 <resources>
     <dimen name="padding_item_home">8dp</dimen>
     <dimen name="text_view_height">150dp</dimen>
+    <dimen name="divider_size">8dp</dimen>
 </resources>

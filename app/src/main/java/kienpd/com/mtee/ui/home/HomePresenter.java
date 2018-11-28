@@ -9,8 +9,6 @@ import kienpd.com.mtee.data.ApiRequest;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BasePresenter;
-import kienpd.com.mtee.ui.home.collection.CollectionFragment;
-import kienpd.com.mtee.ui.home.detail.DetailFragment;
 import kienpd.com.mtee.utils.Const;
 
 public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>

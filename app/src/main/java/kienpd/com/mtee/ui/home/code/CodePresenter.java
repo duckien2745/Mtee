@@ -1,4 +1,4 @@
-package kienpd.com.mtee.ui.home.voucher;
+package kienpd.com.mtee.ui.home.code;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -19,8 +19,8 @@ import kienpd.com.mtee.ui.base.BasePresenter;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
-public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
-        implements VoucherMvpPresenter<V> {
+public class CodePresenter<V extends CodeMvpView> extends BasePresenter<V>
+        implements CodeMvpPresenter<V> {
 
     @Override
     public void getInfoVoucherUser(int detailId, int userId) {

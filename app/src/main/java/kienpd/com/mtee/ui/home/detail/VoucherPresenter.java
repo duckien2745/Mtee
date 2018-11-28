@@ -16,8 +16,8 @@ import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BasePresenter;
 import kienpd.com.mtee.utils.TextUtil;
 
-public class DetailPresenter<V extends DetailMvpView> extends BasePresenter<V>
-        implements DetailMvpPresenter<V> {
+public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
+        implements VoucherMvpPresenter<V> {
 
     private Boolean mIsShow = false;
 

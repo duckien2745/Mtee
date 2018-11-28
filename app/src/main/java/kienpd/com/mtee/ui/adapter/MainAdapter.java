@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.follow.FollowFragment;
 import kienpd.com.mtee.ui.home.HomeFragment;
-import kienpd.com.mtee.ui.order.OrderFragment;
+import kienpd.com.mtee.ui.voucher.MyVoucherFragment;
 import kienpd.com.mtee.ui.user.UserFragment;
 
 public class MainAdapter extends FragmentStatePagerAdapter {
@@ -24,7 +24,7 @@ public class MainAdapter extends FragmentStatePagerAdapter {
                 fragment = new HomeFragment();
                 break;
             case 1:
-                fragment = new OrderFragment();
+                fragment = new MyVoucherFragment();
                 break;
             case 2:
                 fragment = new FollowFragment();

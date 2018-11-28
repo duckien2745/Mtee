@@ -21,7 +21,7 @@ import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.HomeAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.home.collection.CollectionFragment;
-import kienpd.com.mtee.ui.home.detail.DetailFragment;
+import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.Const;
 
 public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapter.HomeAdapterCallBack {
@@ -102,8 +102,8 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
 
     @Override
     public void showDetailDialog(int detailId) {
-        DetailFragment fragment = DetailFragment.newInstance(detailId);
-        fragment.show(getFragmentManager(), DetailFragment.TAG);
+        VoucherFragment fragment = VoucherFragment.newInstance(detailId);
+        fragment.show(getFragmentManager(), VoucherFragment.TAG);
     }
 
     @Override
