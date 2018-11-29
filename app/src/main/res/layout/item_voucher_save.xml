@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_voucher_save"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_voucher_collection_corner"
+    android:background="@drawable/bg_voucher_taken_save"
     android:orientation="vertical"
-    android:padding="15dp"
-    android:id="@+id/layout_voucher_save">
+    android:padding="10dp">
 
     <RelativeLayout
+        android:id="@+id/layout_store"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/layout_shop"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/layout_logo"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@drawable/bg_avatar"
             android:padding="4dp">
 
             <ImageView
-                android:id="@+id/image_store"
+                android:id="@+id/image_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -32,15 +33,14 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentRight="true"
-            android:background="#111111"
             android:src="@drawable/ic_star" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@+id/image_follow"
-            android:layout_toRightOf="@id/layout_shop"
+            android:layout_toRightOf="@id/layout_logo"
             android:orientation="vertical">
 
             <TextView
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:text="TocoToco"
                 android:textColor="@color/color_item_select"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/text_address"
@@ -57,37 +57,52 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:text="12 Lê Thanh Nghị,Hai Bà Trưng,Hà Nội"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
         </LinearLayout>
     </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="7dp"
+        android:background="#111111" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="7dp"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/image_cover_voucher"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg_test" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_image_voucher">
+
+            <ImageView
+                android:id="@+id/image_cover_voucher"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_test" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:text="Giảm giá tới 50% tổng hóa đơn"
             android:textColor="@color/color_item_select"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/text_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Áp dụng tới hết ngày 18/12/2018" />
+            android:layout_marginTop="3dp"
+            android:text="Áp dụng tới hết ngày 18/12/2018"
+            android:textSize="13sp" />
     </LinearLayout>
 </LinearLayout>

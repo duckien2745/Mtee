@@ -78,7 +78,7 @@ public class RulesFragment extends BaseDialog implements RulesMvpView {
         mLayoutAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CodeFragment fragment = CodeFragment.newInstance(mDetailId);
+                CodeFragment fragment = CodeFragment.newInstance(mDetailId,null);
                 fragment.show(getFragmentManager(), CodeFragment.TAG);
             }
         });

@@ -24,13 +24,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
-import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Voucher;
-import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
-import kienpd.com.mtee.utils.Const;
+import kienpd.com.mtee.ui.base.BaseViewHolder;
 import kienpd.com.mtee.utils.TextUtil;
 
-public class DetailCollectionAdapter extends RecyclerView.Adapter<HomeViewHolder> {
+public class DetailCollectionAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private ArrayList<Voucher> mList;
     private Context mContext;
@@ -44,7 +42,7 @@ public class DetailCollectionAdapter extends RecyclerView.Adapter<HomeViewHolder
 
     @NonNull
     @Override
-    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         VoucherCollectionHolder holder = new VoucherCollectionHolder(mContext,
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_voucher_collection, parent, false));
 
@@ -58,7 +56,7 @@ public class DetailCollectionAdapter extends RecyclerView.Adapter<HomeViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         holder.onBind(position);
     }
 
@@ -78,7 +76,7 @@ public class DetailCollectionAdapter extends RecyclerView.Adapter<HomeViewHolder
         }
     }
 
-    class VoucherCollectionHolder extends HomeViewHolder {
+    class VoucherCollectionHolder extends BaseViewHolder {
 
         @BindView(R.id.text_store)
         TextView mTextStore;

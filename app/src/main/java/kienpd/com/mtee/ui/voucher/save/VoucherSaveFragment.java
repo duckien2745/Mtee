@@ -10,18 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.VoucherSaveAdapter;
-import kienpd.com.mtee.ui.adapter.VoucherTakenAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
-import kienpd.com.mtee.ui.voucher.taken.VoucherTakenMvpPresenter;
-import kienpd.com.mtee.ui.voucher.taken.VoucherTakenMvpView;
-import kienpd.com.mtee.ui.voucher.taken.VoucherTakenPresenter;
+import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
+import kienpd.com.mtee.ui.follow.store.StoreFragment;
+import kienpd.com.mtee.ui.home.detail.VoucherFragment;
+import kienpd.com.mtee.utils.CommonUtils;
 
 public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpView, VoucherSaveAdapter.VoucherSaveAdapterCallback {
 
@@ -29,6 +29,9 @@ public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpV
 
     @BindView(R.id.recycler_voucher_save)
     RecyclerView mRecyclerVoucherSave;
+
+    private VoucherSaveAdapter mAdapter;
+    private int userId = 37281321;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -44,19 +47,36 @@ public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpV
 
     @Override
     protected void setUp(View view) {
-        VoucherSaveAdapter adapter = new VoucherSaveAdapter(getBaseActivity(), new ArrayList<Voucher>(), this);
+        int px = CommonUtils.dpToPx(10);
+        GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
+
+        mAdapter = new VoucherSaveAdapter(getBaseActivity(), new ArrayList<Voucher>(), this);
         mRecyclerVoucherSave.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
-        mRecyclerVoucherSave.setAdapter(adapter);
+        mRecyclerVoucherSave.addItemDecoration(itemDecoration);
+        mRecyclerVoucherSave.setAdapter(mAdapter);
+        mPresenter.loadData(userId, true);
     }
 
 
     @Override
     public void onClickVoucherSaveListener(int id) {
-
+        VoucherFragment fragment = VoucherFragment.newInstance(id);
+        fragment.show(getFragmentManager(), VoucherFragment.TAG);
     }
 
     @Override
     public void onClickVoucherFollowListener(int id) {
 
+    }
+
+    @Override
+    public void onClickStoreVoucher(int id) {
+        StoreFragment fragment = StoreFragment.newInstance(id);
+        fragment.show(getFragmentManager(), StoreFragment.TAG);
+    }
+
+    @Override
+    public void displayData(List<Voucher> voucherList, Boolean isClearData) {
+        mAdapter.addItem(voucherList, isClearData);
     }
 }

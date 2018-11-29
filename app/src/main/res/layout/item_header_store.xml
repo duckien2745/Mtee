@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/image_store"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_test" />
+
+    <LinearLayout
+        android:id="@+id/layout_logo"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/bg_avatar"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/image_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_info_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image_store"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/text_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="TocoToco"
+            android:textStyle="bold"
+            android:textColor="@color/color_item_select"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/text_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_store"
+            android:layout_marginTop="3dp"
+            android:text="16 Lê Thanh Nghị,hai Bà Trưng,Hà Nội "
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/image_follow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:background="#111111"
+            android:src="@drawable/ic_star" />
+
+        <TextView
+            android:id="@+id/text_number_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30dp"
+            android:text="300"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/text_store"
+            android:layout_marginTop="3dp"
+            android:text="Theo dõi"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/layout_info_store"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#111111" />
+</RelativeLayout>

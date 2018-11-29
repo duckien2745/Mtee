@@ -15,6 +15,17 @@ public class Store {
     @SerializedName("address")
     @Expose
     private Address address;
+    @SerializedName("logo")
+    @Expose
+    private String logo;
+    @SerializedName("picture")
+    @Expose
+    private String picture;
+    @SerializedName("countFollow")
+    @Expose
+    private int countFollow;
+
+    private Boolean mIsUserFollow;
 
     public Integer getId() {
         return id;
@@ -40,4 +51,35 @@ public class Store {
         this.address = address;
     }
 
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public int getCountFollow() {
+        return countFollow;
+    }
+
+    public void setCountFollow(int countFollow) {
+        this.countFollow = countFollow;
+    }
+
+    public Boolean getmIsUserFollow() {
+        return mIsUserFollow;
+    }
+
+    public void setmIsUserFollow(Boolean mIsUserFollow) {
+        this.mIsUserFollow = mIsUserFollow;
+    }
 }

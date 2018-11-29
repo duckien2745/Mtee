@@ -7,7 +7,7 @@
         android:id="@+id/recycler_voucher_taken"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#efeeee"
+        android:background="#f7f7f7"
         android:padding="10dp" />
 
 </LinearLayout>

@@ -16,16 +16,24 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
 import com.google.zxing.WriterException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
+import kienpd.com.mtee.data.model.Address;
+import kienpd.com.mtee.data.model.Code;
+import kienpd.com.mtee.data.model.Store;
+import kienpd.com.mtee.data.model.User;
+import kienpd.com.mtee.data.model.UserCode;
+import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.custom.ScrollViewExt;
 import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.CommonUtils;
+import kienpd.com.mtee.utils.TextUtil;
 
 public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClickListener {
 
@@ -33,6 +41,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
 
     public static final String TAG = "VOUCHER_FRAGMENT";
     public static final String EXTRAS_DETAIL_ID = "extras_detail_id";
+    public static final String EXTRAS_JSON_USER_CODE = "extras_json_user_code";
 
     @BindView(R.id.image_back)
     ImageView mImageBack;
@@ -99,12 +108,14 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
 
     private Integer mDetailId;
     private Integer mUserId = 37281321;
+    private String jsonUserCode;
 
-    public static CodeFragment newInstance(int detailId) {
+    public static CodeFragment newInstance(int detailId, String jsonUserCode) {
 
         CodeFragment f = new CodeFragment();
         Bundle args = new Bundle();
         args.putInt(EXTRAS_DETAIL_ID, detailId);
+        args.putString(EXTRAS_JSON_USER_CODE, jsonUserCode);
         f.setArguments(args);
 
         return f;
@@ -120,13 +131,22 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
         mPresenter.onAttach(this);
 
         return view;
+
     }
 
     @Override
     protected void setUp(View view) {
 
-        mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
-        loadData(mDetailId, mUserId);
+        mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID, -111);
+        jsonUserCode = getArguments().getString(EXTRAS_JSON_USER_CODE, TextUtil.EMPTY_STRING);
+
+        if (mDetailId != null && mDetailId != -111) {
+            loadData(mDetailId, mUserId);
+        } else if (jsonUserCode != null && !TextUtil.isEmpty(jsonUserCode)) {
+            Gson gson = new Gson();
+            UserCode userCode = gson.fromJson(jsonUserCode, UserCode.class);
+            getDataFromBundle(userCode);
+        }
 
         //Onclick
         mImageBack.setOnClickListener(this);
@@ -141,6 +161,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
 
     @Override
     public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser, String description) {
+
         mTextTitle.setText(title);
 
         //Image
@@ -236,6 +257,39 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
             mScrollDescription.setVisibility(View.GONE);
             mTextActive.setVisibility(View.VISIBLE);
             mViewDropShadow.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void getDataFromBundle(UserCode userCode) {
+        Code code = userCode.getCode();
+        User user = userCode.getUser();
+
+        if (user != null && code != null) {
+            Voucher voucher = code.getVoucher();
+
+            String title = voucher.getTitle();
+            String pictureCover = voucher.getCoverPicture();
+            int countLike = voucher.getLikeCount();
+
+            Store store = voucher.getStore();
+            String nameStore = store.getName();
+            Address address = store.getAddress();
+            String sAddress = "";
+            if (address != null) {
+                sAddress = address.getNo() + "," + address.getStreet() + "," + address.getDistrict() + "," + address.getCity();
+            }
+            String sCode = code.getCode();
+
+            //todo
+            String dateVoucher = "17 tháng 12 2018";
+            String phone = "0969.056.804";
+
+            String nameUser = user.getName();
+            String email = user.getEmail();
+
+            String description = voucher.getDescription();
+
+            displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description);
         }
     }
 }

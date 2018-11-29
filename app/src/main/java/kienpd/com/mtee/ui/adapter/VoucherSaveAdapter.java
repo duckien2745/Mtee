@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -27,8 +28,9 @@ import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
+import kienpd.com.mtee.ui.base.BaseViewHolder;
 
-public class VoucherSaveAdapter extends RecyclerView.Adapter<HomeViewHolder> {
+public class VoucherSaveAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private ArrayList<Voucher> mList;
     private Context mContext;
@@ -42,13 +44,13 @@ public class VoucherSaveAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
     @NonNull
     @Override
-    public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new VoucherCollectionHolder(mContext, LayoutInflater.from(parent.getContext()).inflate(R.layout.item_voucher_save, parent, false));
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         holder.onBind(position);
     }
 
@@ -58,7 +60,7 @@ public class VoucherSaveAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         return mList.size();
     }
 
-    public void addItemCollection(List<Voucher> repoList, Boolean isClearData) {
+    public void addItem(List<Voucher> repoList, Boolean isClearData) {
         if (mList != null) {
             if (isClearData) {
                 mList.clear();
@@ -68,10 +70,10 @@ public class VoucherSaveAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         }
     }
 
-    class VoucherCollectionHolder extends HomeViewHolder {
+    class VoucherCollectionHolder extends BaseViewHolder {
 
-        @BindView(R.id.image_store)
-        ImageView mImageStore;
+        @BindView(R.id.image_logo)
+        ImageView mImageLogo;
 
         @BindView(R.id.image_follow)
         ImageView mImageFollow;
@@ -94,6 +96,8 @@ public class VoucherSaveAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         @BindView(R.id.layout_voucher_save)
         LinearLayout mLayoutSave;
 
+        @BindView(R.id.layout_store)
+        RelativeLayout mLayoutStore;
 
         private Context mContext;
 
@@ -124,15 +128,34 @@ public class VoucherSaveAdapter extends RecyclerView.Adapter<HomeViewHolder> {
                     mTextAddress.setText(sAddress);
                 }
                 RequestOptions requestOptions = new RequestOptions();
-                requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
+                requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(25));
 
                 Glide.with(mContext)
-                        .load(API.HOST_DEV + "thumb/" + voucher.getCoverPicture())
+                        .load(API.HOST_DEV + voucher.getCoverPicture())
                         .apply(requestOptions)
                         .into(mImageCoverVoucher);
 
                 mTextTitle.setText(voucher.getTitle());
-                mLayoutSave.setO
+
+                int drawableResourceId = mContext.getResources().getIdentifier("logo_royal_tea", "drawable", mContext.getPackageName());
+                Glide.with(mContext)
+                        .load(drawableResourceId)
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(mImageLogo);
+
+                mLayoutSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCallback.onClickVoucherSaveListener(mList.get(position).getId());
+                    }
+                });
+
+                mLayoutStore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCallback.onClickStoreVoucher(mList.get(position).getStore().getId());
+                    }
+                });
             }
 
         }
@@ -142,6 +165,8 @@ public class VoucherSaveAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         void onClickVoucherSaveListener(int id);
 
         void onClickVoucherFollowListener(int id);
+
+        void onClickStoreVoucher(int id);
 
     }
 
