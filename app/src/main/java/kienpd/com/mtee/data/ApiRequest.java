@@ -116,4 +116,31 @@ public class ApiRequest {
             this.collectionId = collectionId;
         }
     }
+
+    public static class ApiRequestVoucherTakenByUserId {
+
+        private Integer userId;
+
+        public ApiRequestVoucherTakenByUserId(Integer userId) {
+            this.userId = userId;
+        }
+    }
+
+    public static class ApiRequestVoucherSaveByUserId {
+
+        Integer user_id;
+
+        public ApiRequestVoucherSaveByUserId(Integer user_id) {
+            this.user_id = user_id;
+        }
+    }
+
+    public static class ApiRequestStoreFollow {
+
+        Integer user_id;
+
+        public ApiRequestStoreFollow(Integer user_id) {
+            this.user_id = user_id;
+        }
+    }
 }

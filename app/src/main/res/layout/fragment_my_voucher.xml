@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:background="@color/color_white"
-        app:tabBackground="@color/color_white" />
+        app:tabBackground="@color/color_white"
+        app:tabIndicatorColor="@color/color_item_select" />
 
     <View
         android:layout_width="match_parent"

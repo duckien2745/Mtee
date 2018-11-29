@@ -8,6 +8,7 @@ import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Message;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.StatusLikeSaveRating;
+import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
@@ -94,4 +95,15 @@ public abstract class API {
         client.GetVoucherByCollectionId(param).enqueue(new RetrofitCallback<>(callback));
     }
 
+    public static void getVoucherTakenByUserId(ApiRequest.ApiRequestVoucherTakenByUserId param, APICallback<List<UserCode>> callback) {
+        client.GetVoucherTakenByUserId(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getVoucherSaveByUserId(ApiRequest.ApiRequestVoucherSaveByUserId param, APICallback<List<Voucher>> callback) {
+        client.GetVoucherSaveByUserId(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getStoreFollow(ApiRequest.ApiRequestStoreFollow param, APICallback<List<Store>> callback) {
+        client.GetStoreFollow(param).enqueue(new RetrofitCallback<>(callback));
+    }
 }

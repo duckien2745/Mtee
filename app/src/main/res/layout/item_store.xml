@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_store"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_item_store"
+    android:orientation="horizontal"
+    android:paddingBottom="15dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp">
+
+    <LinearLayout
+        android:id="@+id/layout_shop"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_avatar"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/image_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/image_follow"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_star" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_toLeftOf="@+id/image_follow"
+        android:layout_toRightOf="@id/layout_shop"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TocoToco"
+            android:textColor="@color/color_item_select"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:text="12 Lê Thanh Nghị,Hai Bà Trưng,Hà Nội"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</RelativeLayout>
+

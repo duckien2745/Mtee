@@ -1,48 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_voucher_collection_corner"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_voucher_taken_save"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:id="@+id/layout_taken_voucher"
+    android:padding="10dp">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/layout_store"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/layout_logo"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@drawable/bg_avatar"
             android:padding="4dp">
 
             <ImageView
-                android:id="@+id/image_avatar"
+                android:id="@+id/image_logo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/image_follow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_star" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/image_follow"
+            android:layout_toRightOf="@id/layout_logo"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text_store"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TocoToco"
                 android:textColor="@color/color_item_select"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/text_address"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="12 Lê Thanh Nghị,Hai Bà Trưng,Hà Nội" />
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:text="12 Lê Thanh Nghị,Hai Bà Trưng,Hà Nội"
+                android:textSize="13sp" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -54,32 +71,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:orientation="horizontal"
         android:weightSum="11">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="8"
             android:orientation="vertical">
 
 
             <TextView
+                android:id="@+id/text_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mã : AF1623BF62"
                 android:textColor="#111111"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_marginTop="2dp"
+                android:id="@+id/text_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="Giảm giá tới 50% tổng hóa đơn"
-                android:textSize="16sp" />
+                android:textSize="13sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,16 +108,18 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="#111111"
+                    android:id="@+id/image_clock"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:src="@drawable/ic_clock" />
 
                 <TextView
+                    android:id="@+id/text_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Còn 3 ngày" />
+                    android:text="Còn 3 ngày"
+                    android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -128,16 +149,18 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="#111111"
+                        android:id="@+id/image_verified"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_verified" />
 
                     <TextView
+                        android:id="@+id/text_verified"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="Chưa dùng" />
+                        android:text="Chưa dùng"
+                        android:textSize="13sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

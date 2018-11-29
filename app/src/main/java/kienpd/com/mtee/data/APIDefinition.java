@@ -67,4 +67,19 @@ public class APIDefinition {
         public static final String TAG = "Get Voucher in Collection";
         public static final String PATH = "collections/get_voucher_by_collection_id";
     }
+
+    public static class GetVoucherTakenByUserId {
+        public static final String TAG = "Get Voucher Taken By User ID";
+        public static final String PATH = "code/get_code_by_userId";
+    }
+
+    public static class GetVoucherSaveByUserId {
+        public static final String TAG = "Get Voucher Save By User ID";
+        public static final String PATH = "storage_voucher/get_list_voucher_follow";
+    }
+
+    public static class GetStoreFollow {
+        public static final String TAG = "Get Store Follow";
+        public static final String PATH = "track_store/get_store_follow_by_user_id";
+    }
 }
