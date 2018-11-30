@@ -4,9 +4,11 @@ import kienpd.com.mtee.ui.base.MvpPresenter;
 
 public interface StoreMvpPresenter<V extends StoreMvpView> extends MvpPresenter<V> {
 
-    void loadVoucherInStore(int storeId,Boolean isClearData);
+    void loadVoucherInStore(int storeId, Boolean isClearData);
 
     void loadInfoStore(int storeId);
 
-    void loadInfoIsUserFollow(int storeId,int userId);
+    void updateStatusUserFollow(int storeId, int userId);
+
+    void getStatusUserFollow(int storeId, int userId);
 }

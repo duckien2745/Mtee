@@ -6,6 +6,7 @@ import java.util.List;
 
 import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.ApiRequest;
+import kienpd.com.mtee.data.model.Message;
 import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.ui.base.BasePresenter;
 
@@ -21,6 +22,24 @@ public class FollowPresenter<V extends FollowMvpView> extends BasePresenter<V>
             public void onResponse(List<Store> response) throws JSONException {
                 if (response != null && response.size() > 0) {
                     getMvpView().displayData(response, isClearData);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
+    }
+
+    @Override
+    public void updateStatusUserFollow(final int storeId, int userId) {
+        ApiRequest.ApiRequestStatusUserFollow request = new ApiRequest.ApiRequestStatusUserFollow(storeId, userId);
+        API.updateStatusUserFollow(request, new API.APICallback<Message>() {
+            @Override
+            public void onResponse(Message response) throws JSONException {
+                if (response != null) {
+                    getMvpView().updateStatusFollow(response.getStatus() == 1, storeId);
                 }
             }
 

@@ -82,4 +82,24 @@ public class APIDefinition {
         public static final String TAG = "Get Store Follow";
         public static final String PATH = "track_store/get_store_follow_by_user_id";
     }
+
+    public static class GetStoreById {
+        public static final String TAG = "Get Store By Id";
+        public static final String PATH = "store/get_store_by_id";
+    }
+
+    public static class GetVoucherByStoreId {
+        public static final String TAG = "Get Voucher By Store Id";
+        public static final String PATH = "voucher/get_list_voucher_by_store_id";
+    }
+
+    public static class StatusUserFollow {
+        public static final String TAG = "Status User Follow";
+        public static final String PATH = "track_store/set_track_store";
+    }
+
+    public static class GetStatusUserFollow {
+        public static final String TAG = "Get Status User Follow";
+        public static final String PATH = "track_store/get_status_follow_store";
+    }
 }

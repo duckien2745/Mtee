@@ -12,6 +12,8 @@ public interface StoreMvpView extends MvpView {
 
     void updateStatusFollow(Boolean isUserFollow);
 
-    void displayVoucherInStore(List<Voucher> voucherList,Boolean isClearData);
+    void displayStatusFollow(Boolean isUserFollow);
+
+    void displayVoucherInStore(List<Voucher> voucherList, Boolean isClearData);
 
 }

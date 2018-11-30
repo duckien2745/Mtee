@@ -106,4 +106,20 @@ public abstract class API {
     public static void getStoreFollow(ApiRequest.ApiRequestStoreFollow param, APICallback<List<Store>> callback) {
         client.GetStoreFollow(param).enqueue(new RetrofitCallback<>(callback));
     }
+
+    public static void getStoreById(ApiRequest.ApiRequestStoreById param, APICallback<Store> callback) {
+        client.GetStoreById(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getVoucherByStoreId(ApiRequest.ApiRequestStoreById param, APICallback<List<Voucher>> callback) {
+        client.GetVoucherByStoreId(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void updateStatusUserFollow(ApiRequest.ApiRequestStatusUserFollow param, APICallback<Message> callback) {
+        client.UpdateStatusUserFollow(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void getStatusUserFollow(ApiRequest.ApiRequestStatusUserFollow param, APICallback<Message> callback) {
+        client.GetStatusUserFollow(param).enqueue(new RetrofitCallback<>(callback));
+    }
 }

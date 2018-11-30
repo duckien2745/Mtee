@@ -143,4 +143,24 @@ public class ApiRequest {
             this.user_id = user_id;
         }
     }
+
+    public static class ApiRequestStoreById {
+
+        Integer storeId;
+
+        public ApiRequestStoreById(Integer storeId) {
+            this.storeId = storeId;
+        }
+    }
+
+    public static class ApiRequestStatusUserFollow {
+
+        int user_id;
+        int store_id;
+
+        public ApiRequestStatusUserFollow(Integer storeId, Integer userId) {
+            this.user_id = userId;
+            this.store_id = storeId;
+        }
+    }
 }

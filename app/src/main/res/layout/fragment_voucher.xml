@@ -78,8 +78,8 @@
                     android:id="@+id/text_close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/bg_close"
                     android:gravity="center"
                     android:paddingBottom="8dp"
@@ -110,4 +110,78 @@
         android:text="Kích hoạt mã"
         android:textColor="#ffffff"
         android:textSize="16sp" />
+
+    <RelativeLayout
+        android:id="@+id/layout_waiting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_tool_bar"
+        android:background="#ffffff"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_time_waiting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="3 Giây"
+            android:textColor="#287c10"
+            android:textSize="30sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout_employee_active"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3aa0a0a1"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_cancel"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_active"
+            android:gravity="center"
+            android:paddingBottom="13dp"
+            android:paddingTop="13dp"
+            android:text="Đóng"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text_employee_active"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/text_cancel"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_white_active"
+            android:gravity="center"
+            android:paddingBottom="13dp"
+            android:paddingTop="10dp"
+            android:text="Nhân viên kích hoạt"
+            android:textColor="@color/color_item_select"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text_input_password"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/text_employee_active"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_white_active"
+            android:gravity="center"
+            android:paddingBottom="13dp"
+            android:paddingTop="10dp"
+            android:text="Nhân viên nhập mật khẩu "
+            android:textColor="@color/color_item_select"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
 </RelativeLayout>
