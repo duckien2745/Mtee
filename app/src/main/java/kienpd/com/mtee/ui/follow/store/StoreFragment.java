@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,24 +16,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.DetailStoreAdapter;
-import kienpd.com.mtee.ui.adapter.HomeAdapter;
-import kienpd.com.mtee.ui.adapter.holder.FollowStoreAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
-import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
-import kienpd.com.mtee.ui.home.collection.CollectionFragment;
 import kienpd.com.mtee.ui.home.detail.VoucherFragment;
-import kienpd.com.mtee.utils.CommonUtils;
 
 public class StoreFragment extends BaseDialog implements StoreMvpView, DetailStoreAdapter.DetailStoreAdapterCallBack {
 
     StoreMvpPresenter<StoreMvpView> mPresenter;
     public static final String EXTRAS_STORE_ID = "extras_store_id";
     public static final String TAG = "Store Fragment";
-
 
     @BindView(R.id.recycler_detail_store)
     RecyclerView mRecyclerDetailStore;
@@ -70,24 +62,20 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
 
     @Override
     protected void setUp(View view) {
-        int px = CommonUtils.dpToPx(8);
-        GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 2);
-
         mAdapter = new DetailStoreAdapter(getBaseActivity(), new ArrayList<Voucher>(), null, this);
         GridLayoutManager manager = new GridLayoutManager(getBaseActivity(), 2);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                return mAdapter.getItemViewType(position) == HomeAdapter.TYPE_ITEM_NEWEST ? 1 : 2;
+                return mAdapter.getItemViewType(position) == DetailStoreAdapter.TYPE_ITEM_VOUCHER_STORE ? 1 : 2;
             }
         });
 
         mRecyclerDetailStore.setLayoutManager(manager);
-        mRecyclerDetailStore.addItemDecoration(itemDecoration);
         mRecyclerDetailStore.setAdapter(mAdapter);
 
+        mStoreId = getArguments().getInt(EXTRAS_STORE_ID);
         loadData();
-
     }
 
 
@@ -106,7 +94,7 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
 
     @Override
     public void onClickFollow(int storeId) {
-        mPresenter.loadInfoIsUserFollow(storeId, userId);
+        mPresenter.updateStatusUserFollow(storeId, userId);
     }
 
     @Override
@@ -116,7 +104,12 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
 
     @Override
     public void updateStatusFollow(Boolean isUserFollow) {
-        //todo
+        mAdapter.updateStatusFollow(isUserFollow);
+    }
+
+    @Override
+    public void displayStatusFollow(Boolean isUserFollow) {
+        mAdapter.displayStatusFollow(isUserFollow);
     }
 
     @Override
@@ -127,20 +120,20 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
     public void loadData() {
         mPresenter.loadInfoStore(mStoreId);
         mPresenter.loadVoucherInStore(mStoreId, true);
-        mPresenter.loadInfoIsUserFollow(mStoreId, userId);
+        mPresenter.getStatusUserFollow(mStoreId, userId);
 
-//        mUpdateData = true;
-//        mHandler = new Handler();
-//        mRunnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                if (mUpdateData && !mRecyclerDetailStore.isComputingLayout()) {
-//                    mAdapter.notifyDataSetChanged();
-//                    mHandler.removeCallbacks(mRunnable);
-//                    mUpdateData = false;
-//                }
-//            }
-//        };
-//        mHandler.postDelayed(mRunnable, 0);
+        mUpdateData = true;
+        mHandler = new Handler();
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mUpdateData && !mRecyclerDetailStore.isComputingLayout()) {
+                    mAdapter.notifyDataSetChanged();
+                    mHandler.removeCallbacks(mRunnable);
+                    mUpdateData = false;
+                }
+            }
+        };
+        mHandler.postDelayed(mRunnable, 0);
     }
 }

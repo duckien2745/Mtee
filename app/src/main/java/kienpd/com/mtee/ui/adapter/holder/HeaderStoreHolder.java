@@ -40,8 +40,8 @@ public class HeaderStoreHolder extends FollowViewHolder {
     @BindView(R.id.text_number_follow)
     TextView mTextNumberFollow;
 
-    private Boolean mIsUserFollow;
     private Context mContext;
+    private int mCountFollow;
 
     public HeaderStoreHolder(Context context, View itemView, HeaderStoreHolderCallback callback) {
         super(itemView);
@@ -58,13 +58,9 @@ public class HeaderStoreHolder extends FollowViewHolder {
     @Override
     public void onBind(final Store store) {
         if (store != null) {
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
-
             //Store
             Glide.with(mContext)
                     .load(API.HOST_DEV + store.getPicture())
-                    .apply(requestOptions)
                     .into(mImageStore);
             //Logo
             int drawableResourceId = mContext.getResources().getIdentifier("logo_royal_tea", "drawable", mContext.getPackageName());
@@ -85,31 +81,41 @@ public class HeaderStoreHolder extends FollowViewHolder {
             mTextAddress.setText(sAddress);
 
             //Number follow
-            mTextNumberFollow.setText(store.getCountFollow() + "");
+            mCountFollow = store.getCountFollow();
+            mTextNumberFollow.setText(mCountFollow + "");
 
             //Icon follow
-            if (store.getmIsUserFollow() != null) {
-                mIsUserFollow = store.getmIsUserFollow();
-                if (mIsUserFollow) {
-                    mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_select));
-                } else {
-                    mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_un_select));
+            mImageFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallback.onClickFollowStoreListener(store.getId());
                 }
+            });
 
-                mImageFollow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mCallback.onClickFollowStoreListener(store.getId());
-                    }
-                });
-            }
         }
     }
 
+    public void updateStatusFollow(Boolean isUserFollow) {
+        if (isUserFollow) {
+            mCountFollow = mCountFollow + 1;
+            mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_select));
+
+        } else {
+            mCountFollow = mCountFollow - 1;
+            mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_un_select));
+        }
+        mTextNumberFollow.setText(mCountFollow + "");
+    }
+
+    public void displayStatusFollow(Boolean isUserFollow) {
+        if (isUserFollow) {
+            mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_select));
+        } else {
+            mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_un_select));
+        }
+    }
 
     public interface HeaderStoreHolderCallback {
         void onClickFollowStoreListener(Integer storeId);
     }
-
-
 }

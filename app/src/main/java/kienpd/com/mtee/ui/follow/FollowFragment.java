@@ -3,8 +3,6 @@ package kienpd.com.mtee.ui.follow;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,16 +16,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.model.Store;
-import kienpd.com.mtee.data.model.UserCode;
-import kienpd.com.mtee.ui.adapter.VoucherTakenAdapter;
 import kienpd.com.mtee.ui.adapter.holder.FollowStoreAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
 import kienpd.com.mtee.ui.follow.store.StoreFragment;
-import kienpd.com.mtee.ui.home.detail.VoucherFragment;
-import kienpd.com.mtee.ui.voucher.taken.VoucherTakenMvpPresenter;
-import kienpd.com.mtee.ui.voucher.taken.VoucherTakenMvpView;
-import kienpd.com.mtee.ui.voucher.taken.VoucherTakenPresenter;
 import kienpd.com.mtee.utils.CommonUtils;
 
 public class FollowFragment extends BaseFragment implements FollowMvpView, FollowStoreAdapter.StoreFollowAdapterCallback {

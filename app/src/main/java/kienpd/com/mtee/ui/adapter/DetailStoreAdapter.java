@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,11 +23,9 @@ import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.Voucher;
-import kienpd.com.mtee.ui.adapter.holder.FollowStoreAdapter;
 import kienpd.com.mtee.ui.adapter.holder.FollowViewHolder;
 import kienpd.com.mtee.ui.adapter.holder.HeaderStoreHolder;
 import kienpd.com.mtee.ui.adapter.holder.LoadingHolder;
-import kienpd.com.mtee.ui.base.BaseViewHolder;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.NetworkUtils;
 import kienpd.com.mtee.utils.TextUtil;
@@ -35,11 +33,12 @@ import kienpd.com.mtee.utils.TextUtil;
 public class DetailStoreAdapter extends RecyclerView.Adapter<FollowViewHolder> implements LoadingHolder.LoadingListener, HeaderStoreHolder.HeaderStoreHolderCallback {
 
     private final int TYPE_HEADER_STORE = 0;
-    private final int TYPE_ITEM_VOUCHER_STORE = 1;
+    public static final int TYPE_ITEM_VOUCHER_STORE = 1;
     private final int TYPE_ITEM_LOAD_MORE = 2;
 
     private Context mContext;
     private DetailStoreAdapterCallBack mCallBack;
+    private HeaderStoreHolder mHeaderStoreHolder;
     private List<Voucher> mListVoucher;
     private Store mStore;
 
@@ -56,11 +55,13 @@ public class DetailStoreAdapter extends RecyclerView.Adapter<FollowViewHolder> i
     public FollowViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_HEADER_STORE:
-                return new HeaderStoreHolder(mContext,
+                mHeaderStoreHolder = new HeaderStoreHolder(mContext,
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.item_header_store, parent, false), this);
+                return mHeaderStoreHolder;
             case TYPE_ITEM_VOUCHER_STORE:
-                return new VoucherInStoreHolder(mContext,
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_newest, parent, false));
+                VoucherInStoreHolder holder = new VoucherInStoreHolder(mContext,
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_voucher_in_store, parent, false));
+                return holder;
             default:
                 return null;
         }
@@ -90,7 +91,6 @@ public class DetailStoreAdapter extends RecyclerView.Adapter<FollowViewHolder> i
                 return TYPE_HEADER_STORE;
             default:
                 return TYPE_ITEM_VOUCHER_STORE;
-
         }
     }
 
@@ -145,7 +145,15 @@ public class DetailStoreAdapter extends RecyclerView.Adapter<FollowViewHolder> i
     }
 
     public void updateStatusFollow(Boolean isUerFollow) {
-        //todo
+        if (mHeaderStoreHolder != null) {
+            mHeaderStoreHolder.updateStatusFollow(isUerFollow);
+        }
+    }
+
+    public void displayStatusFollow(Boolean isUerFollow) {
+        if (mHeaderStoreHolder != null) {
+            mHeaderStoreHolder.displayStatusFollow(isUerFollow);
+        }
     }
 
     class VoucherInStoreHolder extends FollowViewHolder {
@@ -165,8 +173,8 @@ public class DetailStoreAdapter extends RecyclerView.Adapter<FollowViewHolder> i
         @BindView(R.id.image_newest_product)
         ImageView mImageProduct;
 
-        @BindView(R.id.layout_order)
-        RelativeLayout mLayoutOrder;
+        @BindView(R.id.layout_voucher_collection)
+        LinearLayout mLayoutVoucher;
 
         private Context mContext;
 
@@ -206,11 +214,11 @@ public class DetailStoreAdapter extends RecyclerView.Adapter<FollowViewHolder> i
                     mTextCountLike.setText(String.valueOf(voucher.getLikeCount()));
                 }
 
-                mLayoutOrder.setOnClickListener(new View.OnClickListener() {
+                mLayoutVoucher.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (position > 0) {
-                            mCallBack.onClickListener(Const.Type.TYPE_NEWEST, mListVoucher.get(position - 1).getId());
+                            mCallBack.onClickListener(TYPE_ITEM_VOUCHER_STORE, mListVoucher.get(position - 1).getId());
                         }
                     }
                 });

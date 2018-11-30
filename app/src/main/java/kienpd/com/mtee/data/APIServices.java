@@ -66,5 +66,17 @@ public class APIServices {
         @POST(APIDefinition.GetStoreFollow.PATH)
         Call<List<Store>> GetStoreFollow(@Body ApiRequest.ApiRequestStoreFollow param);
 
+        @POST(APIDefinition.GetStoreById.PATH)
+        Call<Store> GetStoreById(@Body ApiRequest.ApiRequestStoreById param);
+
+        @POST(APIDefinition.GetVoucherByStoreId.PATH)
+        Call<List<Voucher>> GetVoucherByStoreId(@Body ApiRequest.ApiRequestStoreById param);
+
+        @POST(APIDefinition.StatusUserFollow.PATH)
+        Call<Message> UpdateStatusUserFollow(@Body ApiRequest.ApiRequestStatusUserFollow param);
+
+        @POST(APIDefinition.GetStatusUserFollow.PATH)
+        Call<Message> GetStatusUserFollow(@Body ApiRequest.ApiRequestStatusUserFollow param);
+
     }
 }

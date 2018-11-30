@@ -24,8 +24,10 @@ public class Store {
     @SerializedName("countFollow")
     @Expose
     private int countFollow;
+    @SerializedName("countVoucher")
+    @Expose
+    private int countVoucher;
 
-    private Boolean mIsUserFollow;
 
     public Integer getId() {
         return id;
@@ -75,11 +77,11 @@ public class Store {
         this.countFollow = countFollow;
     }
 
-    public Boolean getmIsUserFollow() {
-        return mIsUserFollow;
+    public int getCountVoucher() {
+        return countVoucher;
     }
 
-    public void setmIsUserFollow(Boolean mIsUserFollow) {
-        this.mIsUserFollow = mIsUserFollow;
+    public void setCountVoucher(int countVoucher) {
+        this.countVoucher = countVoucher;
     }
 }
