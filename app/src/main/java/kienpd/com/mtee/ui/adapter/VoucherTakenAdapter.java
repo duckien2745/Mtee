@@ -26,6 +26,8 @@ import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BaseViewHolder;
+import kienpd.com.mtee.utils.TextUtil;
+import kienpd.com.mtee.utils.TimeUtil;
 
 public class VoucherTakenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -145,9 +147,11 @@ public class VoucherTakenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 mTextTitle.setText(voucher.getTitle());
                 if (code.getStatus() == 2) {
                     mImageVerified.setColorFilter(mContext.getResources().getColor(R.color.color_verified));
+                    mTextVerified.setTextColor(mContext.getResources().getColor(R.color.color_verified));
                     mTextVerified.setText("Đã dùng ");
                 } else {
                     mImageVerified.setColorFilter(mContext.getResources().getColor(R.color.color_item_un_select));
+                    mTextVerified.setTextColor(mContext.getResources().getColor(R.color.color_item_un_select));
                     mTextVerified.setText("Chưa dùng ");
                 }
 
@@ -157,7 +161,7 @@ public class VoucherTakenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         .apply(RequestOptions.circleCropTransform())
                         .into(mImageLogo);
 
-                //todo time
+                mTextTime.setText("Áp dụng tới ngày: " + TimeUtil.getStringDateFromMiliseconds(voucher.getTimeEnd()));
 
                 mLayoutTakenVoucher.setOnClickListener(new View.OnClickListener() {
                     @Override

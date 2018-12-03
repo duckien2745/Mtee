@@ -100,7 +100,7 @@ public class FollowStoreAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         public void onBind(final int position) {
             super.onBind(position);
             mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_select));
-            Store store = mList.get(position);
+            final Store store = mList.get(position);
             if (store != null) {
                 mTextStore.setText(store.getName());
                 Address address = store.getAddress();
@@ -123,12 +123,21 @@ public class FollowStoreAdapter extends RecyclerView.Adapter<HomeViewHolder> {
                     mCallback.onClickStoreFollow(mList.get(position).getId());
                 }
             });
+
+            mImageFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallback.onClickButtonFollowStore(mList.get(position).getId());
+                }
+            });
         }
 
     }
 
     public interface StoreFollowAdapterCallback {
         void onClickStoreFollow(int id);
+
+        void onClickButtonFollowStore(int storeId);
     }
 }
 

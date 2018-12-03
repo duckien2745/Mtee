@@ -102,4 +102,14 @@ public class APIDefinition {
         public static final String TAG = "Get Status User Follow";
         public static final String PATH = "track_store/get_status_follow_store";
     }
+
+    public static class ActiveCode {
+        public static final String TAG = "Active code";
+        public static final String PATH = "code/active_code";
+    }
+
+    public static class CheckCode {
+        public static final String TAG = "Active code";
+        public static final String PATH = "code/check_code";
+    }
 }

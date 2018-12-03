@@ -29,6 +29,7 @@ import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.holder.HomeViewHolder;
 import kienpd.com.mtee.ui.base.BaseViewHolder;
+import kienpd.com.mtee.utils.TimeUtil;
 
 public class VoucherSaveAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
@@ -136,6 +137,8 @@ public class VoucherSaveAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         .into(mImageCoverVoucher);
 
                 mTextTitle.setText(voucher.getTitle());
+
+                mTextTime.setText("Áp dụng tới ngày: " + TimeUtil.getStringDateFromMiliseconds(voucher.getTimeEnd()));
 
                 int drawableResourceId = mContext.getResources().getIdentifier("logo_royal_tea", "drawable", mContext.getPackageName());
                 Glide.with(mContext)

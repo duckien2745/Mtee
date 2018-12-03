@@ -2,6 +2,7 @@ package kienpd.com.mtee.ui.home.detail;
 
 import java.util.List;
 
+import kienpd.com.mtee.data.model.Messager;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.RatingTotal;
 import kienpd.com.mtee.ui.base.MvpView;
@@ -23,4 +24,7 @@ public interface VoucherMvpView extends MvpView {
     void showTextDescription(Boolean isShow);
 
     void displayTotalRatting(RatingResponse totalRatting);
+
+    void statusGetCodeInDay(Messager messager);
+
 }

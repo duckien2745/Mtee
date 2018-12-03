@@ -163,4 +163,26 @@ public class ApiRequest {
             this.store_id = storeId;
         }
     }
+
+    public static class ApiRequestActiveCode {
+
+        private String code;
+        private Integer storeId;
+
+        public ApiRequestActiveCode(String code, Integer storeId) {
+            this.code = code;
+            this.storeId = storeId;
+        }
+    }
+
+    public static class ApiRequestCheckCode {
+
+        public int user_id;
+        public int voucher_id;
+
+        public ApiRequestCheckCode(int user_id, int voucher_id) {
+            this.user_id = user_id;
+            this.voucher_id = voucher_id;
+        }
+    }
 }

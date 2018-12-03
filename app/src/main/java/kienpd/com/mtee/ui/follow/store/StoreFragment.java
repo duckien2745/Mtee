@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,9 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
     private Runnable mRunnable;
     private Boolean mUpdateData;
 
+    @BindView(R.id.process_loading)
+    ProgressBar mProgressBar;
+
     private int mStoreId;
     private int userId = 37281321;
 
@@ -62,6 +67,9 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
 
     @Override
     protected void setUp(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerDetailStore.setVisibility(View.GONE);
+
         mAdapter = new DetailStoreAdapter(getBaseActivity(), new ArrayList<Voucher>(), null, this);
         GridLayoutManager manager = new GridLayoutManager(getBaseActivity(), 2);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -109,11 +117,15 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
 
     @Override
     public void displayStatusFollow(Boolean isUserFollow) {
+        Log.d("bedebde","111"+isUserFollow);
         mAdapter.displayStatusFollow(isUserFollow);
     }
 
     @Override
     public void displayVoucherInStore(List<Voucher> voucherList, Boolean isClearData) {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerDetailStore.setVisibility(View.VISIBLE);
+
         mAdapter.addItemVoucherInStore(voucherList, isClearData);
     }
 
@@ -121,6 +133,7 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
         mPresenter.loadInfoStore(mStoreId);
         mPresenter.loadVoucherInStore(mStoreId, true);
         mPresenter.getStatusUserFollow(mStoreId, userId);
+
 
         mUpdateData = true;
         mHandler = new Handler();
@@ -136,4 +149,5 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
         };
         mHandler.postDelayed(mRunnable, 0);
     }
+
 }

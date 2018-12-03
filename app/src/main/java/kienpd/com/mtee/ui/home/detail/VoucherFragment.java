@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.model.Messager;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
@@ -391,6 +393,18 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     }
 
     @Override
+    public void statusGetCodeInDay(Messager messager) {
+        if (messager != null) {
+            if (messager.getStatus() == 1) {
+                RulesFragment fragment = RulesFragment.newInstance(mDescription, mDetailId);
+                fragment.show(getFragmentManager(), RulesFragment.TAG);
+            } else {
+                getBaseActivity().showMessage(messager.getMessage());
+            }
+        }
+    }
+
+    @Override
     public void onClickSliderImageListener(int position) {
         //todo
     }
@@ -445,8 +459,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
                 mPresenter.rattingDetail(userId, mDetailId, mMyRatingBar.getRating());
                 break;
             case R.id.layout_get_code:
-                RulesFragment fragment = RulesFragment.newInstance(mDescription, mDetailId);
-                fragment.show(getFragmentManager(), RulesFragment.TAG);
+                mPresenter.checkGetCodeInDay(userId, mDetailId);
                 break;
             default:
                 break;

@@ -8,6 +8,7 @@ import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.ApiRequest;
 import kienpd.com.mtee.data.model.Address;
 import kienpd.com.mtee.data.model.Message;
+import kienpd.com.mtee.data.model.Messager;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.StatusLikeSaveRating;
 import kienpd.com.mtee.data.model.Store;
@@ -165,6 +166,24 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
     public void showTextMore() {
         mIsShow = !mIsShow;
         getMvpView().showTextDescription(mIsShow);
+    }
+
+    @Override
+    public void checkGetCodeInDay(int userId, int voucherId) {
+        ApiRequest.ApiRequestCheckCode requestCheckCode = new ApiRequest.ApiRequestCheckCode(userId, voucherId);
+        API.checkCodeIsNoTaken(requestCheckCode, new API.APICallback<Messager>() {
+            @Override
+            public void onResponse(Messager response) throws JSONException {
+                if (response != null) {
+                    getMvpView().statusGetCodeInDay(response);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
     }
 
     private void getTotalRatting(int voucherId) {

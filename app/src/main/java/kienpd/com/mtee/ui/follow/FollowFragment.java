@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,11 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
     @BindView(R.id.recycler_store)
     RecyclerView mRecyclerStore;
 
+    @BindView(R.id.process_loading)
+    ProgressBar mProgressBar;
+
     private FollowStoreAdapter mAdapter;
+    private List<Store> mList;
     private int userId = 37281321;
 
 
@@ -46,6 +51,9 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
 
     @Override
     protected void setUp(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerStore.setVisibility(View.GONE);
+
         int px = CommonUtils.dpToPx(10);
         GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
 
@@ -64,7 +72,37 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
     }
 
     @Override
+    public void onClickButtonFollowStore(int storeId) {
+        mPresenter.updateStatusUserFollow(storeId, userId);
+    }
+
+    @Override
     public void displayData(List<Store> storeList, Boolean isClearData) {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerStore.setVisibility(View.VISIBLE);
+
+        mList = storeList;
         mAdapter.addItem(storeList, isClearData);
     }
+
+    @Override
+    public void updateStatusFollow(Boolean isUserFollow, int storeId) {
+        if (!isUserFollow) {
+            if (mList != null && mList.size() > 0) {
+                for (int i = 0; i < mList.size(); i++) {
+                    if (mList.get(i).getId() == storeId) {
+                        removeAt(i);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void removeAt(int position) {
+        mList.remove(position);
+        mAdapter.notifyItemRemoved(position);
+        mAdapter.notifyItemRangeChanged(position, mList.size());
+    }
+
 }

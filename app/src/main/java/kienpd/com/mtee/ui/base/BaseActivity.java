@@ -3,6 +3,7 @@ package kienpd.com.mtee.ui.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import butterknife.Unbinder;
 
@@ -44,7 +45,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     public void showMessage(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -87,5 +88,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected abstract void setUp();
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

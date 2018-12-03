@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +32,11 @@ public class CollectionFragment extends BaseDialog implements CollectionMvpView,
     public static final String EXTRAS_COLLECTION_ID = "extras_collection_id";
     public static final String EXTRAS_CATEGORY_ID = "extras_category_id";
 
-
     @BindView(R.id.recycler_detail_collection)
     RecyclerView mRecyclerDetailCollection;
+
+    @BindView(R.id.process_loading)
+    ProgressBar mProgressBar;
 
     private DetailCollectionAdapter mAdapter;
 
@@ -63,6 +66,9 @@ public class CollectionFragment extends BaseDialog implements CollectionMvpView,
 
     @Override
     protected void setUp(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerDetailCollection.setVisibility(View.GONE);
+
         int px = CommonUtils.dpToPx(8);
         GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 2);
         LinearLayoutManager layoutManager = new GridLayoutManager(getBaseActivity(), 2, GridLayoutManager.VERTICAL, false);
@@ -87,6 +93,9 @@ public class CollectionFragment extends BaseDialog implements CollectionMvpView,
 
     @Override
     public void updateRepoDetailCollection(List<Voucher> voucherList, Boolean isClearData) {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerDetailCollection.setVisibility(View.VISIBLE);
+
         mAdapter.addItemCollection(voucherList, isClearData);
     }
 }

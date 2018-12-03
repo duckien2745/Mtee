@@ -2,13 +2,12 @@ package kienpd.com.mtee.ui.adapter.holder;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
@@ -108,6 +107,7 @@ public class HeaderStoreHolder extends FollowViewHolder {
     }
 
     public void displayStatusFollow(Boolean isUserFollow) {
+        Log.d("bedebde","aaaa"+isUserFollow);
         if (isUserFollow) {
             mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_select));
         } else {

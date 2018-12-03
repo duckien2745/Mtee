@@ -1,15 +1,22 @@
 package kienpd.com.mtee.ui.home.code;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +38,7 @@ import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.custom.ScrollViewExt;
+import kienpd.com.mtee.ui.home.active.ActiveFragment;
 import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 import kienpd.com.mtee.utils.TextUtil;
@@ -106,9 +114,35 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     @BindView(R.id.scroll_description)
     ScrollViewExt mScrollDescription;
 
+    @BindView(R.id.layout_waiting)
+    RelativeLayout mLayoutWaiting;
+
+    @BindView(R.id.text_time_waiting)
+    TextView mTextTimeWaiting;
+
+    @BindView(R.id.layout_employee_active)
+    RelativeLayout mLayoutEmployeeActive;
+
+    @BindView(R.id.text_cancel)
+    TextView mTextCancel;
+
+    @BindView(R.id.text_employee_active)
+    TextView mTextEmployeeActive;
+
+    @BindView(R.id.text_input_password)
+    TextView mTextInputPassword;
+
+    @BindView(R.id.layout_process_bar)
+    RelativeLayout mLayoutProcessBar;
+
+    @BindView(R.id.process_loading)
+    ProgressBar mProcessBar;
+
     private Integer mDetailId;
     private Integer mUserId = 37281321;
     private String jsonUserCode;
+
+    public static final int RESULT_CODE_FRAGMENT = 1;
 
     public static CodeFragment newInstance(int detailId, String jsonUserCode) {
 
@@ -136,13 +170,14 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
 
     @Override
     protected void setUp(View view) {
-
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID, -111);
         jsonUserCode = getArguments().getString(EXTRAS_JSON_USER_CODE, TextUtil.EMPTY_STRING);
 
         if (mDetailId != null && mDetailId != -111) {
+            mLayoutWaiting.setVisibility(View.VISIBLE);
             loadData(mDetailId, mUserId);
         } else if (jsonUserCode != null && !TextUtil.isEmpty(jsonUserCode)) {
+            mLayoutProcessBar.setVisibility(View.VISIBLE);
             Gson gson = new Gson();
             UserCode userCode = gson.fromJson(jsonUserCode, UserCode.class);
             getDataFromBundle(userCode);
@@ -156,14 +191,16 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
         mImageCopy.setOnClickListener(this);
         mTextActive.setOnClickListener(this);
         mTextClose.setOnClickListener(this);
+        mTextCancel.setOnClickListener(this);
+        mTextEmployeeActive.setOnClickListener(this);
+        mTextInputPassword.setOnClickListener(this);
 
     }
 
     @Override
     public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser, String description) {
-
+        mLayoutWaiting.setVisibility(View.GONE);
         mTextTitle.setText(title);
-
         //Image
         RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(40));
@@ -210,6 +247,8 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
         } else {
             mTextDescription.setText(Html.fromHtml(description));
         }
+
+        mLayoutProcessBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -233,10 +272,22 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
                 mPresenter.copyCode(getBaseActivity(), mTextCode.getText().toString());
                 break;
             case R.id.text_active:
-                //todo
+                mLayoutEmployeeActive.setVisibility(View.VISIBLE);
+                mTextActive.setVisibility(View.GONE);
                 break;
             case R.id.text_close:
                 showDescription(false);
+                break;
+            case R.id.text_cancel:
+                mLayoutEmployeeActive.setVisibility(View.GONE);
+                mTextActive.setVisibility(View.VISIBLE);
+                break;
+            case R.id.text_employee_active:
+                break;
+            case R.id.text_input_password:
+                ActiveFragment dialogFrag = ActiveFragment.newInstance(mTextCode.getText().toString());
+                dialogFrag.setTargetFragment(this, RESULT_CODE_FRAGMENT);
+                dialogFrag.show(getFragmentManager(), ActiveFragment.TAG);
                 break;
             default:
                 break;
@@ -290,6 +341,27 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
             String description = voucher.getDescription();
 
             displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_CODE_FRAGMENT:
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    Boolean isActive = data.getBooleanExtra(ActiveFragment.ACTIVE, false);
+                    if (isActive) {
+                        mLayoutEmployeeActive.setVisibility(View.GONE);
+                        mTextActive.setText("Đã kích hoạt");
+                        mTextActive.setClickable(false);
+                        mTextActive.setVisibility(View.VISIBLE);
+                        mTextActive.setBackground(ContextCompat.getDrawable(getBaseActivity(),R.drawable.bg_un_active));
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 }

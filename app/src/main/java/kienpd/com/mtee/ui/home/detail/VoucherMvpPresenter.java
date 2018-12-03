@@ -21,4 +21,6 @@ public interface VoucherMvpPresenter<V extends VoucherMvpView> extends MvpPresen
     void getStatusLikeSaveRateDetail(int userId, int detailId);
 
     void showTextMore();
+
+    void checkGetCodeInDay(int userId,int voucherId);
 }

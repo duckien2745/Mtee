@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,9 @@ public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpV
     @BindView(R.id.recycler_voucher_save)
     RecyclerView mRecyclerVoucherSave;
 
+    @BindView(R.id.process_loading)
+    ProgressBar mProgressBar;
+
     private VoucherSaveAdapter mAdapter;
     private int userId = 37281321;
 
@@ -47,6 +51,9 @@ public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpV
 
     @Override
     protected void setUp(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerVoucherSave.setVisibility(View.GONE);
+
         int px = CommonUtils.dpToPx(10);
         GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
 
@@ -77,6 +84,9 @@ public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpV
 
     @Override
     public void displayData(List<Voucher> voucherList, Boolean isClearData) {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerVoucherSave.setVisibility(View.VISIBLE);
+
         mAdapter.addItem(voucherList, isClearData);
     }
 }

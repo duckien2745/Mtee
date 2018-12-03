@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/toolbar_detail"
+    <LinearLayout
+        android:id="@+id/layout_tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="48dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <View
-        android:id="@+id/view_drop_shadow"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#111111" />
+        <include
+            layout="@layout/toolbar_detail"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <View
+            android:id="@+id/view_drop_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#111111" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_detail_store"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/layout_tool_bar"
         android:background="#f7f7f7" />
-</LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/process_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible" />
+</RelativeLayout>

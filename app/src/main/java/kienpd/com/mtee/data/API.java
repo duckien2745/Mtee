@@ -6,6 +6,7 @@ import java.util.List;
 
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Message;
+import kienpd.com.mtee.data.model.Messager;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.StatusLikeSaveRating;
 import kienpd.com.mtee.data.model.Store;
@@ -121,5 +122,13 @@ public abstract class API {
 
     public static void getStatusUserFollow(ApiRequest.ApiRequestStatusUserFollow param, APICallback<Message> callback) {
         client.GetStatusUserFollow(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void activeCode(ApiRequest.ApiRequestActiveCode param, APICallback<Messager> callback) {
+        client.ActiveCode(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void checkCodeIsNoTaken(ApiRequest.ApiRequestCheckCode param, APICallback<Messager> callback) {
+        client.CheckCode(param).enqueue(new RetrofitCallback<>(callback));
     }
 }

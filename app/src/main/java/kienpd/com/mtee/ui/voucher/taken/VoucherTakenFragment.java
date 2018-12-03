@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 
@@ -36,6 +37,10 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
 
     @BindView(R.id.recycler_voucher_taken)
     RecyclerView mRecyclerVoucherTaken;
+
+    @BindView(R.id.process_loading)
+    ProgressBar mProgressBar;
+
     private int userId = 37281321;
 
     private VoucherTakenAdapter mAdapter;
@@ -54,6 +59,9 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
 
     @Override
     protected void setUp(View view) {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mRecyclerVoucherTaken.setVisibility(View.GONE);
+
         int px = CommonUtils.dpToPx(10);
         GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
 
@@ -89,6 +97,9 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
 
     @Override
     public void displayData(List<UserCode> userCodes, Boolean isClearData) {
+        mProgressBar.setVisibility(View.GONE);
+        mRecyclerVoucherTaken.setVisibility(View.VISIBLE);
+
         mAdapter.addItem(userCodes, isClearData);
     }
 }

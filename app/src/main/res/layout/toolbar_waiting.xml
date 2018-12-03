@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    android:gravity="center_vertical">
 
     <ImageView
         android:id="@+id/image_back"
@@ -35,7 +35,7 @@
         android:layout_marginRight="70dp"
         android:ellipsize="end"
         android:gravity="center"
-        android:text="Lấy mã"
+        android:text="LẤY MÃ"
         android:textColor="#ce0707"
         android:textSize="18sp"
         android:textStyle="bold" />
