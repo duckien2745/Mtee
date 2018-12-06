@@ -88,5 +88,8 @@ public class APIServices {
         @POST(APIDefinition.Login.PATH)
         Call<User> Login(@Body ApiRequest.ApiRequestLogin param);
 
+        @POST(APIDefinition.UpdateUserData.PATH)
+        Call<Message> UpdateUserData(@Body ApiRequest.ApiRequestUpdateDataUser param);
+
     }
 }

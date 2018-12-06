@@ -135,4 +135,8 @@ public abstract class API {
     public static void login(ApiRequest.ApiRequestLogin param, APICallback<User> callback) {
         client.Login(param).enqueue(new RetrofitCallback<>(callback));
     }
+
+    public static void updateUserData(ApiRequest.ApiRequestUpdateDataUser param, APICallback<Message> callback) {
+        client.UpdateUserData(param).enqueue(new RetrofitCallback<>(callback));
+    }
 }

@@ -15,4 +15,8 @@ public class Const {
         public static final Integer TYPE_COLLECTION = 2;
         public static final Integer TYPE_NEWEST = 3;
     }
+
+    public static class User {
+        public static final String KEY_SAVE_USER = "keysave_user";
+    }
 }

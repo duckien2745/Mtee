@@ -117,4 +117,9 @@ public class APIDefinition {
         public static final String TAG = "Login";
         public static final String PATH = "user/login";
     }
+
+    public static class UpdateUserData {
+        public static final String TAG = "Login";
+        public static final String PATH = "user/update_user_data";
+    }
 }

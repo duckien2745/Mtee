@@ -23,15 +23,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.db.StorageManager;
 import kienpd.com.mtee.data.model.User;
+import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.home.HomeMvpPresenter;
 import kienpd.com.mtee.ui.home.HomeMvpView;
 import kienpd.com.mtee.ui.home.HomePresenter;
+import kienpd.com.mtee.utils.Const;
+import kienpd.com.mtee.utils.TextUtil;
 import kienpd.com.mtee.utils.TimeUtil;
 
 public class UserFragment extends BaseFragment implements UserMvpView, View.OnClickListener {
@@ -65,6 +70,7 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     private static final String TAG = "UserFragment";
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
+    private String jsonUser;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -88,8 +94,18 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(getBaseActivity(), gso);
 
+        jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
+        if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
+            Gson gson = new Gson();
+            User user = gson.fromJson(jsonUser, User.class);
+            if (user != null) {
+                updateUI(user);
+            }
+        }
+
         mLayoutSignInGoogle.setOnClickListener(this);
         mLayoutLogout.setOnClickListener(this);
+        mImageArrowRight.setOnClickListener(this);
     }
 
     @Override
@@ -127,6 +143,8 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
             case R.id.layout_logout:
                 signOut();
                 break;
+            case R.id.image_arrow_right:
+                break;
             default:
                 break;
         }
@@ -149,6 +167,8 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
                     .load(user.getPicture())
                     .apply(RequestOptions.circleCropTransform())
                     .into(mImageAvatar);
+
+            StorageManager.saveUserDetails(getBaseActivity(), user);
         }
     }
 
@@ -157,7 +177,7 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
                 .addOnCompleteListener(getBaseActivity(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // ...
+                        StorageManager.saveUserDetails(getBaseActivity(), null);
                     }
                 });
     }

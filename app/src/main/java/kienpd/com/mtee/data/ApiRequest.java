@@ -195,4 +195,18 @@ public class ApiRequest {
             this.type = type;
         }
     }
+
+    public static class ApiRequestUpdateDataUser {
+        public String name;
+        public Integer phone;
+        public long birthday;
+        public String gender;
+
+        public ApiRequestUpdateDataUser(String name, Integer phone, long birthday, String gender) {
+            this.name = name;
+            this.phone = phone;
+            this.birthday = birthday;
+            this.gender = gender;
+        }
+    }
 }
