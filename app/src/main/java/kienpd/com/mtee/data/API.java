@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public abstract class API {
 
-    public static final String HOST_DEV = "http://192.168.16.103:8080/";
+    public static final String HOST_DEV = "http://192.168.16.101:8080/";
 
     private static String getHost() {
         return HOST_DEV;
@@ -130,5 +130,9 @@ public abstract class API {
 
     public static void checkCodeIsNoTaken(ApiRequest.ApiRequestCheckCode param, APICallback<Messager> callback) {
         client.CheckCode(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void login(ApiRequest.ApiRequestLogin param, APICallback<User> callback) {
+        client.Login(param).enqueue(new RetrofitCallback<>(callback));
     }
 }

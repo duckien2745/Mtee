@@ -109,7 +109,12 @@ public class APIDefinition {
     }
 
     public static class CheckCode {
-        public static final String TAG = "Active code";
+        public static final String TAG = "Check code";
         public static final String PATH = "code/check_code";
+    }
+
+    public static class Login {
+        public static final String TAG = "Login";
+        public static final String PATH = "user/login";
     }
 }

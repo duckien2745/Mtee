@@ -185,4 +185,14 @@ public class ApiRequest {
             this.voucher_id = voucher_id;
         }
     }
+
+    public static class ApiRequestLogin {
+        public String token_id;
+        public String type;
+
+        public ApiRequestLogin(String token_id, String type) {
+            this.token_id = token_id;
+            this.type = type;
+        }
+    }
 }

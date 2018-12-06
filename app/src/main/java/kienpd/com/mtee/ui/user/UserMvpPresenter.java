@@ -4,4 +4,5 @@ import kienpd.com.mtee.ui.base.MvpPresenter;
 
 public interface UserMvpPresenter<V extends UserMvpView> extends MvpPresenter<V> {
 
+    void signInWithGoogle(String type,String idToken);
 }

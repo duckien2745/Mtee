@@ -24,6 +24,18 @@ public class User {
     @SerializedName("name")
     @Expose
     private String name;
+    @SerializedName("birthday")
+    @Expose
+    private Long birthday;
+    @SerializedName("date_created")
+    @Expose
+    private Long dateCreated;
+    @SerializedName("phone")
+    @Expose
+    private Integer phone;
+    @SerializedName("gender")
+    @Expose
+    private String gender;
 
     public Integer getId() {
         return id;
@@ -73,4 +85,35 @@ public class User {
         this.name = name;
     }
 
+    public Long getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Long birthday) {
+        this.birthday = birthday;
+    }
+
+    public Integer getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Integer phone) {
+        this.phone = phone;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Long getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Long dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 }

@@ -85,5 +85,8 @@ public class APIServices {
         @POST(APIDefinition.CheckCode.PATH)
         Call<Messager> CheckCode(@Body ApiRequest.ApiRequestCheckCode param);
 
+        @POST(APIDefinition.Login.PATH)
+        Call<User> Login(@Body ApiRequest.ApiRequestLogin param);
+
     }
 }

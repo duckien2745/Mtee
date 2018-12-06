@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "141327179456",
+    "firebase_url": "https://mtee-1543852981377.firebaseio.com",
+    "project_id": "mtee-1543852981377",
+    "storage_bucket": "mtee-1543852981377.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141327179456:android:9bf5c7d86ef021be",
+        "android_client_info": {
+          "package_name": "kienpd.com.mtee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141327179456-aug5479nomk6nfdd3uis2pao3601id21.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kienpd.com.mtee",
+            "certificate_hash": "51bfa153192b8d9015fd269252e69f5a6193aeee"
+          }
+        },
+        {
+          "client_id": "141327179456-9ujqfr3rp8pf8pjvlil52pi4pipt0j80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5i_uekCS_fPCEZ4V2L0mFR2ZTMZDQ-Y4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141327179456-9ujqfr3rp8pf8pjvlil52pi4pipt0j80.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
