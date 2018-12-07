@@ -19,4 +19,15 @@ public class Const {
     public static class User {
         public static final String KEY_SAVE_USER = "keysave_user";
     }
+
+    public static class Action {
+        public static final int ACTION_FOLLOW_STORE = 0;
+        public static final int ACTION_LIKE = 1;
+        public static final int ACTION_SAVE = 2;
+        public static final int ACTION_GET_CODE = 3;
+        public static final int ACTION_RATTING = 4;
+        public static final int ACTION_EDIT_RATTING = 5;
+    }
+
+
 }

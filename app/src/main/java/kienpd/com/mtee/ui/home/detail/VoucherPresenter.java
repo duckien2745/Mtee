@@ -65,7 +65,7 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
 
                     RatingResponse totalRatting = response.getRatingResponse();
                     getMvpView().displayTotalRatting(totalRatting);
-                    getMvpView().displayDetailView(store.getName(), likeCount, listPicture, title, sAddress, listPricePicture, description);
+                    getMvpView().displayDetailView(store, likeCount, listPicture, title, sAddress, listPricePicture, description);
 
                 }
             }
@@ -176,6 +176,61 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
             public void onResponse(Messager response) throws JSONException {
                 if (response != null) {
                     getMvpView().statusGetCodeInDay(response);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
+    }
+
+    @Override
+    public void updateStatusUserFollow(int storeId, int userId) {
+        ApiRequest.ApiRequestStatusUserFollow request = new ApiRequest.ApiRequestStatusUserFollow(storeId, userId);
+        API.updateStatusUserFollow(request, new API.APICallback<Message>() {
+            @Override
+            public void onResponse(Message response) throws JSONException {
+                if (response != null) {
+                    getMvpView().updateStatusFollow(response.getStatus() == 1);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getStatusUserFollow(int storeId, int userId) {
+        ApiRequest.ApiRequestStatusUserFollow request = new ApiRequest.ApiRequestStatusUserFollow(storeId, userId);
+        API.getStatusUserFollow(request, new API.APICallback<Message>() {
+            @Override
+            public void onResponse(Message response) throws JSONException {
+                if (response != null) {
+                    getMvpView().displayStatusFollow(
+                            response.getStatus() == 1);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
+    }
+
+    @Override
+    public void signInWithGoogle(String type, String idToken, final int action) {
+        ApiRequest.ApiRequestLogin requestLogin = new ApiRequest.ApiRequestLogin(idToken, type);
+        API.login(requestLogin, new API.APICallback<User>() {
+            @Override
+            public void onResponse(User response) throws JSONException {
+                if (response != null) {
+                    getMvpView().updateUI(response, action);
                 }
             }
 

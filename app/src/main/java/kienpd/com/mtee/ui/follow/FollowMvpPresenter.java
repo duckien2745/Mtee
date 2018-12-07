@@ -8,4 +8,6 @@ public interface FollowMvpPresenter<V extends FollowMvpView> extends MvpPresente
 
     void updateStatusUserFollow(int storeId, int userId);
 
+    void signInWithGoogle(String type, String idToken);
+
 }

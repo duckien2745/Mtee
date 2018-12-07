@@ -197,16 +197,50 @@ public class ApiRequest {
     }
 
     public static class ApiRequestUpdateDataUser {
+        public Integer id;
         public String name;
         public Integer phone;
         public long birthday;
         public String gender;
 
-        public ApiRequestUpdateDataUser(String name, Integer phone, long birthday, String gender) {
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
             this.name = name;
+        }
+
+        public Integer getPhone() {
+            return phone;
+        }
+
+        public void setPhone(Integer phone) {
             this.phone = phone;
+        }
+
+        public long getBirthday() {
+            return birthday;
+        }
+
+        public void setBirthday(long birthday) {
             this.birthday = birthday;
+        }
+
+        public String getGender() {
+            return gender;
+        }
+
+        public void setGender(String gender) {
             this.gender = gender;
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
         }
     }
 }

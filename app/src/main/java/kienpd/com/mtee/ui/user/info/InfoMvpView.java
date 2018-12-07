@@ -8,4 +8,6 @@ public interface InfoMvpView extends MvpView {
     void displayInfo(User user);
 
     void updateData(Boolean isUpdate);
+
+    void saveUserDataCache(User user);
 }

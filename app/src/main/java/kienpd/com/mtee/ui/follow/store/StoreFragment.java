@@ -12,17 +12,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.db.StorageManager;
 import kienpd.com.mtee.data.model.Store;
+import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.DetailStoreAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.home.detail.VoucherFragment;
+import kienpd.com.mtee.utils.Const;
+import kienpd.com.mtee.utils.TextUtil;
 
 public class StoreFragment extends BaseDialog implements StoreMvpView, DetailStoreAdapter.DetailStoreAdapterCallBack {
 
@@ -42,7 +48,7 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
     ProgressBar mProgressBar;
 
     private int mStoreId;
-    private int userId = 37281321;
+    private int userId = 0;
 
     public static StoreFragment newInstance(int storeId) {
         StoreFragment f = new StoreFragment();
@@ -83,7 +89,15 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
         mRecyclerDetailStore.setAdapter(mAdapter);
 
         mStoreId = getArguments().getInt(EXTRAS_STORE_ID);
-        loadData();
+        String jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
+        if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
+            Gson gson = new Gson();
+            User user = gson.fromJson(jsonUser, User.class);
+            if (user != null) {
+                userId = user.getId();
+                loadData();
+            }
+        }
     }
 
 
@@ -94,6 +108,7 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
             fragment.show(getFragmentManager(), VoucherFragment.TAG);
         }
     }
+
 
     @Override
     public void onClickLoadMore() {
@@ -117,7 +132,7 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
 
     @Override
     public void displayStatusFollow(Boolean isUserFollow) {
-        Log.d("bedebde","111"+isUserFollow);
+        Log.d("bedebde", "111" + isUserFollow);
         mAdapter.displayStatusFollow(isUserFollow);
     }
 

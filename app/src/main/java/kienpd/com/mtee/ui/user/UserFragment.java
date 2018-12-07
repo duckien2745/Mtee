@@ -35,6 +35,8 @@ import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.home.HomeMvpPresenter;
 import kienpd.com.mtee.ui.home.HomeMvpView;
 import kienpd.com.mtee.ui.home.HomePresenter;
+import kienpd.com.mtee.ui.home.rules.RulesFragment;
+import kienpd.com.mtee.ui.user.info.InfoFragment;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
 import kienpd.com.mtee.utils.TimeUtil;
@@ -144,6 +146,8 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
                 signOut();
                 break;
             case R.id.image_arrow_right:
+                InfoFragment fragment = InfoFragment.newInstance(jsonUser);
+                fragment.show(getFragmentManager(), InfoFragment.TAG);
                 break;
             default:
                 break;
@@ -169,6 +173,7 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
                     .into(mImageAvatar);
 
             StorageManager.saveUserDetails(getBaseActivity(), user);
+            jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
         }
     }
 
@@ -178,6 +183,9 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         StorageManager.saveUserDetails(getBaseActivity(), null);
+                        mLayoutUser.setVisibility(View.GONE);
+                        mLayoutSignInGoogle.setVisibility(View.VISIBLE);
+                        mLayoutLogout.setVisibility(View.GONE);
                     }
                 });
     }

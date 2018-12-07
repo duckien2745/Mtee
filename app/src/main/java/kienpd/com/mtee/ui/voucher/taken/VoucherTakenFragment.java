@@ -19,6 +19,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.db.StorageManager;
+import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.VoucherTakenAdapter;
@@ -30,6 +32,8 @@ import kienpd.com.mtee.ui.home.HomeMvpView;
 import kienpd.com.mtee.ui.home.HomePresenter;
 import kienpd.com.mtee.ui.home.code.CodeFragment;
 import kienpd.com.mtee.utils.CommonUtils;
+import kienpd.com.mtee.utils.Const;
+import kienpd.com.mtee.utils.TextUtil;
 
 public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMvpView, VoucherTakenAdapter.VoucherTakenAdapterCallback {
 
@@ -40,8 +44,6 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
 
     @BindView(R.id.process_loading)
     ProgressBar mProgressBar;
-
-    private int userId = 37281321;
 
     private VoucherTakenAdapter mAdapter;
 
@@ -59,18 +61,26 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
 
     @Override
     protected void setUp(View view) {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mRecyclerVoucherTaken.setVisibility(View.GONE);
+        String jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
+        if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
+            Gson gson = new Gson();
+            User user = gson.fromJson(jsonUser, User.class);
+            if (user != null) {
+                int userId = user.getId();
+                mProgressBar.setVisibility(View.VISIBLE);
+                mRecyclerVoucherTaken.setVisibility(View.GONE);
 
-        int px = CommonUtils.dpToPx(10);
-        GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
+                int px = CommonUtils.dpToPx(10);
+                GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
 
-        mAdapter = new VoucherTakenAdapter(getBaseActivity(), new ArrayList<UserCode>(), this);
-        mRecyclerVoucherTaken.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
-        mRecyclerVoucherTaken.addItemDecoration(itemDecoration);
-        mRecyclerVoucherTaken.setAdapter(mAdapter);
+                mAdapter = new VoucherTakenAdapter(getBaseActivity(), new ArrayList<UserCode>(), this);
+                mRecyclerVoucherTaken.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
+                mRecyclerVoucherTaken.addItemDecoration(itemDecoration);
+                mRecyclerVoucherTaken.setAdapter(mAdapter);
 
-        mPresenter.loadData(userId, true);
+                mPresenter.loadData(userId, true);
+            }
+        }
     }
 
     @Override

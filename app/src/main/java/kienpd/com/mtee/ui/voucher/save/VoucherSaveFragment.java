@@ -10,12 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.db.StorageManager;
+import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.VoucherSaveAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
@@ -23,6 +27,8 @@ import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
 import kienpd.com.mtee.ui.follow.store.StoreFragment;
 import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.CommonUtils;
+import kienpd.com.mtee.utils.Const;
+import kienpd.com.mtee.utils.TextUtil;
 
 public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpView, VoucherSaveAdapter.VoucherSaveAdapterCallback {
 
@@ -35,7 +41,6 @@ public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpV
     ProgressBar mProgressBar;
 
     private VoucherSaveAdapter mAdapter;
-    private int userId = 37281321;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -51,17 +56,26 @@ public class VoucherSaveFragment extends BaseFragment implements VoucherSaveMvpV
 
     @Override
     protected void setUp(View view) {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mRecyclerVoucherSave.setVisibility(View.GONE);
+        String jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
+        if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
+            Gson gson = new Gson();
+            User user = gson.fromJson(jsonUser, User.class);
+            if (user != null) {
+                int userId = user.getId();
+                mProgressBar.setVisibility(View.VISIBLE);
+                mRecyclerVoucherSave.setVisibility(View.GONE);
 
-        int px = CommonUtils.dpToPx(10);
-        GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
+                int px = CommonUtils.dpToPx(10);
+                GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
 
-        mAdapter = new VoucherSaveAdapter(getBaseActivity(), new ArrayList<Voucher>(), this);
-        mRecyclerVoucherSave.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
-        mRecyclerVoucherSave.addItemDecoration(itemDecoration);
-        mRecyclerVoucherSave.setAdapter(mAdapter);
-        mPresenter.loadData(userId, true);
+                mAdapter = new VoucherSaveAdapter(getBaseActivity(), new ArrayList<Voucher>(), this);
+                mRecyclerVoucherSave.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
+                mRecyclerVoucherSave.addItemDecoration(itemDecoration);
+                mRecyclerVoucherSave.setAdapter(mAdapter);
+                mPresenter.loadData(userId, true);
+            }
+
+        }
     }
 
 

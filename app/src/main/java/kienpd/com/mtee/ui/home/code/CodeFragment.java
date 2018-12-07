@@ -30,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
+import kienpd.com.mtee.data.db.StorageManager;
 import kienpd.com.mtee.data.model.Address;
 import kienpd.com.mtee.data.model.Code;
 import kienpd.com.mtee.data.model.Store;
@@ -41,6 +42,7 @@ import kienpd.com.mtee.ui.custom.ScrollViewExt;
 import kienpd.com.mtee.ui.home.active.ActiveFragment;
 import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.CommonUtils;
+import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
 
 public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClickListener {
@@ -139,7 +141,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     ProgressBar mProcessBar;
 
     private Integer mDetailId;
-    private Integer mUserId = 37281321;
+    private Integer mUserId = 0;
     private String jsonUserCode;
 
     public static final int RESULT_CODE_FRAGMENT = 1;
@@ -175,7 +177,15 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
 
         if (mDetailId != null && mDetailId != -111) {
             mLayoutWaiting.setVisibility(View.VISIBLE);
-            loadData(mDetailId, mUserId);
+            String jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
+            if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
+                Gson gson = new Gson();
+                User user = gson.fromJson(jsonUser, User.class);
+                if (user != null) {
+                    mUserId = user.getId();
+                    loadData(mDetailId, mUserId);
+                }
+            }
         } else if (jsonUserCode != null && !TextUtil.isEmpty(jsonUserCode)) {
             mLayoutProcessBar.setVisibility(View.VISIBLE);
             Gson gson = new Gson();
@@ -356,7 +366,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
                         mTextActive.setText("Đã kích hoạt");
                         mTextActive.setClickable(false);
                         mTextActive.setVisibility(View.VISIBLE);
-                        mTextActive.setBackground(ContextCompat.getDrawable(getBaseActivity(),R.drawable.bg_un_active));
+                        mTextActive.setBackground(ContextCompat.getDrawable(getBaseActivity(), R.drawable.bg_un_active));
                     }
                 }
                 break;

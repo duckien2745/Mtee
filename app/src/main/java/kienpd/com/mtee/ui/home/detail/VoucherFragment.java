@@ -1,5 +1,6 @@
 package kienpd.com.mtee.ui.home.detail;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,11 +17,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,15 +40,21 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.db.StorageManager;
 import kienpd.com.mtee.data.model.Messager;
 import kienpd.com.mtee.data.model.RatingResponse;
+import kienpd.com.mtee.data.model.Store;
+import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
-import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.ui.custom.ScrollViewExt;
+import kienpd.com.mtee.ui.home.rules.RulesFragment;
+import kienpd.com.mtee.ui.user.info.InfoFragment;
 import kienpd.com.mtee.utils.CommonUtils;
+import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
+import kienpd.com.mtee.utils.TimeUtil;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 import static android.view.View.GONE;
@@ -113,6 +129,9 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     @BindView(R.id.image_edit)
     ImageView mImageEdit;
 
+    @BindView(R.id.image_right)
+    ImageView mImageRight;
+
     @BindView(R.id.layout_my_rate)
     LinearLayout mLayoutMyRate;
 
@@ -152,6 +171,12 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     @BindView(R.id.layout_get_code)
     RelativeLayout mLayoutGetCode;
 
+    @BindView(R.id.layout_login)
+    RelativeLayout mLayoutLogin;
+
+    @BindView(R.id.layout_sign_in_with_google)
+    LinearLayout mLayoutSignWithGoogle;
+
     @BindView(R.id.scroll_view_detail)
     ScrollViewExt mScrollviewReaderContent;
 
@@ -162,7 +187,12 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     private Boolean mIsRunSlider;
     private String mDescription;
     private Integer mDetailId;
-    private Integer userId = 37281321;
+    private Integer mUserId = 0;
+    private Integer mStoreId = 0;
+    private Integer mAction = -1111;
+
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN = 9001;
 
     public static VoucherFragment newInstance(int detailId) {
         VoucherFragment f = new VoucherFragment();
@@ -188,18 +218,33 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
     @Override
     protected void setUp(View view) {
-
         //Load Data
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
         loadData(mDetailId);
-        loadInfoUser();
+        String jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
+        if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
+            Gson gson = new Gson();
+            User user = gson.fromJson(jsonUser, User.class);
+            if (user != null) {
+                mUserId = user.getId();
+                loadInfoUser();
+            }
+        } else {
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestId()
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(getBaseActivity(), gso);
+        }
 
         //Set color bottom
-        mImageLike.setColorFilter(getResources().getColor(R.color.color_item_select));
+        mImageLike.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageShare.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageSave.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageUser.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageEdit.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        mImageRight.setColorFilter(getResources().getColor(R.color.color_item_un_select));
 
         mImageVouchers = new ArrayList<>();
         mSliderDetailAdapter = new SliderDetailAdapter(getBaseActivity(), mImageVouchers, this);
@@ -232,6 +277,9 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         mLayoutGetCode.setOnClickListener(this);
         mImageEdit.setOnClickListener(this);
         mTextSubmit.setOnClickListener(this);
+        mImageRight.setOnClickListener(this);
+        mLayoutLogin.setOnClickListener(this);
+        mLayoutSignWithGoogle.setOnClickListener(this);
     }
 
     @Override
@@ -251,10 +299,14 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     }
 
     @Override
-    public void displayDetailView(String store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description) {
+    public void displayDetailView(Store store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description) {
         //Store
-        mTextTitleCenter.setText(store);
-
+        if (store != null) {
+            mStoreId = store.getId();
+            mTextTitleCenter.setText(store.getName());
+            if (mUserId != 0 && mStoreId != 0)
+                mPresenter.getStatusUserFollow(mStoreId, mUserId);
+        }
         // todo count like
 
         //Image voucher
@@ -309,7 +361,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     @Override
     public void displayInfoUser(String name, String avatarUrl) {
         if (!TextUtil.isEmpty(name) && !TextUtil.isEmpty(avatarUrl)) {
-            mPresenter.getStatusLikeSaveRateDetail(userId, mDetailId);
+            mPresenter.getStatusLikeSaveRateDetail(mUserId, mDetailId);
 
             mLayoutMyRate.setVisibility(VISIBLE);
             mTextNameUser.setVisibility(VISIBLE);
@@ -405,8 +457,17 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     }
 
     @Override
+    public void updateStatusFollow(Boolean isUserFollow) {
+        if (isUserFollow) {
+            mImageRight.setColorFilter(getBaseActivity().getResources().getColor(R.color.color_item_select));
+        } else {
+            mImageRight.setColorFilter(getBaseActivity().getResources().getColor(R.color.color_item_un_select));
+        }
+    }
+
+    @Override
     public void onClickSliderImageListener(int position) {
-        //todo
+
     }
 
     @Override
@@ -441,25 +502,59 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
                 mPresenter.showTextMore();
                 break;
             case R.id.layout_like:
-                //todo
-                mPresenter.likeDetail(userId, mDetailId);
+                if (mUserId == 0) {
+                    mAction = Const.Action.ACTION_LIKE;
+                    mLayoutLogin.setVisibility(VISIBLE);
+                } else {
+                    mPresenter.likeDetail(mUserId, mDetailId);
+                }
                 break;
             case R.id.layout_share:
                 //todo
                 mPresenter.shareDetail(mTextTitle.toString(), "content");
                 break;
             case R.id.layout_save:
-                //todo
-                mPresenter.saveDetail(userId, mDetailId);
+                if (mUserId == 0) {
+                    mAction = Const.Action.ACTION_SAVE;
+                    mLayoutLogin.setVisibility(VISIBLE);
+                } else {
+                    mPresenter.saveDetail(mUserId, mDetailId);
+                }
                 break;
             case R.id.image_edit:
-                editRating(true);
+                if (mUserId == 0) {
+                    mAction = Const.Action.ACTION_EDIT_RATTING;
+                    mLayoutLogin.setVisibility(VISIBLE);
+                } else {
+                    editRating(true);
+                }
                 break;
             case R.id.text_submit:
-                mPresenter.rattingDetail(userId, mDetailId, mMyRatingBar.getRating());
+                if (mUserId == 0) {
+                    mAction = Const.Action.ACTION_RATTING;
+                    mLayoutLogin.setVisibility(VISIBLE);
+                } else {
+                    mPresenter.rattingDetail(mUserId, mDetailId, mMyRatingBar.getRating());
+                }
                 break;
             case R.id.layout_get_code:
-                mPresenter.checkGetCodeInDay(userId, mDetailId);
+                if (mUserId == 0) {
+                    mAction = Const.Action.ACTION_GET_CODE;
+                    mLayoutLogin.setVisibility(VISIBLE);
+                } else {
+                    mPresenter.checkGetCodeInDay(mUserId, mDetailId);
+                }
+                break;
+            case R.id.image_right:
+                if (mUserId == 0) {
+                    mAction = Const.Action.ACTION_FOLLOW_STORE;
+                    mLayoutLogin.setVisibility(VISIBLE);
+                } else {
+                    mPresenter.updateStatusUserFollow(mStoreId, mUserId);
+                }
+                break;
+            case R.id.layout_sign_in_with_google:
+                signIn();
                 break;
             default:
                 break;
@@ -489,7 +584,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     }
 
     private void loadInfoUser() {
-        mPresenter.loadInfoUser(userId);
+        mPresenter.loadInfoUser(mUserId);
     }
 
     private void editRating(boolean isEdit) {
@@ -506,6 +601,75 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
             mTextRateVoucher.setVisibility(GONE);
             mTextNameUser.setVisibility(VISIBLE);
             mImageEdit.setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public void displayStatusFollow(Boolean isUserFollow) {
+        if (isUserFollow) {
+            mImageRight.setColorFilter(getBaseActivity().getResources().getColor(R.color.color_item_select));
+        } else {
+            mImageRight.setColorFilter(getBaseActivity().getResources().getColor(R.color.color_item_un_select));
+        }
+    }
+
+    @Override
+    public void updateUI(User user, int action) {
+        if (user != null) {
+            mUserId = user.getId();
+            mLayoutLogin.setVisibility(View.GONE);
+            StorageManager.saveUserDetails(getBaseActivity(), user);
+            switch (mAction) {
+                case Const.Action.ACTION_FOLLOW_STORE:
+                    mPresenter.updateStatusUserFollow(mStoreId, mUserId);
+                    break;
+                case Const.Action.ACTION_LIKE:
+                    mPresenter.likeDetail(mUserId, mDetailId);
+                    break;
+                case Const.Action.ACTION_SAVE:
+                    mPresenter.saveDetail(mUserId, mDetailId);
+                    break;
+                case Const.Action.ACTION_RATTING:
+                    mPresenter.rattingDetail(mUserId, mDetailId, mMyRatingBar.getRating());
+                    break;
+                case Const.Action.ACTION_GET_CODE:
+                    mPresenter.checkGetCodeInDay(mUserId, mDetailId);
+                    break;
+                case Const.Action.ACTION_EDIT_RATTING:
+                    editRating(true);
+                    break;
+
+            }
+            loadInfoUser();
+            if (mUserId != 0 && mStoreId != 0) {
+                mPresenter.getStatusUserFollow(mStoreId, mUserId);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+    }
+
+    private void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            if (account.getIdToken() != null) {
+                mPresenter.signInWithGoogle("Google", account.getIdToken(), mAction);
+            }
+        } catch (ApiException e) {
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
         }
     }
 
