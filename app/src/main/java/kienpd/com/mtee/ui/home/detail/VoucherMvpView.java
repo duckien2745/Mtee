@@ -19,7 +19,7 @@ public interface VoucherMvpView extends MvpView {
 
     void displayInfoUser(String name, String avatarUrl);
 
-    void updateLike(Boolean isLike);
+    void getStatusLike(Boolean isLike);
 
     void updateSave(Boolean isSave);
 
@@ -34,5 +34,8 @@ public interface VoucherMvpView extends MvpView {
     void displayStatusFollow(Boolean isUserFollow);
 
     void updateUI(User user, int action);
+
+    void updateLike(Boolean isLike);
+
 
 }

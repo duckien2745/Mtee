@@ -44,7 +44,6 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
 
     @Override
     public void loadDetailData(int voucherId) {
-        //todo
         final ApiRequest.ApiRequestVoucherById requestVoucher = new ApiRequest.ApiRequestVoucherById(voucherId);
         API.getVoucherById(requestVoucher, new API.APICallback<Voucher>() {
             @Override
@@ -58,7 +57,7 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
                     Address address = response.getStore().getAddress();
                     String sAddress = "";
                     if (address != null) {
-                        sAddress = address.getNo() + "," + address.getStreet() + "," + address.getDistrict() + "," + address.getCity();
+                        sAddress = address.getNo() + " " + address.getStreet() + ", " + address.getDistrict() + ", " + address.getCity();
                     }
                     List<String> listPricePicture = response.getPricePictures();
                     String description = response.getDescription();
@@ -137,10 +136,6 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
         //todo
     }
 
-    @Override
-    public void direct(String location) {
-        //todo
-    }
 
     @Override
     public void getStatusLikeSaveRateDetail(int userId, int detailId) {
@@ -149,7 +144,7 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
             @Override
             public void onResponse(StatusLikeSaveRating response) throws JSONException {
                 if (response != null) {
-                    getMvpView().updateLike(response.getLike() == 1);
+                    getMvpView().getStatusLike(response.getLike() == 1);
                     getMvpView().updateSave(response.getSave() == 1);
                     getMvpView().displayMyRating(response.getRating());
                 }

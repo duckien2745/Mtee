@@ -57,7 +57,7 @@ public class CodePresenter<V extends CodeMvpView> extends BasePresenter<V>
 
                         String description = voucher.getDescription();
 
-                        getMvpView().displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email,description);
+                        getMvpView().displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description);
 
                     }
                 }

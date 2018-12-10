@@ -1,6 +1,7 @@
 package kienpd.com.mtee.ui.home.detail;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -177,6 +178,12 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     @BindView(R.id.scroll_view_detail)
     ScrollViewExt mScrollviewReaderContent;
 
+    @BindView(R.id.layout_count_like)
+    LinearLayout mLayoutCountLike;
+
+    @BindView(R.id.text_count_like)
+    TextView mTextCountLike;
+
     private SliderDetailAdapter mSliderDetailAdapter;
     private PriceAdapter mPriceAdapter;
     private ArrayList<String> mImageVouchers;
@@ -186,7 +193,9 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     private Integer mDetailId;
     private Integer mUserId = 0;
     private Integer mStoreId = 0;
+    private Integer mCountLike = 0;
     private Integer mAction = -1111;
+
 
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
@@ -259,7 +268,6 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         mRecyclerPrice.setLayoutManager(layoutManager);
         mRecyclerPrice.setAdapter(mPriceAdapter);
 
-        //todo
         mLayoutMyRate.setVisibility(GONE);
 
         //NnClick
@@ -307,7 +315,15 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
             if (mUserId != 0 && mStoreId != 0)
                 mPresenter.getStatusUserFollow(mStoreId, mUserId);
         }
-        // todo count like
+
+        //Count Like
+        if (countLike > 0) {
+            mCountLike = countLike;
+            mTextCountLike.setText("+" + countLike);
+            mLayoutCountLike.setVisibility(VISIBLE);
+        } else {
+            mLayoutCountLike.setVisibility(GONE);
+        }
 
         //Image voucher
         mImageVouchers.clear();
@@ -381,11 +397,32 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     }
 
     @Override
-    public void updateLike(Boolean isLike) {
+    public void getStatusLike(Boolean isLike) {
         if (isLike) {
             mImageLike.setColorFilter(getResources().getColor(R.color.color_item_select));
         } else {
             mImageLike.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        }
+    }
+
+    @Override
+    public void updateLike(Boolean isLike) {
+
+        if (isLike) {
+            mCountLike = mCountLike + 1;
+            mImageLike.setColorFilter(getResources().getColor(R.color.color_item_select));
+        } else {
+            mImageLike.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+            if (mCountLike > 0) {
+                mCountLike = mCountLike - 1;
+            }
+        }
+
+        if (mCountLike > 0) {
+            mLayoutCountLike.setVisibility(VISIBLE);
+            mTextCountLike.setText("+" + mCountLike);
+        } else {
+            mLayoutCountLike.setVisibility(GONE);
         }
     }
 
@@ -440,7 +477,6 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         mProcess1Star.setMax(totalRate);
         mProcess1Star.setProgress(totalRatting.getRating1star());
 
-        //todo
         mRatingBar.setRating(star);
     }
 
@@ -498,8 +534,10 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
                 dismissDialog(TAG);
                 break;
             case R.id.layout_direct:
-                //todo
-                mPresenter.direct("Lê Thanh Nghị");
+                String strUri = Const.GoogleMap.URL_REQUEST_GOOGLE_MAP + mTextAddress.getText().toString().replace(' ', '+');
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+                intent.setClassName(Const.GoogleMap.PACKAGE_NAME_GOOGLE_MAP, Const.GoogleMap.CLASS_NAME_GOOGLE_MAP);
+                startActivity(intent);
                 break;
             case R.id.text_see_more:
                 mPresenter.showTextMore();
@@ -534,7 +572,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
                 break;
             case R.id.text_submit:
                 if (mUserId == 0) {
-                    mAction = Const.Action.ACTION_RATTING;
+                    mAction = Const.Action.ACTION_SUBMIT;
                     mLayoutLogin.setVisibility(VISIBLE);
                 } else {
                     mPresenter.rattingDetail(mUserId, mDetailId, mMyRatingBar.getRating());
@@ -632,7 +670,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
                 case Const.Action.ACTION_SAVE:
                     mPresenter.saveDetail(mUserId, mDetailId);
                     break;
-                case Const.Action.ACTION_RATTING:
+                case Const.Action.ACTION_SUBMIT:
                     mPresenter.rattingDetail(mUserId, mDetailId, mMyRatingBar.getRating());
                     break;
                 case Const.Action.ACTION_GET_CODE:

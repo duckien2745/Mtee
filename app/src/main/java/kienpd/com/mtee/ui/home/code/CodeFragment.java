@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,6 +45,9 @@ import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClickListener {
 
@@ -119,9 +123,6 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     @BindView(R.id.layout_waiting)
     RelativeLayout mLayoutWaiting;
 
-    @BindView(R.id.text_time_waiting)
-    TextView mTextTimeWaiting;
-
     @BindView(R.id.layout_employee_active)
     RelativeLayout mLayoutEmployeeActive;
 
@@ -137,8 +138,11 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     @BindView(R.id.layout_process_bar)
     RelativeLayout mLayoutProcessBar;
 
-    @BindView(R.id.process_loading)
-    ProgressBar mProcessBar;
+    @BindView(R.id.layout_count_like)
+    LinearLayout mLayoutCountLike;
+
+    @BindView(R.id.text_count_like)
+    TextView mTextCountLike;
 
     private Integer mDetailId;
     private Integer mUserId = 0;
@@ -219,7 +223,14 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
                 .thumbnail(1f)
                 .apply(requestOptions)
                 .into(mImageVoucher);
-        //todo count like
+
+        //Count Like
+        if (countLike > 0) {
+            mTextCountLike.setText("+" + countLike);
+            mLayoutCountLike.setVisibility(VISIBLE);
+        } else {
+            mLayoutCountLike.setVisibility(GONE);
+        }
 
         //Code
         mTextCode.setText(code);
@@ -278,6 +289,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
                 break;
             case R.id.image_copy:
                 mPresenter.copyCode(getBaseActivity(), mTextCode.getText().toString());
+                getBaseActivity().showMessage("Đã copy mã " + mTextCode.getText().toString() + " thành công ");
                 break;
             case R.id.text_active:
                 mLayoutEmployeeActive.setVisibility(View.VISIBLE);

@@ -26,8 +26,6 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
 
     @Override
     public void loadHighLightData(int categoryId, final Boolean isClearData) {
-        //todo
-        //check  categoryId = Const.Category.CATEGORY_ALL ?
         ApiRequest.ApiRequestVoucher param;
         if (categoryId != Const.Category.CATEGORY_ALL) {
             param = new ApiRequest.ApiRequestVoucher(0, 10, categoryId);
@@ -51,9 +49,6 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
 
     @Override
     public void loadCollectionData(int categoryId, final Boolean isClearData) {
-        //todo
-        //check  categoryId = Const.Category.CATEGORY_ALL ?
-
         ApiRequest.ApiRequestCollection param;
         if (categoryId != Const.Category.CATEGORY_ALL) {
             param = new ApiRequest.ApiRequestCollection(0, 10, categoryId);
@@ -77,8 +72,6 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
 
     @Override
     public void loadNewestData(int categoryId, final Boolean isClearData) {
-        //todo
-        //check  categoryId = Const.Category.CATEGORY_ALL ?
         ApiRequest.ApiRequestVoucher param;
         if (categoryId != Const.Category.CATEGORY_ALL) {
             param = new ApiRequest.ApiRequestVoucher(0, 20, categoryId);

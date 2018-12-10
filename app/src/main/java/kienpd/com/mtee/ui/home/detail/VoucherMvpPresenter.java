@@ -16,8 +16,6 @@ public interface VoucherMvpPresenter<V extends VoucherMvpView> extends MvpPresen
 
     void shareDetail(String title, String content);
 
-    void direct(String location);
-
     void getStatusLikeSaveRateDetail(int userId, int detailId);
 
     void showTextMore();

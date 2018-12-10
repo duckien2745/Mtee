@@ -24,15 +24,43 @@
             android:visibility="visible" />
 
         <TextView
-            android:gravity="center"
             android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:gravity="center"
             android:text="Giảm 50% tổng hóa đơn"
             android:textColor="#ffffff"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/layout_count_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_round_like"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp">
+
+            <TextView
+                android:id="@+id/text_count_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+40"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/ic_heart" />
+        </LinearLayout>
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -93,10 +121,10 @@
         android:background="#0e0e0e" />
 
     <include
-        android:layout_marginTop="10dp"
         layout="@layout/layout_info_store"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
 
     <View
         android:layout_width="match_parent"
@@ -106,9 +134,9 @@
         android:background="#0e0e0e" />
 
     <include
-        android:layout_marginTop="10dp"
         layout="@layout/layout_voucher_user"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" />
 
 </LinearLayout>

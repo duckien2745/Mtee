@@ -25,9 +25,15 @@ public class Const {
         public static final int ACTION_LIKE = 1;
         public static final int ACTION_SAVE = 2;
         public static final int ACTION_GET_CODE = 3;
-        public static final int ACTION_RATTING = 4;
+        public static final int ACTION_SUBMIT = 4;
         public static final int ACTION_EDIT_RATTING = 5;
     }
 
+    public static class GoogleMap {
+        public static String URL_REQUEST_GOOGLE_MAP = "https://www.google.com/maps/search/?api=1&query=";
+        public static String PACKAGE_NAME_GOOGLE_MAP = "com.google.android.apps.maps";
+        public static String CLASS_NAME_GOOGLE_MAP = "com.google.android.maps.MapsActivity";
+
+    }
 
 }
