@@ -3,6 +3,7 @@ package kienpd.com.mtee.ui.adapter.holder;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +30,11 @@ import kienpd.com.mtee.data.model.Voucher;
 
 public class FollowStoreAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
-    private ArrayList<Store> mList;
+    private List<Store> mList;
     private Context mContext;
     private StoreFollowAdapterCallback mCallback;
 
-    public FollowStoreAdapter(Context context, ArrayList<Store> list, StoreFollowAdapterCallback callback) {
+    public FollowStoreAdapter(Context context, List<Store> list, StoreFollowAdapterCallback callback) {
         mContext = context;
         mList = list;
         mCallback = callback;
@@ -139,6 +140,13 @@ public class FollowStoreAdapter extends RecyclerView.Adapter<HomeViewHolder> {
 
         void onClickButtonFollowStore(int storeId);
     }
+
+    public void removeAt(int position) {
+        mList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mList.size());
+    }
+
 }
 
 

@@ -79,6 +79,8 @@ public class HeaderStoreHolder extends FollowViewHolder {
             }
             mTextAddress.setText(sAddress);
 
+            mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_select));
+
             //Number follow
             mCountFollow = store.getCountFollow();
             mTextNumberFollow.setText(mCountFollow + "");
@@ -107,7 +109,6 @@ public class HeaderStoreHolder extends FollowViewHolder {
     }
 
     public void displayStatusFollow(Boolean isUserFollow) {
-        Log.d("bedebde","aaaa"+isUserFollow);
         if (isUserFollow) {
             mImageFollow.setColorFilter(mContext.getResources().getColor(R.color.color_item_select));
         } else {

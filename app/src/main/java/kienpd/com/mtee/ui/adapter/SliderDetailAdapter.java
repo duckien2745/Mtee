@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
@@ -20,14 +21,20 @@ import kienpd.com.mtee.data.API;
 public class SliderDetailAdapter extends PagerAdapter {
 
     private Context mContext;
-    private ArrayList<String> mUrlImages;
+    private List<String> mUrlImages;
     private SliderDetailAdapterCallback mSliderDetailAdapterCallback;
 
-    public SliderDetailAdapter(Context context, ArrayList<String> urlImages, SliderDetailAdapterCallback sliderDetailAdapterCallback) {
+    public SliderDetailAdapter(Context context, List<String> urlImages, SliderDetailAdapterCallback sliderDetailAdapterCallback) {
         this.mContext = context;
         this.mUrlImages = urlImages;
         this.mSliderDetailAdapterCallback = sliderDetailAdapterCallback;
     }
+
+    public SliderDetailAdapter(Context context, List<String> urlImages) {
+        this.mContext = context;
+        this.mUrlImages = urlImages;
+    }
+
 
     @Override
     public int getCount() {
@@ -53,7 +60,9 @@ public class SliderDetailAdapter extends PagerAdapter {
         imageVoucher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSliderDetailAdapterCallback.onClickSliderImageListener(position);
+                if (mSliderDetailAdapterCallback != null) {
+                    mSliderDetailAdapterCallback.onClickSliderImageListener(position);
+                }
             }
         });
 

@@ -224,19 +224,6 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
         //Code
         mTextCode.setText(code);
 
-        //QR Code
-        try {
-            Bitmap bitmap = CommonUtils.TextToImageEncode(getBaseActivity(), code, 500);
-            Glide.with(getBaseActivity())
-                    .asBitmap()
-                    .load(bitmap)
-                    .thumbnail(1f)
-                    .apply(requestOptions)
-                    .into(mImageQRCode);
-        } catch (WriterException e) {
-            e.printStackTrace();
-        }
-
         //Store
         mTextTitleToolbar.setText(nameStore);
         mTextStore.setText(nameStore);
@@ -257,8 +244,19 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
         } else {
             mTextDescription.setText(Html.fromHtml(description));
         }
-
         mLayoutProcessBar.setVisibility(View.GONE);
+        //QR Code
+        try {
+            Bitmap bitmap = CommonUtils.TextToImageEncode(getBaseActivity(), code, 500);
+            Glide.with(getBaseActivity())
+                    .asBitmap()
+                    .load(bitmap)
+                    .thumbnail(1f)
+                    .apply(requestOptions)
+                    .into(mImageQRCode);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

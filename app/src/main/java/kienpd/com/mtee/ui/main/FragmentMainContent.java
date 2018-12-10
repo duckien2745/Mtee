@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.ui.adapter.MainAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
+import kienpd.com.mtee.ui.follow.store.StoreFragment;
+import kienpd.com.mtee.ui.search.SearchFragment;
 
 public class FragmentMainContent extends BaseFragment {
 
@@ -27,6 +30,9 @@ public class FragmentMainContent extends BaseFragment {
 
     @BindView(R.id.pager_main)
     ViewPager mViewPager;
+
+    @BindView(R.id.edit_search_main)
+    EditText mEditSearchMain;
 
     @BindView(R.id.tab_bottom)
     TabLayout mTabBottom;
@@ -91,6 +97,14 @@ public class FragmentMainContent extends BaseFragment {
             }
         });
         mTabBottom.setupWithViewPager(mViewPager);
+
+        mEditSearchMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SearchFragment fragment = SearchFragment.newInstance();
+                fragment.show(getFragmentManager(), SearchFragment.TAG);
+            }
+        });
 
     }
 

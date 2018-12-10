@@ -20,7 +20,7 @@ public class VoucherSavePresenter<V extends VoucherSaveMvpView> extends BasePres
         API.getVoucherSaveByUserId(request, new API.APICallback<List<Voucher>>() {
             @Override
             public void onResponse(List<Voucher> response) throws JSONException {
-                if (response != null && response.size() > 0) {
+                if (response != null) {
                     getMvpView().displayData(response, isClearData);
                 }
             }

@@ -122,4 +122,9 @@ public class APIDefinition {
         public static final String TAG = "Login";
         public static final String PATH = "user/update_user_data";
     }
+
+    public static class SearchStore {
+        public static final String TAG = "Search Store";
+        public static final String PATH = "store/search_by_name";
+    }
 }

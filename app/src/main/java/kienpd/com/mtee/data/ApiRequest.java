@@ -243,4 +243,13 @@ public class ApiRequest {
             this.id = id;
         }
     }
+
+    public static class ApiRequestSearchStore {
+
+        private String keyWord;
+
+        public ApiRequestSearchStore(String keyword) {
+            this.keyWord = keyword;
+        }
+    }
 }

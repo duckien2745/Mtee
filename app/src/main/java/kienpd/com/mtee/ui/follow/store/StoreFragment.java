@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -25,6 +27,7 @@ import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.DetailStoreAdapter;
+import kienpd.com.mtee.ui.base.BaseActivity;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.Const;
@@ -47,8 +50,17 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
     @BindView(R.id.process_loading)
     ProgressBar mProgressBar;
 
+    @BindView(R.id.image_back)
+    ImageView mImageBack;
+
+    @BindView(R.id.text_title_center)
+    TextView mTextTitleCenter;
+
     private int mStoreId;
     private int userId = 0;
+    private Boolean mIsUserFollow = true;
+
+    private StoreListener mStoreListener;
 
     public static StoreFragment newInstance(int storeId) {
         StoreFragment f = new StoreFragment();
@@ -59,6 +71,7 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
 
         return f;
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -98,6 +111,17 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
                 loadData();
             }
         }
+
+        mImageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mStoreListener != null) {
+                    mStoreListener.onUpdateFollow(mStoreId, mIsUserFollow);
+                }
+                dismissDialog(TAG);
+            }
+        });
+        mTextTitleCenter.setText("Cửa hàng");
     }
 
 
@@ -127,13 +151,25 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
 
     @Override
     public void updateStatusFollow(Boolean isUserFollow) {
+        mIsUserFollow = isUserFollow;
         mAdapter.updateStatusFollow(isUserFollow);
     }
 
     @Override
-    public void displayStatusFollow(Boolean isUserFollow) {
-        Log.d("bedebde", "111" + isUserFollow);
-        mAdapter.displayStatusFollow(isUserFollow);
+    public void displayStatusFollow(final Boolean isUserFollow) {
+        mUpdateData = true;
+        mHandler = new Handler();
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (mUpdateData && !mRecyclerDetailStore.isComputingLayout()) {
+                    mAdapter.displayStatusFollow(isUserFollow);
+                    mHandler.removeCallbacks(mRunnable);
+                    mUpdateData = false;
+                }
+            }
+        };
+        mHandler.postDelayed(mRunnable, 500);
     }
 
     @Override
@@ -148,21 +184,15 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
         mPresenter.loadInfoStore(mStoreId);
         mPresenter.loadVoucherInStore(mStoreId, true);
         mPresenter.getStatusUserFollow(mStoreId, userId);
-
-
-        mUpdateData = true;
-        mHandler = new Handler();
-        mRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (mUpdateData && !mRecyclerDetailStore.isComputingLayout()) {
-                    mAdapter.notifyDataSetChanged();
-                    mHandler.removeCallbacks(mRunnable);
-                    mUpdateData = false;
-                }
-            }
-        };
-        mHandler.postDelayed(mRunnable, 0);
     }
+
+    public interface StoreListener {
+        void onUpdateFollow(int id, Boolean isFollow);
+    }
+
+    public void setStoreListener(StoreListener mStoreListener) {
+        this.mStoreListener = mStoreListener;
+    }
+
 
 }

@@ -21,7 +21,7 @@ public class FollowPresenter<V extends FollowMvpView> extends BasePresenter<V>
         API.getStoreFollow(requestGetCode, new API.APICallback<List<Store>>() {
             @Override
             public void onResponse(List<Store> response) throws JSONException {
-                if (response != null && response.size() > 0) {
+                if (response != null) {
                     getMvpView().displayData(response, isClearData);
                 }
             }

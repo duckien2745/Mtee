@@ -3,13 +3,16 @@ package kienpd.com.mtee.ui.voucher.taken;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -42,10 +45,17 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
     @BindView(R.id.recycler_voucher_taken)
     RecyclerView mRecyclerVoucherTaken;
 
-    @BindView(R.id.process_loading)
-    ProgressBar mProgressBar;
+    @BindView(R.id.swipe_to_refresh)
+    SwipeRefreshLayout mSwipeToRefresh;
+
+    @BindView(R.id.layout_refresh)
+    LinearLayout mLayoutRefresh;
+
+    @BindView(R.id.text_tab_to_refresh)
+    TextView mTextRefresh;
 
     private VoucherTakenAdapter mAdapter;
+    private int userId;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -66,9 +76,8 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
             Gson gson = new Gson();
             User user = gson.fromJson(jsonUser, User.class);
             if (user != null) {
-                int userId = user.getId();
-                mProgressBar.setVisibility(View.VISIBLE);
-                mRecyclerVoucherTaken.setVisibility(View.GONE);
+                userId = user.getId();
+                mSwipeToRefresh.setColorSchemeResources(R.color.color_item_select);
 
                 int px = CommonUtils.dpToPx(10);
                 GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
@@ -78,7 +87,24 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
                 mRecyclerVoucherTaken.addItemDecoration(itemDecoration);
                 mRecyclerVoucherTaken.setAdapter(mAdapter);
 
+                mSwipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        mPresenter.loadData(userId, true);
+                    }
+                });
+
+                mTextRefresh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mSwipeToRefresh.setRefreshing(true);
+                        mPresenter.loadData(userId, true);
+                    }
+                });
+
+                mSwipeToRefresh.setRefreshing(true);
                 mPresenter.loadData(userId, true);
+
             }
         }
     }
@@ -107,9 +133,16 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
 
     @Override
     public void displayData(List<UserCode> userCodes, Boolean isClearData) {
-        mProgressBar.setVisibility(View.GONE);
-        mRecyclerVoucherTaken.setVisibility(View.VISIBLE);
+        mSwipeToRefresh.setRefreshing(false);
 
-        mAdapter.addItem(userCodes, isClearData);
+        if (userCodes.size() > 0) {
+            mRecyclerVoucherTaken.setVisibility(View.VISIBLE);
+            mLayoutRefresh.setVisibility(View.GONE);
+            mAdapter.addItem(userCodes, isClearData);
+        } else {
+            mRecyclerVoucherTaken.setVisibility(View.GONE);
+            mLayoutRefresh.setVisibility(View.VISIBLE);
+        }
+
     }
 }

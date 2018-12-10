@@ -139,4 +139,8 @@ public abstract class API {
     public static void updateUserData(ApiRequest.ApiRequestUpdateDataUser param, APICallback<Message> callback) {
         client.UpdateUserData(param).enqueue(new RetrofitCallback<>(callback));
     }
+
+    public static void searchStore(ApiRequest.ApiRequestSearchStore param, APICallback<List<Store>> callback) {
+        client.SearchStore(param).enqueue(new RetrofitCallback<>(callback));
+    }
 }

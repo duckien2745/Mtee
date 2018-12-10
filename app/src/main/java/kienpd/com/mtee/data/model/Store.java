@@ -28,6 +28,10 @@ public class Store {
     @Expose
     private int countVoucher;
 
+    @SerializedName("addressSearch")
+    @Expose
+    private Address addressSearch;
+
 
     public Integer getId() {
         return id;
@@ -83,5 +87,13 @@ public class Store {
 
     public void setCountVoucher(int countVoucher) {
         this.countVoucher = countVoucher;
+    }
+
+    public Address getAddressSearch() {
+        return addressSearch;
+    }
+
+    public void setAddressSearch(Address addressSearch) {
+        this.addressSearch = addressSearch;
     }
 }

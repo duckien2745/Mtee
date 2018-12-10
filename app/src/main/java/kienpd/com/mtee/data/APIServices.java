@@ -91,5 +91,8 @@ public class APIServices {
         @POST(APIDefinition.UpdateUserData.PATH)
         Call<Message> UpdateUserData(@Body ApiRequest.ApiRequestUpdateDataUser param);
 
+        @POST(APIDefinition.SearchStore.PATH)
+        Call<List<Store>> SearchStore(@Body ApiRequest.ApiRequestSearchStore param);
+
     }
 }

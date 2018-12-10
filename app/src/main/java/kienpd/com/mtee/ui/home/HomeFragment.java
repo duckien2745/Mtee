@@ -76,7 +76,6 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
                 mPresenter.showDetailDialog(id);
                 break;
             case 2:
-                //todo categoryId
                 mPresenter.showCollectionDialog(id, 0);
                 break;
             case 3:

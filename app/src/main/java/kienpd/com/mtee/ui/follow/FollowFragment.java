@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -38,15 +41,21 @@ import kienpd.com.mtee.utils.CommonUtils;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
 
-public class FollowFragment extends BaseFragment implements FollowMvpView, FollowStoreAdapter.StoreFollowAdapterCallback {
+public class FollowFragment extends BaseFragment implements FollowMvpView, FollowStoreAdapter.StoreFollowAdapterCallback, StoreFragment.StoreListener {
 
     FollowMvpPresenter<FollowMvpView> mPresenter;
 
     @BindView(R.id.recycler_store)
     RecyclerView mRecyclerStore;
 
-    @BindView(R.id.process_loading)
-    ProgressBar mProgressBar;
+    @BindView(R.id.swipe_to_refresh)
+    SwipeRefreshLayout mSwipeToRefresh;
+
+    @BindView(R.id.layout_refresh)
+    LinearLayout mLayoutRefresh;
+
+    @BindView(R.id.text_tab_to_refresh)
+    TextView mTextRefresh;
 
     @BindView(R.id.layout_follow)
     LinearLayout mLayoutFollow;
@@ -83,17 +92,34 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
                 mLayoutFollow.setVisibility(View.VISIBLE);
                 mLayoutSignWithGoogle.setVisibility(View.GONE);
 
-                mProgressBar.setVisibility(View.VISIBLE);
-                mRecyclerStore.setVisibility(View.GONE);
-
                 int px = CommonUtils.dpToPx(10);
                 GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
 
                 userId = user.getId();
-                mAdapter = new FollowStoreAdapter(getBaseActivity(), new ArrayList<Store>(), this);
+                mSwipeToRefresh.setColorSchemeResources(R.color.color_item_select);
+
+                mList = new ArrayList<>();
+                mAdapter = new FollowStoreAdapter(getBaseActivity(), mList, this);
                 mRecyclerStore.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
                 mRecyclerStore.addItemDecoration(itemDecoration);
                 mRecyclerStore.setAdapter(mAdapter);
+
+                mSwipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        mPresenter.loadData(userId, true);
+                    }
+                });
+
+                mTextRefresh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mSwipeToRefresh.setRefreshing(true);
+                        mPresenter.loadData(userId, true);
+                    }
+                });
+
+                mSwipeToRefresh.setRefreshing(true);
                 mPresenter.loadData(userId, true);
             }
         } else {
@@ -119,6 +145,7 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
     @Override
     public void onClickStoreFollow(int id) {
         StoreFragment fragment = StoreFragment.newInstance(id);
+        fragment.setStoreListener(this);
         fragment.show(getFragmentManager(), StoreFragment.TAG);
     }
 
@@ -129,11 +156,18 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
 
     @Override
     public void displayData(List<Store> storeList, Boolean isClearData) {
-        mProgressBar.setVisibility(View.GONE);
-        mRecyclerStore.setVisibility(View.VISIBLE);
+        mSwipeToRefresh.setRefreshing(false);
 
-        mList = storeList;
-        mAdapter.addItem(storeList, isClearData);
+        if (storeList.size() > 0) {
+            mRecyclerStore.setVisibility(View.VISIBLE);
+            mLayoutRefresh.setVisibility(View.GONE);
+            mList = storeList;
+            mAdapter.addItem(mList, isClearData);
+        } else {
+            mRecyclerStore.setVisibility(View.GONE);
+            mLayoutRefresh.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -142,18 +176,13 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
             if (mList != null && mList.size() > 0) {
                 for (int i = 0; i < mList.size(); i++) {
                     if (mList.get(i).getId() == storeId) {
-                        removeAt(i);
+                        mList.remove(mList.get(i));
+                        mAdapter.removeAt(i);
                         break;
                     }
                 }
             }
         }
-    }
-
-    public void removeAt(int position) {
-        mList.remove(position);
-        mAdapter.notifyItemRemoved(position);
-        mAdapter.notifyItemRangeChanged(position, mList.size());
     }
 
     @Override
@@ -201,4 +230,8 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
         }
     }
 
+    @Override
+    public void onUpdateFollow(int id, Boolean isFollow) {
+        updateStatusFollow(isFollow, id);
+    }
 }

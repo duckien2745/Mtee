@@ -3,7 +3,6 @@ package kienpd.com.mtee.ui.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.holder.FollowViewHolder;
 import kienpd.com.mtee.ui.adapter.holder.HeaderStoreHolder;
 import kienpd.com.mtee.ui.adapter.holder.LoadingHolder;
-import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.NetworkUtils;
 import kienpd.com.mtee.utils.TextUtil;
 
@@ -150,11 +148,7 @@ public class DetailStoreAdapter extends RecyclerView.Adapter<FollowViewHolder> i
     }
 
     public void displayStatusFollow(Boolean isUerFollow) {
-        Log.d("bedebde","bbbbbbb");
-
         if (mHeaderStoreHolder != null) {
-            Log.d("bedebde","ccccc");
-
             mHeaderStoreHolder.displayStatusFollow(isUerFollow);
         }
     }

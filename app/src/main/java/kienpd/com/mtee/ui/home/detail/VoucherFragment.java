@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
@@ -28,7 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
@@ -49,12 +47,11 @@ import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
 import kienpd.com.mtee.ui.custom.ScrollViewExt;
+import kienpd.com.mtee.ui.home.image.ImageFragment;
 import kienpd.com.mtee.ui.home.rules.RulesFragment;
-import kienpd.com.mtee.ui.user.info.InfoFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
-import kienpd.com.mtee.utils.TimeUtil;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 import static android.view.View.GONE;
@@ -295,7 +292,10 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
     @Override
     public void onClickPriceListener(int position) {
-        //todo
+        Gson gson = new Gson();
+        String json = gson.toJson(mImagePrices);
+        ImageFragment fragment = ImageFragment.newInstance(json, position);
+        fragment.show(getFragmentManager(), ImageFragment.TAG);
     }
 
     @Override
@@ -467,7 +467,10 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
     @Override
     public void onClickSliderImageListener(int position) {
-
+        Gson gson = new Gson();
+        String json = gson.toJson(mImageVouchers);
+        ImageFragment fragment = ImageFragment.newInstance(json, position);
+        fragment.show(getFragmentManager(), ImageFragment.TAG);
     }
 
     @Override
