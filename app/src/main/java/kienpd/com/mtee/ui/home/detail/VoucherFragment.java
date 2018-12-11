@@ -319,7 +319,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         //Count Like
         if (countLike > 0) {
             mCountLike = countLike;
-            mTextCountLike.setText("+" + countLike);
+            mTextCountLike.setText(countLike+"");
             mLayoutCountLike.setVisibility(VISIBLE);
         } else {
             mLayoutCountLike.setVisibility(GONE);
@@ -420,7 +420,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
         if (mCountLike > 0) {
             mLayoutCountLike.setVisibility(VISIBLE);
-            mTextCountLike.setText("+" + mCountLike);
+            mTextCountLike.setText(mCountLike+"");
         } else {
             mLayoutCountLike.setVisibility(GONE);
         }

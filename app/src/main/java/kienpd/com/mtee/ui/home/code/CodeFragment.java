@@ -226,7 +226,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
 
         //Count Like
         if (countLike > 0) {
-            mTextCountLike.setText("+" + countLike);
+            mTextCountLike.setText(""+countLike);
             mLayoutCountLike.setVisibility(VISIBLE);
         } else {
             mLayoutCountLike.setVisibility(GONE);
