@@ -252,4 +252,18 @@ public class ApiRequest {
             this.keyWord = keyword;
         }
     }
+
+
+    public static class ApiRequestEvaluation {
+
+        private int voucherId;
+        private int from;
+        private int size;
+
+        public ApiRequestEvaluation(int voucherId, int from, int size) {
+            this.voucherId = voucherId;
+            this.from = from;
+            this.size = size;
+        }
+    }
 }

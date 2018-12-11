@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -41,12 +42,18 @@ import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.db.StorageManager;
 import kienpd.com.mtee.data.model.Messager;
+import kienpd.com.mtee.data.model.Rating;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.User;
+import kienpd.com.mtee.data.model.Voucher;
+import kienpd.com.mtee.ui.adapter.DetailStoreAdapter;
+import kienpd.com.mtee.ui.adapter.EvaluationAdapter;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
+import kienpd.com.mtee.ui.adapter.holder.FollowStoreAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
+import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
 import kienpd.com.mtee.ui.custom.ScrollViewExt;
 import kienpd.com.mtee.ui.home.image.ImageFragment;
 import kienpd.com.mtee.ui.home.rules.RulesFragment;
@@ -58,7 +65,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
-public class VoucherFragment extends BaseDialog implements VoucherMvpView, ScrollViewExt.ScrollViewListener, PriceAdapter.PriceAdapterCallback, SliderDetailAdapter.SliderDetailAdapterCallback, View.OnClickListener {
+public class VoucherFragment extends BaseDialog implements VoucherMvpView, ScrollViewExt.ScrollViewListener, PriceAdapter.PriceAdapterCallback, SliderDetailAdapter.SliderDetailAdapterCallback, View.OnClickListener, EvaluationAdapter.EvaluationAdapterCallback {
 
     public static final String TAG = "DETAIL_FRAGMENT";
     public static final String EXTRAS_DETAIL_ID = "extras_detail_id";
@@ -184,7 +191,11 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     @BindView(R.id.text_count_like)
     TextView mTextCountLike;
 
+    @BindView(R.id.recycler_evaluation)
+    RelativeLayout mRecyclerEvalution;
+
     private SliderDetailAdapter mSliderDetailAdapter;
+    private EvaluationAdapter mEvaluationAdapter;
     private PriceAdapter mPriceAdapter;
     private ArrayList<String> mImageVouchers;
     private ArrayList<String> mImagePrices;
@@ -252,6 +263,8 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         mImageEdit.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageRight.setColorFilter(getResources().getColor(R.color.color_item_un_select));
 
+
+        //Image Voucher
         mImageVouchers = new ArrayList<>();
         mSliderDetailAdapter = new SliderDetailAdapter(getBaseActivity(), mImageVouchers, this);
         mViewPagerDetail.setAdapter(mSliderDetailAdapter);
@@ -261,6 +274,8 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new SliderTimer(), 3000, 6000);
 
+
+        //Image Price
         mImagePrices = new ArrayList<>();
         mPriceAdapter = new PriceAdapter(getBaseActivity(), mImagePrices, this);
         LinearLayoutManager layoutManager
@@ -268,9 +283,19 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         mRecyclerPrice.setLayoutManager(layoutManager);
         mRecyclerPrice.setAdapter(mPriceAdapter);
 
+
+        //Comment
+        int px = CommonUtils.dpToPx(10);
+        GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
+        mEvaluationAdapter = new EvaluationAdapter(getBaseActivity(), new ArrayList<Rating>(), this);
+        mRecyclerPrice.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
+        mRecyclerPrice.addItemDecoration(itemDecoration);
+        mRecyclerPrice.setAdapter(mEvaluationAdapter);
+
+
         mLayoutMyRate.setVisibility(GONE);
 
-        //NnClick
+        //OnClick
         mScrollviewReaderContent.setScrollViewListener(this);
         mImageBack.setOnClickListener(this);
         mLayoutDirect.setOnClickListener(this);
@@ -423,6 +448,13 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
             mTextCountLike.setText(mCountLike+"");
         } else {
             mLayoutCountLike.setVisibility(GONE);
+        }
+    }
+
+    @Override
+    public void displayEvaluation(List<Rating> ratingList) {
+        if (ratingList != null) {
+            mEvaluationAdapter.addItem(ratingList);
         }
     }
 
@@ -602,6 +634,11 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         }
     }
 
+    @Override
+    public void onClickEvaluationListener() {
+
+    }
+
     private class SliderTimer extends TimerTask {
         @Override
         public void run() {
@@ -622,6 +659,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
     private void loadData(int voucherId) {
         mPresenter.loadDetailData(voucherId);
+        mPresenter.loadRating(voucherId);
     }
 
     private void loadInfoUser() {

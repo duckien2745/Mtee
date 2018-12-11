@@ -211,4 +211,14 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#bebcbc" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_evaluation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>

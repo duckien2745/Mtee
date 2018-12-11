@@ -7,6 +7,7 @@ import java.util.List;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Message;
 import kienpd.com.mtee.data.model.Messager;
+import kienpd.com.mtee.data.model.Rating;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.StatusLikeSaveRating;
 import kienpd.com.mtee.data.model.Store;
@@ -142,5 +143,9 @@ public abstract class API {
 
     public static void searchStore(ApiRequest.ApiRequestSearchStore param, APICallback<List<Store>> callback) {
         client.SearchStore(param).enqueue(new RetrofitCallback<>(callback));
+    }
+
+    public static void loadEvaluation(ApiRequest.ApiRequestEvaluation param, APICallback<List<Rating>> callback) {
+        client.GetEvaluation(param).enqueue(new RetrofitCallback<>(callback));
     }
 }

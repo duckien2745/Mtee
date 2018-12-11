@@ -3,6 +3,7 @@ package kienpd.com.mtee.ui.home.detail;
 import java.util.List;
 
 import kienpd.com.mtee.data.model.Messager;
+import kienpd.com.mtee.data.model.Rating;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.RatingTotal;
 import kienpd.com.mtee.data.model.Store;
@@ -37,5 +38,6 @@ public interface VoucherMvpView extends MvpView {
 
     void updateLike(Boolean isLike);
 
+    void displayEvaluation(List<Rating> ratingList);
 
 }

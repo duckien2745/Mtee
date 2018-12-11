@@ -6,6 +6,7 @@ import java.util.List;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Message;
 import kienpd.com.mtee.data.model.Messager;
+import kienpd.com.mtee.data.model.Rating;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.StatusLikeSaveRating;
 import kienpd.com.mtee.data.model.Store;
@@ -93,6 +94,9 @@ public class APIServices {
 
         @POST(APIDefinition.SearchStore.PATH)
         Call<List<Store>> SearchStore(@Body ApiRequest.ApiRequestSearchStore param);
+
+        @POST(APIDefinition.Evaluation.PATH)
+        Call<List<Rating>> GetEvaluation(@Body ApiRequest.ApiRequestEvaluation param);
 
     }
 }

@@ -127,4 +127,9 @@ public class APIDefinition {
         public static final String TAG = "Search Store";
         public static final String PATH = "store/search_by_name";
     }
+
+    public static class Evaluation {
+        public static final String TAG = "Evaluation";
+        public static final String PATH = "evaluation/get_rating";
+    }
 }

@@ -9,6 +9,7 @@ import kienpd.com.mtee.data.ApiRequest;
 import kienpd.com.mtee.data.model.Address;
 import kienpd.com.mtee.data.model.Message;
 import kienpd.com.mtee.data.model.Messager;
+import kienpd.com.mtee.data.model.Rating;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.StatusLikeSaveRating;
 import kienpd.com.mtee.data.model.Store;
@@ -226,6 +227,24 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
             public void onResponse(User response) throws JSONException {
                 if (response != null) {
                     getMvpView().updateUI(response, action);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
+    }
+
+    @Override
+    public void loadRating(Integer voucherId) {
+        ApiRequest.ApiRequestEvaluation request = new ApiRequest.ApiRequestEvaluation(voucherId, 0, 3);
+        API.loadEvaluation(request, new API.APICallback<List<Rating>>() {
+            @Override
+            public void onResponse(List<Rating> response) throws JSONException {
+                if (response != null && response.size() > 0) {
+                    getMvpView().displayEvaluation(response);
                 }
             }
 
