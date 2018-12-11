@@ -20,12 +20,14 @@ public interface VoucherMvpPresenter<V extends VoucherMvpView> extends MvpPresen
 
     void showTextMore();
 
-    void checkGetCodeInDay(int userId,int voucherId);
+    void checkGetCodeInDay(int userId, int voucherId);
 
     void updateStatusUserFollow(int storeId, int userId);
 
     void getStatusUserFollow(int storeId, int userId);
 
-    void signInWithGoogle(String type,String idToken,int action);
+    void signInWithGoogle(String type, String idToken, int action);
+
+    void loadRating(Integer voucherId);
 
 }
