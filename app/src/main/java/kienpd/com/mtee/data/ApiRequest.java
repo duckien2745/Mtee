@@ -75,11 +75,13 @@ public class ApiRequest {
         private int userId;
         private int voucherId;
         private int star;
+        private String comment;
 
-        public ApiRequestRating(int userId, int voucherId, int star) {
+        public ApiRequestRating(int userId, int voucherId, int star,String comment) {
             this.userId = userId;
             this.voucherId = voucherId;
             this.star = star;
+            this.comment = comment;
         }
 
     }
@@ -264,6 +266,17 @@ public class ApiRequest {
             this.voucherId = voucherId;
             this.from = from;
             this.size = size;
+        }
+    }
+
+    public static class ApiRequestMyEvaluation {
+
+        private int voucherId;
+        private int userId;
+
+        public ApiRequestMyEvaluation(int voucherId, int userId) {
+            this.voucherId = voucherId;
+            this.userId = userId;
         }
     }
 }

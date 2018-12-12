@@ -94,6 +94,28 @@
             app:mrb_progressTint="#ffef863b"
             app:mrb_secondaryProgressTint="#ffef863b" />
 
+        <EditText
+            android:id="@+id/edit_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:hint="Cho chúng tôi biết suy nghĩ của bạn"
+            android:lines="1"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <View
+            android:id="@+id/view_divider_my_rate"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="5dp"
+            android:background="#5e5e5e" />
+
         <TextView
             android:id="@+id/text_submit"
             android:layout_width="wrap_content"

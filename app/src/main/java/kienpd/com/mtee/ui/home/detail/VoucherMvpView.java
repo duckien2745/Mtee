@@ -40,4 +40,6 @@ public interface VoucherMvpView extends MvpView {
 
     void displayEvaluation(List<Rating> ratingList);
 
+    void displayMyEvaluation(Rating rating);
+
 }

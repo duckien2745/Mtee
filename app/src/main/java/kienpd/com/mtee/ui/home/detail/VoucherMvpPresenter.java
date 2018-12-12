@@ -12,7 +12,7 @@ public interface VoucherMvpPresenter<V extends VoucherMvpView> extends MvpPresen
 
     void saveDetail(int userId, int detailId);
 
-    void rattingDetail(int userId, int detailId, float rating);
+    void rattingDetail(int userId, int detailId, float rating,String comment);
 
     void shareDetail(String title, String content);
 
@@ -29,5 +29,7 @@ public interface VoucherMvpPresenter<V extends VoucherMvpView> extends MvpPresen
     void signInWithGoogle(String type, String idToken, int action);
 
     void loadRating(Integer voucherId);
+
+    void loadMyEvaluation(Integer voucherId, Integer userId);
 
 }

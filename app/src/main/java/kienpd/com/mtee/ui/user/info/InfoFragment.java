@@ -75,6 +75,12 @@ public class InfoFragment extends BaseDialog implements InfoMvpView, View.OnClic
     @BindView(R.id.layout_save)
     LinearLayout mLayoutSave;
 
+    @BindView(R.id.text_title_center)
+    TextView mTextCenter;
+
+    @BindView(R.id.image_back)
+    ImageView mImageBack;
+
     private String mJsonUser;
     private Long mBirthday;
     private Integer mUserId;
@@ -119,8 +125,10 @@ public class InfoFragment extends BaseDialog implements InfoMvpView, View.OnClic
             }
         }
 
+        mTextCenter.setText("Thông tin cá nhân");
         mLayoutSave.setOnClickListener(this);
         mTextBirthday.setOnClickListener(this);
+        mImageBack.setOnClickListener(this);
     }
 
     @Override
@@ -231,6 +239,9 @@ public class InfoFragment extends BaseDialog implements InfoMvpView, View.OnClic
                             }
                         }, year, month, day);
                 datePickerDialog.show();
+                break;
+            case R.id.image_back:
+                dismissDialog(TAG);
                 break;
             default:
                 break;

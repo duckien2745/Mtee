@@ -1,18 +1,13 @@
-package kienpd.com.mtee.ui.home.image;
+package kienpd.com.mtee.ui.home.detail.image;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -25,14 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
-import kienpd.com.mtee.data.model.User;
-import kienpd.com.mtee.data.model.Voucher;
-import kienpd.com.mtee.ui.adapter.DetailCollectionAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
-import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
-import kienpd.com.mtee.ui.home.detail.VoucherFragment;
-import kienpd.com.mtee.utils.CommonUtils;
 
 public class ImageFragment extends BaseDialog implements ImageMvpView {
 

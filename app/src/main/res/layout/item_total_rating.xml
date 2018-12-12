@@ -5,17 +5,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:text="Đánh giá"
-        android:textColor="#111111"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -212,13 +201,6 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#bebcbc" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_evaluation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false"/>
-
+        android:layout_height="1px"
+        android:background="#111111" />
 </LinearLayout>

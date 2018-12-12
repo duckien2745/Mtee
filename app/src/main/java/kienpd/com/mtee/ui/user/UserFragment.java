@@ -108,6 +108,7 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
         mLayoutSignInGoogle.setOnClickListener(this);
         mLayoutLogout.setOnClickListener(this);
         mImageArrowRight.setOnClickListener(this);
+        mImageArrowRight.setOnClickListener(this);
     }
 
     @Override

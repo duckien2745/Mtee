@@ -20,9 +20,9 @@ public class Rating {
     @Expose
     private String comment;
 
-    @SerializedName("time_post")
+    @SerializedName("timePost")
     @Expose
-    private Long time_post;
+    private Long timePost;
 
     @SerializedName("star")
     @Expose
@@ -46,7 +46,7 @@ public class Rating {
     }
 
     public Long getTimePost() {
-        return time_post;
+        return timePost;
     }
 
     public Integer getStar() {

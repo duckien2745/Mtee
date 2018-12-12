@@ -1,4 +1,4 @@
-package kienpd.com.mtee.ui.home.image;
+package kienpd.com.mtee.ui.home.detail.image;
 
 import kienpd.com.mtee.ui.base.BasePresenter;
 

@@ -130,6 +130,11 @@ public class APIDefinition {
 
     public static class Evaluation {
         public static final String TAG = "Evaluation";
-        public static final String PATH = "evaluation/get_rating";
+        public static final String PATH = "rating/get_evaluation_by_voucher_id";
+    }
+
+    public static class MyEvaluation {
+        public static final String TAG = "My Evaluation";
+        public static final String PATH = "rating/get_my_evaluation_by_voucher_id";
     }
 }

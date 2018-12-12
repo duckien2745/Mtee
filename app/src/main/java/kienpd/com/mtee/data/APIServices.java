@@ -98,5 +98,8 @@ public class APIServices {
         @POST(APIDefinition.Evaluation.PATH)
         Call<List<Rating>> GetEvaluation(@Body ApiRequest.ApiRequestEvaluation param);
 
+        @POST(APIDefinition.MyEvaluation.PATH)
+        Call<Rating> GetMyEvaluation(@Body ApiRequest.ApiRequestMyEvaluation param);
+
     }
 }

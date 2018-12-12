@@ -148,4 +148,8 @@ public abstract class API {
     public static void loadEvaluation(ApiRequest.ApiRequestEvaluation param, APICallback<List<Rating>> callback) {
         client.GetEvaluation(param).enqueue(new RetrofitCallback<>(callback));
     }
+
+    public static void loadMyEvaluation(ApiRequest.ApiRequestMyEvaluation param, APICallback<Rating> callback) {
+        client.GetMyEvaluation(param).enqueue(new RetrofitCallback<>(callback));
+    }
 }

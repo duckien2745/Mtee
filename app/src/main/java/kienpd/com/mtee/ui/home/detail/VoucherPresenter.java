@@ -113,15 +113,16 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
     }
 
     @Override
-    public void rattingDetail(int userId, final int detailId, float rating) {
+    public void rattingDetail(int userId, final int detailId, float rating, String comment) {
         int star = Math.round(rating);
-        ApiRequest.ApiRequestRating requestRating = new ApiRequest.ApiRequestRating(userId, detailId, star);
+        ApiRequest.ApiRequestRating requestRating = new ApiRequest.ApiRequestRating(userId, detailId, star, comment);
         API.rateVoucher(requestRating, new API.APICallback<Message>() {
             @Override
             public void onResponse(Message response) throws JSONException {
                 if (response != null) {
                     getMvpView().changeMyRatting(response.getStatus() == 1);
                     getTotalRatting(detailId);
+                    loadRating(detailId);
                 }
             }
 
@@ -245,6 +246,24 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
             public void onResponse(List<Rating> response) throws JSONException {
                 if (response != null && response.size() > 0) {
                     getMvpView().displayEvaluation(response);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
+    }
+
+    @Override
+    public void loadMyEvaluation(Integer voucherId, Integer userId) {
+        ApiRequest.ApiRequestMyEvaluation request = new ApiRequest.ApiRequestMyEvaluation(voucherId, userId);
+        API.loadMyEvaluation(request, new API.APICallback<Rating>() {
+            @Override
+            public void onResponse(Rating response) throws JSONException {
+                if (response != null) {
+                    getMvpView().displayMyEvaluation(response);
                 }
             }
 

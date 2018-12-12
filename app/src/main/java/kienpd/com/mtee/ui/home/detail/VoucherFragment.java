@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -16,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -46,16 +46,15 @@ import kienpd.com.mtee.data.model.Rating;
 import kienpd.com.mtee.data.model.RatingResponse;
 import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.User;
-import kienpd.com.mtee.data.model.Voucher;
-import kienpd.com.mtee.ui.adapter.DetailStoreAdapter;
 import kienpd.com.mtee.ui.adapter.EvaluationAdapter;
 import kienpd.com.mtee.ui.adapter.PriceAdapter;
 import kienpd.com.mtee.ui.adapter.SliderDetailAdapter;
-import kienpd.com.mtee.ui.adapter.holder.FollowStoreAdapter;
 import kienpd.com.mtee.ui.base.BaseDialog;
+import kienpd.com.mtee.ui.custom.CustomGridLayoutManager;
 import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
 import kienpd.com.mtee.ui.custom.ScrollViewExt;
-import kienpd.com.mtee.ui.home.image.ImageFragment;
+import kienpd.com.mtee.ui.home.detail.comment.CommentFragment;
+import kienpd.com.mtee.ui.home.detail.image.ImageFragment;
 import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 import kienpd.com.mtee.utils.Const;
@@ -191,8 +190,17 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     @BindView(R.id.text_count_like)
     TextView mTextCountLike;
 
+    @BindView(R.id.text_see_more_rating)
+    TextView mTextSeeMoreRating;
+
+    @BindView(R.id.edit_comment)
+    EditText mEditComment;
+
+    @BindView(R.id.view_divider_my_rate)
+    View mViewDividerMyRate;
+
     @BindView(R.id.recycler_evaluation)
-    RelativeLayout mRecyclerEvalution;
+    RecyclerView mRecyclerEvaluation;
 
     private SliderDetailAdapter mSliderDetailAdapter;
     private EvaluationAdapter mEvaluationAdapter;
@@ -201,6 +209,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     private ArrayList<String> mImagePrices;
     private Boolean mIsRunSlider;
     private String mDescription;
+    private String mJonRatingResponse;
     private Integer mDetailId;
     private Integer mUserId = 0;
     private Integer mStoreId = 0;
@@ -238,6 +247,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         //Load Data
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
         loadData(mDetailId);
+        mPresenter.loadRating(mDetailId);
         String jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
         if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
             Gson gson = new Gson();
@@ -288,10 +298,10 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         int px = CommonUtils.dpToPx(10);
         GridDividerItemDecoration itemDecoration = new GridDividerItemDecoration(px, 1);
         mEvaluationAdapter = new EvaluationAdapter(getBaseActivity(), new ArrayList<Rating>(), this);
-        mRecyclerPrice.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
-        mRecyclerPrice.addItemDecoration(itemDecoration);
-        mRecyclerPrice.setAdapter(mEvaluationAdapter);
-
+        CustomGridLayoutManager gridLayoutManager = new CustomGridLayoutManager(getBaseActivity());
+        mRecyclerEvaluation.setLayoutManager(gridLayoutManager);
+        mRecyclerEvaluation.addItemDecoration(itemDecoration);
+        mRecyclerEvaluation.setAdapter(mEvaluationAdapter);
 
         mLayoutMyRate.setVisibility(GONE);
 
@@ -310,6 +320,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         mImageRight.setOnClickListener(this);
         mLayoutLogin.setOnClickListener(this);
         mLayoutSignWithGoogle.setOnClickListener(this);
+        mTextSeeMoreRating.setOnClickListener(this);
     }
 
     @Override
@@ -344,7 +355,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         //Count Like
         if (countLike > 0) {
             mCountLike = countLike;
-            mTextCountLike.setText(countLike+"");
+            mTextCountLike.setText(countLike + "");
             mLayoutCountLike.setVisibility(VISIBLE);
         } else {
             mLayoutCountLike.setVisibility(GONE);
@@ -387,7 +398,6 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
         mMyRatingBar.setMax(5);
         mMyRatingBar.setRating(star);
-
     }
 
     @Override
@@ -445,7 +455,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
         if (mCountLike > 0) {
             mLayoutCountLike.setVisibility(VISIBLE);
-            mTextCountLike.setText(mCountLike+"");
+            mTextCountLike.setText(mCountLike + "");
         } else {
             mLayoutCountLike.setVisibility(GONE);
         }
@@ -453,8 +463,27 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
     @Override
     public void displayEvaluation(List<Rating> ratingList) {
-        if (ratingList != null) {
+        if (ratingList != null && ratingList.size() > 0) {
             mEvaluationAdapter.addItem(ratingList);
+            mTextSeeMoreRating.setVisibility(VISIBLE);
+        }
+    }
+
+    @Override
+    public void displayMyEvaluation(Rating rating) {
+        if (rating != null) {
+            int star = rating.getStar();
+            if (star != 0) {
+                editRating(false);
+            } else {
+                editRating(true);
+            }
+
+            mMyRatingBar.setMax(5);
+            mMyRatingBar.setRating(star);
+            mEditComment.setText(rating.getComment());
+        } else {
+            editRating(true);
         }
     }
 
@@ -484,6 +513,8 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
     @Override
     public void displayTotalRatting(RatingResponse totalRatting) {
+        Gson gson = new Gson();
+        mJonRatingResponse = gson.toJson(totalRatting);
 
         int totalRate = totalRatting.getRating1star() + totalRatting.getRating2star() + totalRatting.getRating3star() + totalRatting.getRating4star() + totalRatting.getRating5star();
         int totalStar = totalRatting.getRating1star() + totalRatting.getRating2star() * 2 + totalRatting.getRating3star() * 3 + totalRatting.getRating4star() * 4 + totalRatting.getRating5star() * 5;
@@ -607,7 +638,12 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
                     mAction = Const.Action.ACTION_SUBMIT;
                     mLayoutLogin.setVisibility(VISIBLE);
                 } else {
-                    mPresenter.rattingDetail(mUserId, mDetailId, mMyRatingBar.getRating());
+                    if (mMyRatingBar.getRating() == 0) {
+                        getBaseActivity().showMessage("Bạn chưa đánh giá");
+                    } else if (TextUtil.isEmpty(mEditComment.getText().toString())) {
+                        getBaseActivity().showMessage("Bạn chưa để lại lời nhận xét");
+                    } else
+                        mPresenter.rattingDetail(mUserId, mDetailId, mMyRatingBar.getRating(), mEditComment.getText().toString());
                 }
                 break;
             case R.id.layout_get_code:
@@ -629,6 +665,12 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
             case R.id.layout_sign_in_with_google:
                 signIn();
                 break;
+            case R.id.text_see_more_rating:
+                if (mDetailId != 0 && !TextUtil.isEmpty(mJonRatingResponse)) {
+                    CommentFragment fragment = CommentFragment.newInstance(mJonRatingResponse, mDetailId);
+                    fragment.show(getFragmentManager(), CommentFragment.TAG);
+                }
+                break;
             default:
                 break;
         }
@@ -636,7 +678,10 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
     @Override
     public void onClickEvaluationListener() {
-
+        if (mDetailId != 0 && !TextUtil.isEmpty(mJonRatingResponse)) {
+            CommentFragment fragment = CommentFragment.newInstance(mJonRatingResponse, mDetailId);
+            fragment.show(getFragmentManager(), CommentFragment.TAG);
+        }
     }
 
     private class SliderTimer extends TimerTask {
@@ -659,11 +704,11 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
 
     private void loadData(int voucherId) {
         mPresenter.loadDetailData(voucherId);
-        mPresenter.loadRating(voucherId);
     }
 
     private void loadInfoUser() {
         mPresenter.loadInfoUser(mUserId);
+        mPresenter.loadMyEvaluation(mDetailId, mUserId);
     }
 
     private void editRating(boolean isEdit) {
@@ -674,12 +719,16 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
             mTextRateVoucher.setVisibility(VISIBLE);
             mTextNameUser.setVisibility(GONE);
             mImageEdit.setVisibility(GONE);
+            mEditComment.setVisibility(VISIBLE);
+            mViewDividerMyRate.setVisibility(VISIBLE);
         } else {
             mMyRatingBar.setIsIndicator(true);
             mTextSubmit.setVisibility(GONE);
             mTextRateVoucher.setVisibility(GONE);
             mTextNameUser.setVisibility(VISIBLE);
             mImageEdit.setVisibility(VISIBLE);
+            mEditComment.setVisibility(GONE);
+            mViewDividerMyRate.setVisibility(GONE);
         }
     }
 
@@ -709,7 +758,13 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
                     mPresenter.saveDetail(mUserId, mDetailId);
                     break;
                 case Const.Action.ACTION_SUBMIT:
-                    mPresenter.rattingDetail(mUserId, mDetailId, mMyRatingBar.getRating());
+                    if (mMyRatingBar.getRating() == 0) {
+                        getBaseActivity().showMessage("Bạn chưa đánh giá");
+                    } else if (TextUtil.isEmpty(mEditComment.getText().toString())) {
+                        getBaseActivity().showMessage("Bạn chưa để lại lời nhận xét");
+                    } else
+                        mPresenter.rattingDetail(mUserId, mDetailId, mMyRatingBar.getRating(), mEditComment.getText().toString());
+
                     break;
                 case Const.Action.ACTION_GET_CODE:
                     mPresenter.checkGetCodeInDay(mUserId, mDetailId);
