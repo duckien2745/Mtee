@@ -69,6 +69,42 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     @BindView(R.id.layout_user)
     RelativeLayout mLayoutUser;
 
+    @BindView(R.id.layout_more)
+    LinearLayout mLayoutMore;
+
+    @BindView(R.id.text_version)
+    TextView mTextVersion;
+
+    @BindView(R.id.image_idea)
+    ImageView mImageIdea;
+
+    @BindView(R.id.image_arrow_idea)
+    ImageView mImageArrowIdea;
+
+    @BindView(R.id.image_tutorial)
+    ImageView mImageTutorial;
+
+    @BindView(R.id.image_arrow_tutorial)
+    ImageView mImageArrowTutorial;
+
+    @BindView(R.id.image_cooperation)
+    ImageView mImageCooperation;
+
+    @BindView(R.id.image_arrow_cooperation)
+    ImageView mImageArrowCooperation;
+
+    @BindView(R.id.image_rating)
+    ImageView mImageRating;
+
+    @BindView(R.id.image_arrow_rating)
+    ImageView mImageArrowRating;
+
+    @BindView(R.id.image_share)
+    ImageView mImageShare;
+
+    @BindView(R.id.image_arrow_share)
+    ImageView mImageArrowShare;
+
     private static final String TAG = "UserFragment";
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
@@ -89,6 +125,23 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     @Override
     protected void setUp(View view) {
         mImageArrowRight.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+
+        mImageIdea.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        mImageArrowIdea.setColorFilter(getResources().getColor(R.color.color_item_gray));
+
+        mImageTutorial.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        mImageArrowTutorial.setColorFilter(getResources().getColor(R.color.color_item_gray));
+
+        mImageRating.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        mImageArrowRating.setColorFilter(getResources().getColor(R.color.color_item_gray));
+
+        mImageCooperation.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        mImageArrowCooperation.setColorFilter(getResources().getColor(R.color.color_item_gray));
+
+        mImageShare.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        mImageArrowShare.setColorFilter(getResources().getColor(R.color.color_item_gray));
+
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestId()
@@ -159,6 +212,8 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     @Override
     public void updateUI(User user) {
         if (user != null) {
+            mLayoutMore.setVisibility(View.VISIBLE);
+            mTextVersion.setVisibility(View.VISIBLE);
             mLayoutUser.setVisibility(View.VISIBLE);
             mLayoutSignInGoogle.setVisibility(View.GONE);
             mLayoutLogout.setVisibility(View.VISIBLE);
