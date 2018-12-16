@@ -27,6 +27,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.zxing.WriterException;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
@@ -45,6 +48,7 @@ import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
+import kienpd.com.mtee.utils.TimeUtil;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -147,6 +151,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     private Integer mDetailId;
     private Integer mUserId = 0;
     private String jsonUserCode;
+    private String mDescription;
 
     public static final int RESULT_CODE_FRAGMENT = 1;
 
@@ -178,6 +183,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     protected void setUp(View view) {
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID, -111);
         jsonUserCode = getArguments().getString(EXTRAS_JSON_USER_CODE, TextUtil.EMPTY_STRING);
+        Log.d("ygbdeydbe", jsonUserCode);
 
         if (mDetailId != null && mDetailId != -111) {
             mLayoutWaiting.setVisibility(View.VISIBLE);
@@ -212,7 +218,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     }
 
     @Override
-    public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser, String description) {
+    public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser, String description, Long timeStart, Long timeEnd) {
         mLayoutWaiting.setVisibility(View.GONE);
         mTextTitle.setText(title);
         //Image
@@ -226,7 +232,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
 
         //Count Like
         if (countLike > 0) {
-            mTextCountLike.setText(""+countLike);
+            mTextCountLike.setText("" + countLike);
             mLayoutCountLike.setVisibility(VISIBLE);
         } else {
             mLayoutCountLike.setVisibility(GONE);
@@ -249,11 +255,16 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
         mTextMail.setText(emailUser);
 
         //Description
+        String sTimeStart = TimeUtil.getStringDateFromMiliseconds(timeStart);
+        String sTimeEnd = TimeUtil.getStringDateFromMiliseconds(timeEnd);
+
+        mDescription = String.format(description, sTimeStart, sTimeEnd, sTimeEnd);
+
         mTextDescription.setLineSpacing(16f, 1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mTextDescription.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT));
+            mTextDescription.setText(Html.fromHtml(mDescription, Html.FROM_HTML_MODE_COMPACT));
         } else {
-            mTextDescription.setText(Html.fromHtml(description));
+            mTextDescription.setText(Html.fromHtml(mDescription));
         }
         mLayoutProcessBar.setVisibility(View.GONE);
         //QR Code
@@ -351,16 +362,34 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
             }
             String sCode = code.getCode();
 
-            //todo
-            String dateVoucher = "17 tháng 12 2018";
+            //Date
+            String dateVoucher;
+            Long timeGetCode = userCode.getTimeGetCode();
+            Date dateGetCode = new Date(timeGetCode);
+            Calendar c = Calendar.getInstance();
+            c.setTime(dateGetCode);
+
+            //Next 10 day
+            c.add(Calendar.DATE, 10);
+            dateGetCode = c.getTime();
+
+            if (dateGetCode.before(new Date(voucher.getTimeEnd()))) {
+                dateVoucher = "Áp dụng tới ngày: " + TimeUtil.formatDate(dateGetCode);
+            } else {
+                dateVoucher = "Áp dụng tới ngày: " + TimeUtil.getStringDateFromMiliseconds(voucher.getTimeEnd());
+            }
+
+            //Phone
             String phone = "0969.056.804";
 
             String nameUser = user.getName();
             String email = user.getEmail();
 
             String description = voucher.getDescription();
+            Long timeStart = voucher.getTimeStart();
+            Long timeEnd = voucher.getTimeEnd();
 
-            displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description);
+            displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description, timeStart, timeEnd);
         }
     }
 

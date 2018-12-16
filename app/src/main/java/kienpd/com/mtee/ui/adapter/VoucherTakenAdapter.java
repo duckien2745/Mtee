@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -161,7 +163,24 @@ public class VoucherTakenAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                         .apply(RequestOptions.circleCropTransform())
                         .into(mImageLogo);
 
-                mTextTime.setText("Áp dụng tới ngày: " + TimeUtil.getStringDateFromMiliseconds(voucher.getTimeEnd()));
+                String dateVoucher;
+
+                Long timeGetCode = userCode.getTimeGetCode();
+                Date dateGetCode = new Date(timeGetCode);
+                Calendar c = Calendar.getInstance();
+                c.setTime(dateGetCode);
+
+                //Next 10 day
+                c.add(Calendar.DATE, 10);
+                dateGetCode = c.getTime();
+
+                if (dateGetCode.before(new Date(voucher.getTimeEnd()))) {
+                    dateVoucher = TimeUtil.formatDate(dateGetCode);
+                } else {
+                    dateVoucher = TimeUtil.getStringDateFromMiliseconds(voucher.getTimeEnd());
+                }
+
+                mTextTime.setText("Áp dụng tới ngày: " + dateVoucher);
 
                 mLayoutTakenVoucher.setOnClickListener(new View.OnClickListener() {
                     @Override

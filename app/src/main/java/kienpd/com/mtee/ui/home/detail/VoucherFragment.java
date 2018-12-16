@@ -59,6 +59,7 @@ import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
+import kienpd.com.mtee.utils.TimeUtil;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 import static android.view.View.GONE;
@@ -343,7 +344,7 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
     }
 
     @Override
-    public void displayDetailView(Store store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description) {
+    public void displayDetailView(Store store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description, Long timeStart, Long timeEnd) {
         //Store
         if (store != null) {
             mStoreId = store.getId();
@@ -378,12 +379,16 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         mPriceAdapter.notifyDataSetChanged();
 
         //Description
-        mDescription = description;
+        String sTimeStart = TimeUtil.getStringDateFromMiliseconds(timeStart);
+        String sTimeEnd = TimeUtil.getStringDateFromMiliseconds(timeEnd);
+
+        mDescription = String.format(description, sTimeStart, sTimeEnd, sTimeEnd);
+
         mTextCondition.setLineSpacing(16f, 1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mTextCondition.setText(Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT));
+            mTextCondition.setText(Html.fromHtml(mDescription, Html.FROM_HTML_MODE_COMPACT));
         } else {
-            mTextCondition.setText(Html.fromHtml(description));
+            mTextCondition.setText(Html.fromHtml(mDescription));
         }
 
     }

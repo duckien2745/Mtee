@@ -7,6 +7,9 @@ import android.content.Intent;
 
 import org.json.JSONException;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.ApiRequest;
 import kienpd.com.mtee.data.model.Address;
@@ -16,6 +19,7 @@ import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BasePresenter;
+import kienpd.com.mtee.utils.TimeUtil;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -48,8 +52,23 @@ public class CodePresenter<V extends CodeMvpView> extends BasePresenter<V>
                         }
                         String sCode = code.getCode();
 
-                        //todo
-                        String dateVoucher = "17 tháng 12 2018";
+                        //Date
+                        String dateVoucher;
+                        Long timeGetCode = response.getTimeGetCode();
+                        Date dateGetCode = new Date(timeGetCode);
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(dateGetCode);
+                        //Next 10 day
+                        c.add(Calendar.DATE, 10);
+                        dateGetCode = c.getTime();
+
+                        if (dateGetCode.before(new Date(voucher.getTimeEnd()))) {
+                            dateVoucher = "Áp dụng tới ngày: " + TimeUtil.formatDate(dateGetCode);
+                        } else {
+                            dateVoucher = "Áp dụng tới ngày: " + TimeUtil.getStringDateFromMiliseconds(voucher.getTimeEnd());
+                        }
+
+                        //Phone
                         String phone = "0969.056.804";
 
                         String nameUser = user.getName();
@@ -57,7 +76,10 @@ public class CodePresenter<V extends CodeMvpView> extends BasePresenter<V>
 
                         String description = voucher.getDescription();
 
-                        getMvpView().displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description);
+                        Long timeStart = voucher.getTimeStart();
+                        Long timeEnd = voucher.getTimeEnd();
+
+                        getMvpView().displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description, timeStart, timeEnd);
 
                     }
                 }

@@ -19,7 +19,7 @@ public class TimeUtil {
 
     public static final long DEFAULT_EPOCH_TIME = 946684800;
     public static final String DATE_TIME_FORMAT_STRING = "yyyy/MM/dd";
-    public static final String DATE_FORMAT_STRING = "yyyy/MM/dd";
+    public static final String DATE_FORMAT_STRING = "dd/MM/yyyy";
     public static final String DATE_FORMAT_STRING_VN = "dd/MM/yyyy HH:mm";
     private static final String TIME_SPAN_BY_MINUTES_SECONDS_FORMATTER = "%02d:%02d";
 

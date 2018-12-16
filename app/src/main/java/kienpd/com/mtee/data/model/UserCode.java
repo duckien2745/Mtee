@@ -15,6 +15,9 @@ public class UserCode {
     @SerializedName("code")
     @Expose
     private Code code;
+    @SerializedName("timeGetCode")
+    @Expose
+    private Long timeGetCode;
 
     public Integer getId() {
         return id;
@@ -40,5 +43,11 @@ public class UserCode {
         this.code = code;
     }
 
+    public Long getTimeGetCode() {
+        return timeGetCode;
+    }
 
+    public void setTimeGetCode(Long timeGetCode) {
+        this.timeGetCode = timeGetCode;
+    }
 }

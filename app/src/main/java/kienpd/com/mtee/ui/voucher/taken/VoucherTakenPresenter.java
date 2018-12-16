@@ -1,5 +1,7 @@
 package kienpd.com.mtee.ui.voucher.taken;
 
+import android.util.Log;
+
 import org.json.JSONException;
 
 import java.util.List;

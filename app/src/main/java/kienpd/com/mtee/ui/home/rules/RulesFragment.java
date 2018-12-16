@@ -62,14 +62,10 @@ public class RulesFragment extends BaseDialog implements RulesMvpView {
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID);
         mDescription = getArguments().getString(EXTRAS_DETAIL_DESCRIPTION);
 
-        //String s = mDescription;
-
-
-        String s = getResources().getString(R.string.text_deception);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mTextDeception.setText(Html.fromHtml(s, Html.FROM_HTML_MODE_COMPACT));
+            mTextDeception.setText(Html.fromHtml(mDescription, Html.FROM_HTML_MODE_COMPACT));
         } else {
-            mTextDeception.setText(Html.fromHtml(s));
+            mTextDeception.setText(Html.fromHtml(mDescription));
         }
         mTextDeception.setLineSpacing(20f, 1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

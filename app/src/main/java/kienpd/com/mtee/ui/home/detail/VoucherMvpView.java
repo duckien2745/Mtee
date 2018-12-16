@@ -12,7 +12,7 @@ import kienpd.com.mtee.ui.base.MvpView;
 
 public interface VoucherMvpView extends MvpView {
 
-    void displayDetailView(Store store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description);
+    void displayDetailView(Store store, int countLike, List<String> urlImageVouchers, String title, String address, List<String> urlImagePrices, String description,Long timeStart,Long timeEnd);
 
     void displayMyRating(int star);
 

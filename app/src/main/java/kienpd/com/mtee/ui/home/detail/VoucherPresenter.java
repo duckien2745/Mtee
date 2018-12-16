@@ -63,9 +63,12 @@ public class VoucherPresenter<V extends VoucherMvpView> extends BasePresenter<V>
                     List<String> listPricePicture = response.getPricePictures();
                     String description = response.getDescription();
 
+                    Long timeStart = response.getTimeStart();
+                    Long timeEnd = response.getTimeEnd();
+
                     RatingResponse totalRatting = response.getRatingResponse();
                     getMvpView().displayTotalRatting(totalRatting);
-                    getMvpView().displayDetailView(store, likeCount, listPicture, title, sAddress, listPricePicture, description);
+                    getMvpView().displayDetailView(store, likeCount, listPicture, title, sAddress, listPricePicture, description,timeStart,timeEnd);
 
                 }
             }
