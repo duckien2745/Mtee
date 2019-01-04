@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Mtee.iml" filepath="$PROJECT_DIR$/Mtee.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dragflowlayout/dragflowlayout.iml" filepath="$PROJECT_DIR$/dragflowlayout/dragflowlayout.iml" />
     </modules>
   </component>
 </project>
