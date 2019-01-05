@@ -248,7 +248,7 @@ public class ApiRequest {
 
     public static class ApiRequestSearchStore {
 
-        private String keyWord;
+            private String keyWord;
 
         public ApiRequestSearchStore(String keyword) {
             this.keyWord = keyword;

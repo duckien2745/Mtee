@@ -1,7 +1,5 @@
 package kienpd.com.mtee.ui.search;
 
-import android.util.Log;
-
 import org.json.JSONException;
 
 import java.util.List;

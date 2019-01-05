@@ -183,7 +183,6 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     protected void setUp(View view) {
         mDetailId = getArguments().getInt(EXTRAS_DETAIL_ID, -111);
         jsonUserCode = getArguments().getString(EXTRAS_JSON_USER_CODE, TextUtil.EMPTY_STRING);
-        Log.d("ygbdeydbe", jsonUserCode);
 
         if (mDetailId != null && mDetailId != -111) {
             mLayoutWaiting.setVisibility(View.VISIBLE);
@@ -200,6 +199,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
             mLayoutProcessBar.setVisibility(View.VISIBLE);
             Gson gson = new Gson();
             UserCode userCode = gson.fromJson(jsonUserCode, UserCode.class);
+            mDetailId = userCode.getCode().getVoucher().getId();
             getDataFromBundle(userCode);
         }
 
