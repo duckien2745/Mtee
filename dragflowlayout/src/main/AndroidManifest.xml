@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="vn.com.viettel.vtcc.browser.dragflowlayout">
+
+    <application
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup">
+
+    </application>
+
+</manifest>
