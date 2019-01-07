@@ -4,9 +4,7 @@ package kienpd.com.mtee.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import vn.com.viettel.vtcc.browser.dragflowlayout.IDraggable;
-
-public class Category implements IDraggable {
+public class Category {
 
     @SerializedName("id")
     @Expose
@@ -41,8 +39,4 @@ public class Category implements IDraggable {
         this.categoryName = categoryName;
     }
 
-    @Override
-    public boolean isDraggable() {
-        return false;
-    }
 }

@@ -37,6 +37,7 @@ import kienpd.com.mtee.ui.home.HomeMvpView;
 import kienpd.com.mtee.ui.home.HomePresenter;
 import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.ui.user.info.InfoFragment;
+import kienpd.com.mtee.ui.user.setting.SettingFragment;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
 import kienpd.com.mtee.utils.TimeUtil;
@@ -81,10 +82,13 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     @BindView(R.id.image_arrow_idea)
     ImageView mImageArrowIdea;
 
-    @BindView(R.id.image_tutorial)
+    @BindView(R.id.layout_setting_category)
+    RelativeLayout mLayoutSettingCategory;
+
+    @BindView(R.id.image_setting)
     ImageView mImageTutorial;
 
-    @BindView(R.id.image_arrow_tutorial)
+    @BindView(R.id.image_arrow_setting)
     ImageView mImageArrowTutorial;
 
     @BindView(R.id.image_cooperation)
@@ -161,7 +165,7 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
         mLayoutSignInGoogle.setOnClickListener(this);
         mLayoutLogout.setOnClickListener(this);
         mImageArrowRight.setOnClickListener(this);
-        mImageArrowRight.setOnClickListener(this);
+        mLayoutSettingCategory.setOnClickListener(this);
     }
 
     @Override
@@ -202,6 +206,10 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
             case R.id.image_arrow_right:
                 InfoFragment fragment = InfoFragment.newInstance(jsonUser);
                 fragment.show(getFragmentManager(), InfoFragment.TAG);
+                break;
+            case R.id.layout_setting_category:
+                SettingFragment settingFragment = SettingFragment.newInstance();
+                settingFragment.show(getFragmentManager(), SettingFragment.TAG);
                 break;
             default:
                 break;

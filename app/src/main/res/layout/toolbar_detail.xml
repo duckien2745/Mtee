@@ -48,4 +48,16 @@
         android:background="?attr/selectableItemBackground"
         android:padding="15dp"
         android:src="@drawable/ic_star" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/text_right"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:textColor="#ce0707"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 </RelativeLayout>

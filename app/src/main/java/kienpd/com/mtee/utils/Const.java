@@ -36,4 +36,8 @@ public class Const {
 
     }
 
+    public static class UserCategory {
+        public static String key_category = "key_category";
+    }
+
 }

@@ -38,8 +38,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/layout_logo"
@@ -123,6 +122,7 @@
 
 
         <RelativeLayout
+            android:id="@+id/layout_setting_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -130,13 +130,13 @@
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/image_tutorial"
+                android:id="@+id/image_setting"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
-                android:src="@drawable/ic_tutorial" />
+                android:src="@drawable/ic_settings" />
 
             <ImageView
-                android:id="@+id/image_arrow_tutorial"
+                android:id="@+id/image_arrow_setting"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentRight="true"
@@ -148,7 +148,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/image_tutorial"
+                android:layout_toRightOf="@id/image_setting"
                 android:text="Cài đặt thể loại"
                 android:textColor="#414141"
                 android:textSize="14sp" />

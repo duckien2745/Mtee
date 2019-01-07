@@ -10,12 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.db.StorageManager;
 import kienpd.com.mtee.data.model.Category;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Voucher;
@@ -24,6 +28,7 @@ import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.home.collection.CollectionFragment;
 import kienpd.com.mtee.ui.home.detail.VoucherFragment;
 import kienpd.com.mtee.utils.Const;
+import kienpd.com.mtee.utils.TextUtil;
 
 public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapter.HomeAdapterCallBack {
 
@@ -38,6 +43,8 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     private Handler mHandler;
     private Runnable mRunnable;
     private Boolean mUpdateData;
+
+    private Gson mGson;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -54,7 +61,7 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     @Override
     protected void setUp(View view) {
         GridLayoutManager manager = new GridLayoutManager(getBaseActivity(), 2);
-        mAdapter = new HomeAdapter(getBaseActivity(), new ArrayList<Voucher>(), new ArrayList<Voucher>(), new ArrayList<Collection>(),new ArrayList<Category>(), this);
+        mAdapter = new HomeAdapter(getBaseActivity(), new ArrayList<Voucher>(), new ArrayList<Voucher>(), new ArrayList<Collection>(), new ArrayList<Category>(), this);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -65,6 +72,7 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
         mRecyclerViewHome.setLayoutManager(manager);
         mRecyclerViewHome.setAdapter(mAdapter);
 
+        mGson = new Gson();
         loadData(mCategoryId, true);
     }
 
@@ -129,13 +137,31 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
 
     @Override
     public void updateRepoCategory(List<Category> repoList) {
-        if(repoList != null && repoList.size() > 0){
-            mAdapter.addItemCategory(repoList,true);
+        if (repoList != null && repoList.size() > 0) {
+            mAdapter.addItemCategory(repoList, true);
+
+            String json = mGson.toJson(repoList);
+            StorageManager.setStringValue(getBaseActivity(), Const.UserCategory.key_category, json);
+
         }
     }
 
     public void loadData(int categoryId, Boolean isClearData) {
-        mPresenter.loadCategory();
+
+        String json = StorageManager.getStringValue(getBaseActivity(), Const.UserCategory.key_category);
+        if (json != null && !TextUtil.isEmpty(json)) {
+            List<Category> listCategory = mGson.fromJson(json, new TypeToken<List<Category>>() {
+            }.getType());
+
+            if (listCategory != null && listCategory.size() > 0) {
+                updateRepoCategory(listCategory);
+            } else {
+                mPresenter.loadCategory();
+            }
+        } else {
+            mPresenter.loadCategory();
+        }
+
         mPresenter.loadHighLightData(categoryId, isClearData);
         mPresenter.loadCollectionData(categoryId, isClearData);
         mPresenter.loadNewestData(categoryId, isClearData);
