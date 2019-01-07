@@ -4,6 +4,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
+import kienpd.com.mtee.data.model.Category;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Message;
 import kienpd.com.mtee.data.model.Messager;
@@ -47,6 +48,10 @@ public abstract class API {
         void onResponse(T response) throws JSONException;
 
         void onFailure(int code, String message);
+    }
+
+    public static void getListCategory(APICallback<List<Category>> callback) {
+        client.GetListCategory().enqueue(new RetrofitCallback<>(callback));
     }
 
     public static void getListVoucherNewest(ApiRequest.ApiRequestVoucher param, APICallback<List<Voucher>> callback) {

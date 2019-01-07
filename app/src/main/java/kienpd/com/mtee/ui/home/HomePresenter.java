@@ -6,6 +6,7 @@ import java.util.List;
 
 import kienpd.com.mtee.data.API;
 import kienpd.com.mtee.data.ApiRequest;
+import kienpd.com.mtee.data.model.Category;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.base.BasePresenter;
@@ -22,6 +23,23 @@ public class HomePresenter<V extends HomeMvpView> extends BasePresenter<V>
     @Override
     public void showCollectionDialog(int collectionId, int categoryId) {
         getMvpView().showCollectionDialog(collectionId, categoryId);
+    }
+
+    @Override
+    public void loadCategory() {
+        API.getListCategory(new API.APICallback<List<Category>>() {
+            @Override
+            public void onResponse(List<Category> response) throws JSONException {
+                if (response != null && response.size() > 0) {
+                    getMvpView().updateRepoCategory(response);
+                }
+            }
+
+            @Override
+            public void onFailure(int code, String message) {
+
+            }
+        });
     }
 
     @Override

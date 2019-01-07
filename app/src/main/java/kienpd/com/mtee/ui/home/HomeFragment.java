@@ -16,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.model.Category;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.HomeAdapter;
@@ -53,7 +54,7 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
     @Override
     protected void setUp(View view) {
         GridLayoutManager manager = new GridLayoutManager(getBaseActivity(), 2);
-        mAdapter = new HomeAdapter(getBaseActivity(), new ArrayList<Voucher>(), new ArrayList<Voucher>(), new ArrayList<Collection>(), this);
+        mAdapter = new HomeAdapter(getBaseActivity(), new ArrayList<Voucher>(), new ArrayList<Voucher>(), new ArrayList<Collection>(),new ArrayList<Category>(), this);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -126,7 +127,15 @@ public class HomeFragment extends BaseFragment implements HomeMvpView, HomeAdapt
         mAdapter.addItemCollection(repoList, isClearData);
     }
 
+    @Override
+    public void updateRepoCategory(List<Category> repoList) {
+        if(repoList != null && repoList.size() > 0){
+            mAdapter.addItemCategory(repoList,true);
+        }
+    }
+
     public void loadData(int categoryId, Boolean isClearData) {
+        mPresenter.loadCategory();
         mPresenter.loadHighLightData(categoryId, isClearData);
         mPresenter.loadCollectionData(categoryId, isClearData);
         mPresenter.loadNewestData(categoryId, isClearData);

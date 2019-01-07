@@ -8,6 +8,8 @@
     android:padding="15dp">
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_category_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -41,6 +43,8 @@
 
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_category_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
@@ -75,6 +79,8 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/layout_category_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"

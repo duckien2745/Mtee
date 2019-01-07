@@ -3,6 +3,7 @@ package kienpd.com.mtee.data;
 
 import java.util.List;
 
+import kienpd.com.mtee.data.model.Category;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Message;
 import kienpd.com.mtee.data.model.Messager;
@@ -15,11 +16,15 @@ import kienpd.com.mtee.data.model.UserCode;
 import kienpd.com.mtee.data.model.Voucher;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public class APIServices {
 
     public interface Services {
+
+        @GET(APIDefinition.GetListCategory.PATH)
+        Call<List<Category>> GetListCategory();
 
         @POST(APIDefinition.GetListVoucherNewest.PATH)
         Call<List<Voucher>> PostListVoucherNewest(

@@ -2,6 +2,11 @@ package kienpd.com.mtee.data;
 
 public class APIDefinition {
 
+    public static class GetListCategory {
+        public static final String TAG = "Get List Category";
+        public static final String PATH = "category/all";
+    }
+
     public static class GetListVoucherNewest {
         public static final String TAG = "Get List Newest Voucher";
         public static final String PATH = "voucher/get_list_by_time";

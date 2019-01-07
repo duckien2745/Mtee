@@ -23,6 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.API;
+import kienpd.com.mtee.data.model.Category;
 import kienpd.com.mtee.data.model.Collection;
 import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.holder.CategoryHolder;
@@ -51,14 +52,16 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> implements
     private ArrayList<Voucher> mListHighLight;
     private List<Collection> mListCollection;
     private List<Voucher> mListNewest;
+    private List<Category> mListCategory;
 
-    public HomeAdapter(Context context, ArrayList<Voucher> listHighLight, List<Voucher> listNewest, List<Collection> listCollection, HomeAdapterCallBack callBack) {
+    public HomeAdapter(Context context, ArrayList<Voucher> listHighLight, List<Voucher> listNewest, List<Collection> listCollection, List<Category> listCategory, HomeAdapterCallBack callBack) {
         mContext = context;
         mCallBack = callBack;
 
         mListHighLight = listHighLight;
         mListCollection = listCollection;
         mListNewest = listNewest;
+        mListCategory = listCategory;
     }
 
     @NonNull
@@ -67,7 +70,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> implements
         switch (viewType) {
             case TYPE_CATEGORY:
                 return new CategoryHolder(mContext,
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_category, parent, false), this);
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_category, parent, false), this,mListCategory);
             case TYPE_HIGHLIGHT:
                 return new HighLightHolder(mContext,
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_highlight, parent, false), this);
@@ -204,6 +207,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> implements
                 mListNewest.clear();
             }
             mListNewest.addAll(repoList);
+        }
+    }
+
+    public void addItemCategory(List<Category> repoList, Boolean isClearData) {
+        if (mListCategory != null) {
+            if (isClearData) {
+                mListCategory.clear();
+            }
+            mListCategory.addAll(repoList);
         }
     }
 

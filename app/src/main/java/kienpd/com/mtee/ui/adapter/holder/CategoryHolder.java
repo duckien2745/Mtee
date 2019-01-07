@@ -1,7 +1,6 @@
 package kienpd.com.mtee.ui.adapter.holder;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -9,9 +8,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
+import kienpd.com.mtee.data.model.Category;
 import kienpd.com.mtee.utils.Const;
 
 public class CategoryHolder extends HomeViewHolder implements View.OnClickListener {
@@ -36,6 +38,15 @@ public class CategoryHolder extends HomeViewHolder implements View.OnClickListen
     @BindView(R.id.layout_fashion)
     LinearLayout mLayoutFashion;
 
+    @BindView(R.id.layout_category_1)
+    LinearLayout mLayoutCategory1;
+
+    @BindView(R.id.layout_category_2)
+    LinearLayout mLayoutCategory2;
+
+    @BindView(R.id.layout_category_3)
+    LinearLayout mLayoutCategory3;
+
     @BindView(R.id.text_food)
     TextView mTextFood;
 
@@ -45,18 +56,19 @@ public class CategoryHolder extends HomeViewHolder implements View.OnClickListen
     @BindView(R.id.text_fashion)
     TextView mTextFashion;
 
-
     private int mCategoryIdSelected = Const.Category.CATEGORY_ALL;
     private Animation anim;
     private Context mContext;
+    private List<Category> mList;
 
 
-    public CategoryHolder(Context context, View itemView, CategoryHolderCallback callback) {
+    public CategoryHolder(Context context, View itemView, CategoryHolderCallback callback, List<Category> list) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         mCallback = callback;
         mContext = context;
         anim = AnimationUtils.loadAnimation(mContext, R.anim.buttom_check);
+        mList = list;
     }
 
     @Override
@@ -67,6 +79,21 @@ public class CategoryHolder extends HomeViewHolder implements View.OnClickListen
     @Override
     public void onBind(int position) {
         super.onBind(position);
+        for (int i = 0; i < mList.size(); i++) {
+            if (mList.get(i) != null) {
+                String nameCategory = mList.get(i).getCategoryName();
+                Boolean isShow = mList.get(i).getShow();
+                if (isShow) {
+                    if (nameCategory.equals("Ẩm thực")) {
+                        mLayoutCategory1.setVisibility(View.VISIBLE);
+                    } else if (nameCategory.equals("Thời trang")) {
+                        mLayoutCategory2.setVisibility(View.VISIBLE);
+                    } else if (nameCategory.equals("Khỏe đẹp")) {
+                        mLayoutCategory3.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
         mImageFood.setOnClickListener(this);
         mImageBeauty.setOnClickListener(this);
         mImageFashion.setOnClickListener(this);
