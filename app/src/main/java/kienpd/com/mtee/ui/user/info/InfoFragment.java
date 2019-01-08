@@ -173,7 +173,6 @@ public class InfoFragment extends BaseDialog implements InfoMvpView, View.OnClic
                 mTextBirthday.setText(TextUtil.EMPTY_STRING);
             }
 
-
             //Gender
             String gender = user.getGender();
             if (!TextUtil.isEmpty(gender)) {

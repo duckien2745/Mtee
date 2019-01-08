@@ -84,6 +84,9 @@ public class CollectionAdapter extends RecyclerView.Adapter<HomeViewHolder> {
         @BindView(R.id.layout_item_home)
         LinearLayout mLinearLayout;
 
+        @BindView(R.id.layout_count_like)
+        LinearLayout mLayoutCountLike;
+
         @BindView(R.id.layout_content_item)
         RelativeLayout mLayoutContent;
 
@@ -118,6 +121,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<HomeViewHolder> {
                 mTextStore.setVisibility(View.GONE);
                 mTextDiscount.setVisibility(View.GONE);
                 mTextCountLike.setVisibility(View.GONE);
+                mLayoutCountLike.setVisibility(View.GONE);
                 mTextTitle.setText(collection.getName());
             }
 

@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="0969.056.804"
+        android:text="0979.022.628"
         android:textColor="@color/color_item_select"
         android:textStyle="bold" />
 </LinearLayout>

@@ -79,7 +79,9 @@ public class CodePresenter<V extends CodeMvpView> extends BasePresenter<V>
                         Long timeStart = voucher.getTimeStart();
                         Long timeEnd = voucher.getTimeEnd();
 
-                        getMvpView().displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description, timeStart, timeEnd);
+                        int status = code.getStatus();
+
+                        getMvpView().displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description, timeStart, timeEnd,status);
 
                     }
                 }

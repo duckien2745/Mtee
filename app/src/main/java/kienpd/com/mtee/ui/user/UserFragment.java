@@ -1,6 +1,7 @@
 package kienpd.com.mtee.ui.user;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -76,6 +77,9 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     @BindView(R.id.text_version)
     TextView mTextVersion;
 
+    @BindView(R.id.layout_idea)
+    RelativeLayout mLayoutIdea;
+
     @BindView(R.id.image_idea)
     ImageView mImageIdea;
 
@@ -86,10 +90,13 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     RelativeLayout mLayoutSettingCategory;
 
     @BindView(R.id.image_setting)
-    ImageView mImageTutorial;
+    ImageView mImageSetting;
 
     @BindView(R.id.image_arrow_setting)
-    ImageView mImageArrowTutorial;
+    ImageView mImageArrowSetting;
+
+    @BindView(R.id.layout_cooperation)
+    RelativeLayout mLayoutCooperation;
 
     @BindView(R.id.image_cooperation)
     ImageView mImageCooperation;
@@ -97,11 +104,17 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     @BindView(R.id.image_arrow_cooperation)
     ImageView mImageArrowCooperation;
 
+    @BindView(R.id.layout_rating)
+    RelativeLayout mLayoutRating;
+
     @BindView(R.id.image_rating)
     ImageView mImageRating;
 
     @BindView(R.id.image_arrow_rating)
     ImageView mImageArrowRating;
+
+    @BindView(R.id.layout_share)
+    RelativeLayout mLayoutShare;
 
     @BindView(R.id.image_share)
     ImageView mImageShare;
@@ -133,8 +146,8 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
         mImageIdea.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageArrowIdea.setColorFilter(getResources().getColor(R.color.color_item_gray));
 
-        mImageTutorial.setColorFilter(getResources().getColor(R.color.color_item_un_select));
-        mImageArrowTutorial.setColorFilter(getResources().getColor(R.color.color_item_gray));
+        mImageSetting.setColorFilter(getResources().getColor(R.color.color_item_un_select));
+        mImageArrowSetting.setColorFilter(getResources().getColor(R.color.color_item_gray));
 
         mImageRating.setColorFilter(getResources().getColor(R.color.color_item_un_select));
         mImageArrowRating.setColorFilter(getResources().getColor(R.color.color_item_gray));
@@ -166,6 +179,10 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
         mLayoutLogout.setOnClickListener(this);
         mImageArrowRight.setOnClickListener(this);
         mLayoutSettingCategory.setOnClickListener(this);
+        mLayoutIdea.setOnClickListener(this);
+        mLayoutCooperation.setOnClickListener(this);
+        mLayoutRating.setOnClickListener(this);
+        mLayoutShare.setOnClickListener(this);
     }
 
     @Override
@@ -211,6 +228,18 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
                 SettingFragment settingFragment = SettingFragment.newInstance();
                 settingFragment.show(getFragmentManager(), SettingFragment.TAG);
                 break;
+            case R.id.layout_idea:
+                directMail(new String[]{"duckien2745@gmail.com"}, "Góp ý sản phẩm", "Góp ý", "Send mail...");
+                break;
+            case R.id.layout_cooperation:
+                directMail(new String[]{"duckien2745@gmail.com"}, "Hợp tác kinh doanh", "Hợp tác", "Send mail...");
+                break;
+            case R.id.layout_rating:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.jamjavn.jamja")));
+                break;
+            case R.id.layout_share:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.jamjavn.jamja")));
+                break;
             default:
                 break;
         }
@@ -247,10 +276,23 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         StorageManager.saveUserDetails(getBaseActivity(), null);
-                        mLayoutUser.setVisibility(View.GONE);
+
                         mLayoutSignInGoogle.setVisibility(View.VISIBLE);
+                        mLayoutUser.setVisibility(View.GONE);
                         mLayoutLogout.setVisibility(View.GONE);
+                        mLayoutMore.setVisibility(View.GONE);
+                        mTextVersion.setVisibility(View.GONE);
+                        mLayoutUser.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    private void directMail(String[] mail, String subject, String content, String chooser) {
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, mail);
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, content);
+        startActivity(Intent.createChooser(emailIntent, chooser));
     }
 }

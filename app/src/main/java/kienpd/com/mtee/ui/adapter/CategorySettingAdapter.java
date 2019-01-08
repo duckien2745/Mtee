@@ -92,20 +92,20 @@ public class CategorySettingAdapter extends RecyclerView.Adapter<HomeViewHolder>
 
             final Category category = mList.get(position);
             if (category != null) {
-                mTextNumber.setText(TextUtil.EMPTY_STRING + position);
+                mTextNumber.setText(TextUtil.EMPTY_STRING + (position+1));
                 mTextCategory.setText(category.getCategoryName());
 
                 if (category.getShow()) {
                     mImageEnable.setColorFilter(mContext.getResources().getColor(R.color.color_verified));
                 } else {
-                    mImageEnable.setColorFilter(mContext.getResources().getColor(R.color.color_white));
+                    mImageEnable.setColorFilter(mContext.getResources().getColor(R.color.color_gray));
                 }
 
                 mLayoutItemCategory.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (category.getShow()) {
-                            mImageEnable.setColorFilter(mContext.getResources().getColor(R.color.color_white));
+                            mImageEnable.setColorFilter(mContext.getResources().getColor(R.color.color_gray));
                             mCallback.onClickCategorySettingListener(position, false);
                         } else {
                             mImageEnable.setColorFilter(mContext.getResources().getColor(R.color.color_verified));

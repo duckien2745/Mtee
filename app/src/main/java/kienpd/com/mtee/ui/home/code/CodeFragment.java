@@ -218,7 +218,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     }
 
     @Override
-    public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser, String description, Long timeStart, Long timeEnd) {
+    public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser, String description, Long timeStart, Long timeEnd, int status) {
         mLayoutWaiting.setVisibility(View.GONE);
         mTextTitle.setText(title);
         //Image
@@ -267,6 +267,15 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
             mTextDescription.setText(Html.fromHtml(mDescription));
         }
         mLayoutProcessBar.setVisibility(View.GONE);
+
+        //Status Code
+        if (status == 2) {
+            mTextActive.setText("Đã kích hoạt");
+            mTextActive.setBackground(getResources().getDrawable(R.drawable.bg_un_active));
+            mTextActive.setEnabled(false);
+            mTextActive.setClickable(false);
+        }
+
         //QR Code
         try {
             Bitmap bitmap = CommonUtils.TextToImageEncode(getBaseActivity(), code, 500);
@@ -314,6 +323,7 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
                 mTextActive.setVisibility(View.VISIBLE);
                 break;
             case R.id.text_employee_active:
+                getBaseActivity().showMessage("Vui lòng đưa nhân viên mã để kích hoạt");
                 break;
             case R.id.text_input_password:
                 ActiveFragment dialogFrag = ActiveFragment.newInstance(mTextCode.getText().toString());
@@ -389,7 +399,9 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
             Long timeStart = voucher.getTimeStart();
             Long timeEnd = voucher.getTimeEnd();
 
-            displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description, timeStart, timeEnd);
+            int status = code.getStatus();
+
+            displayView(title, pictureCover, countLike, sCode, nameStore, sAddress, dateVoucher, nameUser, phone, email, description, timeStart, timeEnd, status);
         }
     }
 
