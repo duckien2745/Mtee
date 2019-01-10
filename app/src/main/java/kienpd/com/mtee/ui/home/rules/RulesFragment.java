@@ -80,4 +80,9 @@ public class RulesFragment extends BaseDialog implements RulesMvpView {
             }
         });
     }
+
+    @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
 }

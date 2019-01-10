@@ -96,6 +96,11 @@ public class CommentFragment extends BaseDialog implements CommentMvpView, Comme
     }
 
     @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
+    @Override
     public void onClickLoadMore() {
 
     }

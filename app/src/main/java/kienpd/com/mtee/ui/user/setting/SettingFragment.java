@@ -99,6 +99,11 @@ public class SettingFragment extends BaseDialog implements SettingMvpView, Categ
         mTextRight.setOnClickListener(this);
     }
 
+    @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
 
     @Override
     public void onClickCategorySettingListener(int position, Boolean isShow) {

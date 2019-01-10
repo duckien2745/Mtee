@@ -583,6 +583,11 @@ public class VoucherFragment extends BaseDialog implements VoucherMvpView, Scrol
         mIsRunSlider = false;
     }
 
+    @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
     public void hideBottomBarLayout() {
         if (mLayoutBottom.getVisibility() == VISIBLE) {
             CommonUtils.SlideDownFromBottom(mLayoutBottom, getBaseActivity());

@@ -135,6 +135,11 @@ public class SearchFragment extends BaseDialog implements SearchMvpView, SearchA
     }
 
     @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
+    @Override
     public void onClickSearchListener(int id) {
         StoreFragment fragment = StoreFragment.newInstance(id);
         fragment.show(getFragmentManager(), StoreFragment.TAG);

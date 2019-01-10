@@ -12,6 +12,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -123,16 +124,20 @@ public abstract class BaseDialog extends DialogFragment implements DialogMvpView
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // the content
+        // Content
         final RelativeLayout root = new RelativeLayout(getActivity());
         root.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        // creating the fullscreen dialog
-        final Dialog dialog = new Dialog(getContext());
+        //Full Screen
+        final Dialog dialog = new Dialog(getContext(), getTheme()) {
+            @Override
+            public void onBackPressed() {
+                onBackButtonPressed();
+            }
+        };
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        dialog.getWindow().getAttributes().windowAnimations = R.style.MyCustomTheme;
         dialog.setContentView(root);
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
@@ -174,4 +179,7 @@ public abstract class BaseDialog extends DialogFragment implements DialogMvpView
         }
         super.onDestroy();
     }
+
+
+    public abstract void onBackButtonPressed();
 }
