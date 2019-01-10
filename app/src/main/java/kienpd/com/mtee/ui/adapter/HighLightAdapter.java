@@ -110,6 +110,7 @@ public class HighLightAdapter extends RecyclerView.Adapter<HomeViewHolder> {
             if (voucher != null) {
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
+                requestOptions = requestOptions.override(100,100);
 
                 Glide.with(mContext)
                         .load(API.HOST_DEV + "thumb/" + voucher.getCoverPicture())

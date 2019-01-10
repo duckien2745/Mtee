@@ -130,6 +130,7 @@ public class VoucherSaveAdapter extends RecyclerView.Adapter<BaseViewHolder> {
                 }
                 RequestOptions requestOptions = new RequestOptions();
                 requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(25));
+                requestOptions = requestOptions.override(100,100);
 
                 Glide.with(mContext)
                         .load(API.HOST_DEV + voucher.getCoverPicture())
