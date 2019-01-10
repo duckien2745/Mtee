@@ -111,5 +111,10 @@ public class ImageFragment extends BaseDialog implements ImageMvpView {
 
     }
 
+    @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
 
 }

@@ -74,6 +74,11 @@ public class ActiveFragment extends BaseDialog implements ActiveMvpView {
         });
     }
 
+    @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
 
     @Override
     public void statusActiveVoucher(Messager message) {

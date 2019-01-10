@@ -132,6 +132,11 @@ public class InfoFragment extends BaseDialog implements InfoMvpView, View.OnClic
     }
 
     @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
+    @Override
     public void displayInfo(User user) {
         if (user != null) {
 

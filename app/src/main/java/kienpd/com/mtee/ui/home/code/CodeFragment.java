@@ -218,6 +218,11 @@ public class CodeFragment extends BaseDialog implements CodeMvpView, View.OnClic
     }
 
     @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
+    @Override
     public void displayView(String title, String urlVoucher, int countLike, String code, String nameStore, String addressStore, String dateVoucher, String nameUser, String phoneUser, String emailUser, String description, Long timeStart, Long timeEnd, int status) {
         mLayoutWaiting.setVisibility(View.GONE);
         mTextTitle.setText(title);

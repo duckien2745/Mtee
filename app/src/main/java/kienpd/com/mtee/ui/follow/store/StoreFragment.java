@@ -124,6 +124,14 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
         mTextTitleCenter.setText("Cửa hàng");
     }
 
+    @Override
+    public void onBackButtonPressed() {
+        if (mStoreListener != null) {
+            mStoreListener.onUpdateFollow(mStoreId, mIsUserFollow);
+        }
+        dismissDialog(TAG);
+    }
+
 
     @Override
     public void onClickListener(int type, int id) {
@@ -193,6 +201,9 @@ public class StoreFragment extends BaseDialog implements StoreMvpView, DetailSto
     public void setStoreListener(StoreListener mStoreListener) {
         this.mStoreListener = mStoreListener;
     }
+
+
+
 
 
 }

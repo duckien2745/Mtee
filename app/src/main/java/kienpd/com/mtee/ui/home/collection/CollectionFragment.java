@@ -122,6 +122,11 @@ public class CollectionFragment extends BaseDialog implements CollectionMvpView,
         mPresenter.loadDataByCollectionId(mCollectionId, mCategoryId, true);
     }
 
+    @Override
+    public void onBackButtonPressed() {
+        dismissDialog(TAG);
+    }
+
 
     @Override
     public void onClickDetailCollectionListener(int id) {
