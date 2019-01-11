@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -25,14 +23,10 @@ import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.db.StorageManager;
 import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.data.model.UserCode;
-import kienpd.com.mtee.data.model.Voucher;
 import kienpd.com.mtee.ui.adapter.VoucherTakenAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
 import kienpd.com.mtee.ui.follow.store.StoreFragment;
-import kienpd.com.mtee.ui.home.HomeMvpPresenter;
-import kienpd.com.mtee.ui.home.HomeMvpView;
-import kienpd.com.mtee.ui.home.HomePresenter;
 import kienpd.com.mtee.ui.home.code.CodeFragment;
 import kienpd.com.mtee.utils.CommonUtils;
 import kienpd.com.mtee.utils.Const;
@@ -72,6 +66,7 @@ public class VoucherTakenFragment extends BaseFragment implements VoucherTakenMv
     @Override
     protected void setUp(View view) {
         String jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
+
         if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
             Gson gson = new Gson();
             User user = gson.fromJson(jsonUser, User.class);

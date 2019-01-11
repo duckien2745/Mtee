@@ -16,7 +16,6 @@ public class FollowPresenter<V extends FollowMvpView> extends BasePresenter<V>
 
     @Override
     public void loadData(int userId, final Boolean isClearData) {
-
         ApiRequest.ApiRequestStoreFollow requestGetCode = new ApiRequest.ApiRequestStoreFollow(userId);
         API.getStoreFollow(requestGetCode, new API.APICallback<List<Store>>() {
             @Override

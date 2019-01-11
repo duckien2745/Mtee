@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +30,8 @@ import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.db.StorageManager;
 import kienpd.com.mtee.data.model.User;
-import kienpd.com.mtee.data.model.UserCode;
+import kienpd.com.mtee.ui.base.BaseActivity;
 import kienpd.com.mtee.ui.base.BaseFragment;
-import kienpd.com.mtee.ui.home.HomeMvpPresenter;
-import kienpd.com.mtee.ui.home.HomeMvpView;
-import kienpd.com.mtee.ui.home.HomePresenter;
-import kienpd.com.mtee.ui.home.rules.RulesFragment;
 import kienpd.com.mtee.ui.user.info.InfoFragment;
 import kienpd.com.mtee.ui.user.setting.SettingFragment;
 import kienpd.com.mtee.utils.Const;
@@ -135,6 +130,8 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
         setUnBinder(ButterKnife.bind(this, view));
         mPresenter = new UserPresenter<>();
         mPresenter.onAttach(this);
+        Log.d("byddye", "d1d1");
+
 
         return view;
     }
@@ -249,6 +246,12 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
     @Override
     public void updateUI(User user) {
         if (user != null) {
+            Log.d("byddye", "c1c1");
+
+            if (mLayoutMore == null) {
+                Log.d("byddye", "f1f1");
+            }
+
             mLayoutMore.setVisibility(View.VISIBLE);
             mTextVersion.setVisibility(View.VISIBLE);
             mLayoutUser.setVisibility(View.VISIBLE);
@@ -294,5 +297,28 @@ public class UserFragment extends BaseFragment implements UserMvpView, View.OnCl
         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, content);
         startActivity(Intent.createChooser(emailIntent, chooser));
+    }
+
+    public void updateView(BaseActivity activity) {
+        Log.d("byddye", "bbbbb");
+
+        if (getBaseActivity() == null) {
+            Log.d("byddye", "c1c1c");
+
+        }
+        jsonUser = StorageManager.getStringValue(activity, Const.User.KEY_SAVE_USER);
+        Log.d("byddye", "bbbb" + jsonUser);
+
+        if (jsonUser != null && !TextUtil.isEmpty(jsonUser)) {
+            Log.d("byddye", "ccccc");
+
+            Gson gson = new Gson();
+            User user = gson.fromJson(jsonUser, User.class);
+            if (user != null) {
+                Log.d("byddye", "dddd");
+
+                updateUI(user);
+            }
+        }
     }
 }

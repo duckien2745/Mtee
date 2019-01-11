@@ -3,6 +3,7 @@ package kienpd.com.mtee.ui.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.follow.FollowFragment;
@@ -42,4 +43,5 @@ public class MainAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 4;
     }
+
 }

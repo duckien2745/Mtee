@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,6 +22,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +31,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.db.StorageManager;
+import kienpd.com.mtee.data.model.MessageEvent;
 import kienpd.com.mtee.data.model.Store;
 import kienpd.com.mtee.data.model.User;
-import kienpd.com.mtee.ui.adapter.MyVoucherAdapter;
 import kienpd.com.mtee.ui.adapter.holder.FollowStoreAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
 import kienpd.com.mtee.ui.custom.GridDividerItemDecoration;
@@ -226,7 +227,11 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
             mRecyclerStore.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
             mRecyclerStore.addItemDecoration(itemDecoration);
             mRecyclerStore.setAdapter(mAdapter);
-            mPresenter.loadData(userId, true);
+            mPresenter.loadData(user.getId(), true);
+
+            String jsonUser = StorageManager.getStringValue(getBaseActivity(), Const.User.KEY_SAVE_USER);
+            Log.d("byddye", "a1a1" + jsonUser);
+            EventBus.getDefault().post(new MessageEvent(1, "SignIn Success"));
         }
     }
 
@@ -234,4 +239,5 @@ public class FollowFragment extends BaseFragment implements FollowMvpView, Follo
     public void onUpdateFollow(int id, Boolean isFollow) {
         updateStatusFollow(isFollow, id);
     }
+
 }

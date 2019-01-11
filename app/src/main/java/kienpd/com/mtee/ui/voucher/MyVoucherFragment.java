@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +19,16 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import kienpd.com.mtee.R;
 import kienpd.com.mtee.data.db.StorageManager;
+import kienpd.com.mtee.data.model.MessageEvent;
 import kienpd.com.mtee.data.model.User;
 import kienpd.com.mtee.ui.adapter.MyVoucherAdapter;
 import kienpd.com.mtee.ui.base.BaseFragment;
-import kienpd.com.mtee.ui.user.UserMvpPresenter;
-import kienpd.com.mtee.ui.user.UserMvpView;
 import kienpd.com.mtee.utils.Const;
 import kienpd.com.mtee.utils.TextUtil;
 
@@ -132,6 +132,10 @@ public class MyVoucherFragment extends BaseFragment implements MyVoucherMvpView 
             MyVoucherAdapter adapter = new MyVoucherAdapter(getBaseActivity(), getChildFragmentManager());
             mViewPager.setAdapter(adapter);
             mTabMyVoucher.setupWithViewPager(mViewPager);
+            EventBus.getDefault().post(new MessageEvent(1, "SignIn Success"));
+
         }
+
+
     }
 }

@@ -22,5 +22,4 @@ public class MainActivity extends BaseActivity {
         ft.add(R.id.main_container, fragmentMainContent).commit();
     }
 
-
 }

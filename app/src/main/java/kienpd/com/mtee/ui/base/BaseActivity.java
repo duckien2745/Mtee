@@ -92,4 +92,5 @@ public abstract class BaseActivity extends AppCompatActivity
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }
